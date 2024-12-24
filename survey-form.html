@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EvoSustain Usage Survey</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin-top: 30px;
+        }
+
+        .survey-form {
+            background-color: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .survey-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .survey-form label {
+            font-weight: bold;
+        }
+
+        .survey-form .form-group {
+            margin-bottom: 15px;
+        }
+
+        .survey-form .btn {
+            width: 100%;
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+        }
+
+        .survey-form .btn:hover {
+            background-color: #218838;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="survey-form">
+                    <h2>EvoSustain Usage Survey</h2>
+                    <p>We would like to know your experience using EvoSustain for waste management in London. Your feedback will help improve the application and its impact on the city.</p>
+                    
+                    <form action="#" method="post">
+                        <!-- Question 1: Usage frequency -->
+                        <div class="form-group">
+                            <label for="usage-frequency">How often do you use the EvoSustain app to request waste collection?</label>
+                            <select class="form-control" id="usage-frequency" name="usage-frequency">
+                                <option value="daily">Daily</option>
+                                <option value="weekly">Weekly</option>
+                                <option value="monthly">Monthly</option>
+                                <option value="occasionally">Occasionally</option>
+                                <option value="never">Never</option>
+                            </select>
+                        </div>
+
+                        <!-- Question 2: Ease of use -->
+                        <div class="form-group">
+                            <label for="ease-of-use">How easy is it for you to use the EvoSustain app?</label>
+                            <select class="form-control" id="ease-of-use" name="ease-of-use">
+                                <option value="very-easy">Very easy</option>
+                                <option value="easy">Easy</option>
+                                <option value="average">Average</option>
+                                <option value="difficult">Difficult</option>
+                                <option value="very-difficult">Very difficult</option>
+                            </select>
+                        </div>
+
+                        <!-- Question 3: Environmental impact -->
+                        <div class="form-group">
+                            <label for="environmental-impact">Do you think using EvoSustain helps reduce the environmental impact in London?</label><br>
+                            <input type="radio" id="positive-impact" name="environmental-impact" value="positive">
+                            <label for="positive-impact">Yes, it positively contributes</label><br>
+                            <input type="radio" id="neutral-impact" name="environmental-impact" value="neutral">
+                            <label for="neutral-impact">I have no clear opinion</label><br>
+                            <input type="radio" id="negative-impact" name="environmental-impact" value="negative">
+                            <label for="negative-impact">No, it doesn't contribute significantly</label><br>
+                        </div>
+
+                        <!-- Question 4: QR system functionality -->
+                        <div class="form-group">
+                            <label for="qr-functionality">Did you find the biodegradable sticker system with QR codes useful for requesting collection?</label>
+                            <select class="form-control" id="qr-functionality" name="qr-functionality">
+                                <option value="very-useful">Very useful</option>
+                                <option value="useful">Useful</option>
+                                <option value="somewhat-useful">Somewhat useful</option>
+                                <option value="not-useful">Not useful</option>
+                            </select>
+                        </div>
+
+                        <!-- Question 5: Suggestions for improvement -->
+                        <div class="form-group">
+                            <label for="suggestions">What improvements would you suggest for the EvoSustain app?</label>
+                            <textarea class="form-control" id="suggestions" name="suggestions" rows="4"></textarea>
+                        </div>
+
+                        <!-- Question 6: Overall satisfaction -->
+                        <div class="form-group">
+                            <label for="overall-satisfaction">Overall, how satisfied are you with the EvoSustain app?</label>
+                            <select class="form-control" id="overall-satisfaction" name="overall-satisfaction">
+                                <option value="very-satisfied">Very satisfied</option>
+                                <option value="satisfied">Satisfied</option>
+                                <option value="neutral">Neutral</option>
+                                <option value="dissatisfied">Dissatisfied</option>
+                                <option value="very-dissatisfied">Very dissatisfied</option>
+                            </select>
+                        </div>
+
+                        <!-- Submit button -->
+                        <button type="submit" class="btn">Submit Survey</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Thank you for your participation. Your feedback is valuable to help improve EvoSustain!</p>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
