@@ -546,16 +546,19 @@ body{
     }
 }
 
-.clients-carousel img {
-    width: 150px; /* Adjust base size as needed */
-    height: auto; /* Maintains aspect ratio */
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+.clients .owl-carousel {
+    max-width: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.clients-carousel img:hover {
-    transform: scale(1.2); /* Enlarges the image by 20% on hover */
-    opacity: 0.8; /* Slight transparency effect for a dynamic look */
+.clients .owl-carousel img {
+    width: 250px; /* Cambia el tamaño según lo necesites */
+    height: auto;
 }
+
 
 .clients {
     position: relative;
