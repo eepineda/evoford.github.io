@@ -546,20 +546,6 @@ body{
     }
 }
 
-.clients .owl-carousel {
-    max-width: 100%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.clients .owl-carousel img {
-    width: 850px; /* Cambia el tamaño según lo necesites */
-    height: auto;
-}
-
-
 .clients {
     position: relative;
     padding: 90px 0;
