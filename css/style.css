@@ -546,6 +546,17 @@ body{
     }
 }
 
+.clients-carousel img {
+    width: 150px; /* Adjust base size as needed */
+    height: auto; /* Maintains aspect ratio */
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.clients-carousel img:hover {
+    transform: scale(1.2); /* Enlarges the image by 20% on hover */
+    opacity: 0.8; /* Slight transparency effect for a dynamic look */
+}
+
 .clients {
     position: relative;
     padding: 90px 0;
