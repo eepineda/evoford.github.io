@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>EvoSustain - Smart Waste Collection Apps</title>
 <style>
-  /* Reset & base */
   *, *::before, *::after { box-sizing: border-box; }
   body {
     margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -106,23 +105,38 @@
     font-weight: 700;
   }
   .module-link {
-    display: inline-block;
-    margin-top: 18px;
-    padding: 14px 28px;
-    background: #4caf50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: fit-content;
+    margin: 25px 0;
+    padding: 16px 32px;
+    background: #388e3c;
     color: white;
     font-weight: 700;
-    border-radius: 14px;
+    border-radius: 16px;
     text-decoration: none;
-    font-size: 1.1rem;
-    box-shadow: 0 6px 12px rgb(76 175 80 / 0.5);
+    font-size: 1.3rem;
+    box-shadow: 0 6px 14px rgb(56 142 60 / 0.7);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .module-link svg {
+    width: 28px;
+    height: 28px;
+    fill: white;
+    flex-shrink: 0;
   }
   .module-link:hover,
   .module-link:focus {
-    background: #357a29;
-    box-shadow: 0 8px 20px rgb(53 122 41 / 0.7);
+    background: #2e7031;
+    box-shadow: 0 8px 24px rgb(46 112 49 / 0.9);
     outline: none;
+  }
+  section {
+    border-bottom: 2px solid #c1d9c1;
+    padding-bottom: 40px;
+    margin-bottom: 40px;
   }
   footer {
     background: #2e7d32;
@@ -162,6 +176,16 @@
     main {
       padding: 20px 20px 40px;
     }
+    section {
+      border-bottom: 1px solid #c1d9c1;
+      padding-bottom: 30px;
+      margin-bottom: 30px;
+    }
+    .module-link {
+      margin: 18px 0;
+      font-size: 1.1rem;
+      padding: 12px 24px;
+    }
   }
 </style>
 </head>
@@ -199,7 +223,10 @@
       <li><strong>History:</strong> List past collections with filters by date and waste type.</li>
       <li><strong>Settings / Help:</strong> Support chat, FAQ, and profile management.</li>
     </ul>
-    <a href="https://www.evoford.com/app/storeapp.html" target="_blank" rel="noopener noreferrer" class="module-link" aria-label="Open Stores App">Open Stores App</a>
+    <a href="https://www.evoford.com/app/storeapp.html" target="_blank" rel="noopener noreferrer" class="module-link" aria-label="Open Stores App">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 13h2v-2H3v2zm4 4h2v-6H7v6zm4-10h2v10h-2V7zm4 4h2v6h-2v-6zm4-6v14h2V5h-2z"/></svg>
+      Open Stores App
+    </a>
   </section>
 
   <section id="business" role="tabpanel" aria-labelledby="btnBusiness" tabindex="0" hidden>
@@ -217,9 +244,14 @@
       <li><strong>Client Management:</strong> Contact info and collection history per store.</li>
       <li><strong>Settings / Support / User Management.</strong></li>
     </ul>
-    <a href="https://www.evoford.com/app/businessweb.html" target="_blank" rel="noopener noreferrer" class="module-link" aria-label="Open Business Admin Web">Open Admin Portal (Web)</a>
-    <br/>
-    <a href="https://www.evoford.com/app/businessapp.html" target="_blank" rel="noopener noreferrer" class="module-link" style="margin-top:10px;" aria-label="Open Business Admin App">Open Admin Portal (App)</a>
+    <a href="https://www.evoford.com/app/businessweb.html" target="_blank" rel="noopener noreferrer" class="module-link" aria-label="Open Business Admin Web">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 4v16h18V4H3zm2 14H5V6h2v12zm14-2h-2v2h2v-2zm-6 2H9v-2h4v2zm4-6h-4v2h4v-2zm0-4H5v2h10v-2zm0 8H5v2h10v-2z"/></svg>
+      Open Admin Portal (Web)
+    </a>
+    <a href="https://www.evoford.com/app/businessapp.html" target="_blank" rel="noopener noreferrer" class="module-link" style="margin-top: 10px;" aria-label="Open Business Admin App">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 4v16h18V4H3zm2 14H5V6h2v12zm14-2h-2v2h2v-2zm-6 2H9v-2h4v2zm4-6h-4v2h4v-2zm0-4H5v2h10v-2zm0 8H5v2h10v-2z"/></svg>
+      Open Admin Portal (App)
+    </a>
   </section>
 
   <section id="drivers" role="tabpanel" aria-labelledby="btnDrivers" tabindex="0" hidden>
@@ -235,7 +267,10 @@
       <li><strong>Map Navigation:</strong> GPS integration or deep link simulation.</li>
       <li><strong>End of Day Summary:</strong> Completed collections, notes, and metrics.</li>
     </ul>
-    <a href="https://www.evoford.com/app/driversapp.html" target="_blank" rel="noopener noreferrer" class="module-link" aria-label="Open Drivers App">Open Drivers App</a>
+    <a href="https://www.evoford.com/app/driversapp.html" target="_blank" rel="noopener noreferrer" class="module-link" aria-label="Open Drivers App">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4zm-4 6h8v-2H8v2z"/></svg>
+      Open Drivers App
+    </a>
   </section>
 </main>
 
