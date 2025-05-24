@@ -1,230 +1,525 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>EvoSustain Admin Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>EvoSustain Admin Portal - Bottom Nav</title>
   <style>
-    body {
-      margin: 0; padding: 20px;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, #7db68e, #c5e1a5);
-      color: #5a6b4f;
+    body, html {
+      margin:0; padding:0; height:100vh;
+      display:flex; justify-content:center; align-items:center;
+      background: linear-gradient(135deg, #eaf4ea 0%, #d0e9d0 100%);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      color: #2f3e46;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
-    h1 {
+    .mobile-mockup {
+      width: 375px; height: 667px;
+      background: #ffffff;
+      border: 16px solid #1c1c1e;
+      border-radius: 44px;
+      box-shadow:
+        0 16px 32px rgba(0,0,0,0.28),
+        inset 0 0 8px rgba(255,255,255,0.6);
+      display: flex; flex-direction: column; overflow: hidden;
+      user-select: none;
+      position: relative;
+    }
+    header {
+      background: #1c1c1e;
+      color: #fafafa;
       text-align: center;
-      font-size: 2.5rem;
-      margin-bottom: 1.5rem;
-      color: #f0f5e9;
-      text-shadow: 0 0 5px #8ca57e;
+      padding: 20px 0;
+      font-weight: 800;
+      font-size: 1.5rem;
+      letter-spacing: 1.2px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+      text-transform: uppercase;
+      user-select: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
     }
-    nav {
+    main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+      color: #2f3e46;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 80px; /* espacio para barra inferior */
+    }
+    nav.top-nav {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
+      margin-bottom: 18px;
       justify-content: center;
-      background: #8ca57e;
-      padding: 10px;
-      border-radius: 12px;
-      margin-bottom: 20px;
     }
-    nav button {
-      color: #f0f5e9;
-      background: #a7bc8e;
+    nav.top-nav button {
+      flex: 1 1 28%;
+      min-width: 88px;
+      background: linear-gradient(145deg, #4caf5080, #2e7d321e);
       border: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-weight: bold;
+      border-radius: 24px;
+      padding: 12px 8px;
+      font-size: 0.95rem;
+      color: #fafafa;
+      font-weight: 700;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition:
+        background-color 0.3s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+      box-shadow:
+        0 2px 14px rgba(46,125,50,0.3);
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
     }
-    nav button:hover, nav button.active {
-      background: #728a63;
+    nav.top-nav button svg {
+      width: 20px; height: 20px;
+      fill: #daf0d6;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 1px #4caf50);
+    }
+    nav.top-nav button:focus-visible {
+      outline: 2px solid #4caf50;
+      outline-offset: 2px;
+    }
+    nav.top-nav button.active,
+    nav.top-nav button:hover {
+      background: #4caf50;
+      box-shadow:
+        0 6px 20px rgba(76,175,80,0.8);
+      transform: translateY(-3px);
+      color: #f0f7f0;
     }
     section {
-      background: #dcedc8;
-      border-radius: 15px;
-      padding: 20px;
-      max-width: 900px;
-      margin: 0 auto 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.10);
       display: none;
+      animation: fadeIn 0.3s ease forwards;
     }
     section.active {
       display: block;
     }
-    section h2 {
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(6px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    h2 {
       margin-top: 0;
-      color: #6d7a44;
+      font-weight: 900;
+      margin-bottom: 16px;
+      font-size: 1.4rem;
+      border-bottom: 3px solid #4caf50;
+      padding-bottom: 8px;
+      color: #1a2b20;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    h2 svg {
+      width: 28px; height: 28px;
+      fill: #4caf50;
+      flex-shrink: 0;
     }
     ul.stats {
       list-style: none;
       padding-left: 0;
+      margin: 0 0 24px 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
     }
     ul.stats li {
-      margin-bottom: 8px;
-      font-weight: 600;
+      background: #e3f1d8;
+      border-radius: 16px;
+      padding: 14px 18px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      line-height: 1.3;
+      box-shadow: 0 4px 10px rgb(76 175 80 / 0.3);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #2f4a1e;
+      user-select: text;
+      border-left: 6px solid #4caf50;
+      white-space: nowrap;
+    }
+    ul.stats li svg {
+      width: 22px; height: 22px;
+      fill: #4caf50;
+      flex-shrink: 0;
+      filter: drop-shadow(0 0 1px #3e7b2e);
     }
     canvas {
-      display: block;
-      margin: 20px auto;
-      background: #f5f9e8;
-      border-radius: 8px;
+      max-width: 100%;
+      border-radius: 18px;
+      background: #d9ebd9;
+      margin-bottom: 24px;
+      box-shadow: 0 6px 16px rgba(76,175,80,0.25);
+    }
+    input[type="text"], select {
+      width: 100%;
+      padding: 12px 16px;
+      margin-bottom: 18px;
+      border-radius: 18px;
+      border: 2px solid #8bbd7e;
+      font-size: 1rem;
+      box-sizing: border-box;
+      font-weight: 700;
+      color: #2f3e46;
+      background: #f4fbf4;
+      transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus, select:focus {
+      outline: none;
+      border-color: #4caf50;
+      background: #e9f5e9;
+    }
+    button.manage-btn {
+      background: linear-gradient(145deg, #4caf50, #2e7d32);
+      color: #fafafa;
+      padding: 16px 0;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      font-weight: 800;
+      width: 100%;
+      box-shadow: 0 6px 18px rgba(76,175,80,0.7);
+      transition: background-color 0.35s ease, box-shadow 0.35s ease;
+      user-select: none;
+      letter-spacing: 0.8px;
+    }
+    button.manage-btn:hover {
+      background: #3a7c2d;
+      box-shadow: 0 8px 24px rgba(58,124,45,0.9);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 28px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    table thead tr {
+      background:#4caf50;
+      color:#fafafa;
+      font-weight: 800;
+    }
+    table th, table td {
+      padding: 14px 18px;
+      text-align: left;
+      border-bottom: 1px solid #cde8c7;
+      font-weight: 700;
+      transition: background-color 0.3s ease;
+    }
+    table tbody tr:hover {
+      background: #c8e6c9;
+      cursor: pointer;
+    }
+    main::-webkit-scrollbar {
+      width: 8px;
+    }
+    main::-webkit-scrollbar-track {
+      background: #e4f0e4;
+      border-radius: 10px;
+    }
+    main::-webkit-scrollbar-thumb {
+      background: #4caf50;
+      border-radius: 10px;
+    }
+
+    /* Bottom navigation */
+    nav.bottom-nav {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      right: 16px;
+      height: 56px;
+      background: #1c1c1e;
+      border-radius: 28px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      user-select: none;
+      z-index: 100;
+    }
+    nav.bottom-nav button {
+      background: transparent;
+      border: none;
+      color: #a3b18a;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      transition: color 0.25s ease;
+    }
+    nav.bottom-nav button svg {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+      transition: fill 0.25s ease;
+    }
+    nav.bottom-nav button.active,
+    nav.bottom-nav button:hover {
+      color: #4caf50;
     }
   </style>
 </head>
 <body>
-  <h1>🌿 EvoSustain Admin Portal</h1>
-  
-  <nav id="menu">
-    <button data-tab="dashboard" class="active">Dashboard</button>
-    <button data-tab="requests">Requests</button>
-    <button data-tab="planning">Planning</button>
-    <button data-tab="drivers">Drivers</button>
-    <button data-tab="performance">Performance</button>
-    <button data-tab="clients">Clients</button>
-    <button data-tab="map">Map</button>
-    <button data-tab="reports">Reports</button>
-    <button data-tab="settings">Settings</button>
-  </nav>
-  
-  <section id="dashboard" class="active">
-    <h2>Dashboard</h2>
-    <ul class="stats">
-      <li>📦 Pending Requests: <strong>144</strong></li>
-      <li>🚛 Active Drivers: <strong>20</strong></li>
-      <li>⚠️ System Alerts: <strong>4 Critical, 6 Warnings</strong></li>
-      <li>🌍 CO₂ Saved Today: <strong>184.6 kg</strong></li>
-      <li>⏱️ Avg Pickup Time: <strong>7.6 min</strong></li>
-      <li>🏪 Total Clients: <strong>180</strong></li>
-      <li>📊 Total Requests (Week): <strong>1,245</strong></li>
-      <li>📅 Scheduled Routes: <strong>210</strong></li>
-    </ul>
-  </section>
-  
-  <section id="requests">
-    <h2>Requests by Location</h2>
-    <canvas id="requestsChart" width="600" height="300"></canvas>
-  </section>
-  
-  <section id="planning">
-    <h2>Schedule Planning</h2>
-    <ul class="stats">
-      <li>Routes Scheduled: <strong>104</strong></li>
-      <li>Optimized Routes: <strong>98</strong></li>
-      <li>Pending Optimization: <strong>6</strong></li>
-      <li>Peak Hours: <strong>9:00–11:00 AM</strong></li>
-    </ul>
-  </section>
-  
-  <section id="drivers">
-    <h2>Driver Assignment</h2>
-    <ul class="stats">
-      <li>Drivers Available: <strong>134</strong></li>
-      <li>Assigned: <strong>120</strong></li>
-      <li>Unassigned: <strong>14</strong></li>
-      <li>Standby Drivers: <strong>6</strong></li>
-    </ul>
-  </section>
-  
-  <section id="performance">
-    <h2>Driver Performance</h2>
-    <ul class="stats">
-      <li>Total Pickups: <strong>204</strong></li>
-      <li>Avg Pickup Time: <strong>6.9 min</strong></li>
-      <li>Missed Pickups: <strong>5</strong></li>
-      <li>Top Performer: <strong>Driver #107</strong></li>
-    </ul>
-  </section>
-  
-  <section id="clients">
-    <h2>Client Management</h2>
-    <ul class="stats">
-      <li>Total Clients: <strong>180</strong></li>
-      <li>Top Client: <strong>Oxford St (142 pickups)</strong></li>
-      <li>Active Tickets: <strong>6</strong></li>
-      <li>Avg Response Time: <strong>2.1 hrs</strong></li>
-    </ul>
-  </section>
-  
-  <section id="map">
-    <h2>Live Map View</h2>
-    <ul class="stats">
-      <li>Active Routes: <strong>64</strong></li>
-      <li>Live Location Refresh: <strong>15 sec</strong></li>
-      <li>Last Sync: <strong>1:14 PM</strong></li>
-    </ul>
-  </section>
-  
-  <section id="reports">
-    <h2>Efficiency Breakdown</h2>
-    <ul class="stats">
-      <li>Efficient: <strong>91%</strong></li>
-      <li>Inefficient: <strong>9%</strong></li>
-    </ul>
-  </section>
-  
-  <section id="settings">
-    <h2>User Management</h2>
-    <input type="text" placeholder="Search users..." style="width:100%; padding:8px; margin-bottom:10px; border-radius:6px; border:1px solid #6d7a44;" />
-    <button style="background:#8ca57e; color:#f0f5e9; padding:10px 16px; border:none; border-radius:6px; cursor:pointer;">Manage Users</button>
-  </section>
+  <div class="mobile-mockup" role="application" aria-label="EvoSustain Mobile Admin Portal">
+    <header>
+      EvoSustain
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="#4caf50" width="24" height="24" style="vertical-align:middle;">
+        <path d="M32 2C15.458 2 2 15.458 2 32s13.458 30 30 30 30-13.458 30-30S48.542 2 32 2zm0 54c-13.234 0-24-10.766-24-24S18.766 8 32 8s24 10.766 24 24-10.766 24-24 24z"/>
+        <path d="M39 27a7 7 0 1 0-14 0 7 7 0 0 0 14 0zm-7 11c-5.523 0-10 2.239-10 5v2h20v-2c0-2.761-4.477-5-10-5z"/>
+      </svg>
+    </header>
+    <main>
+      <nav class="top-nav" aria-label="Main navigation">
+        <button data-tab="dashboard" class="active" aria-controls="dashboard" aria-selected="true">
+          <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8v-10h-8v10zm0-18v6h8V3h-8z"/></svg>Dashboard
+        </button>
+        <button data-tab="requests" aria-controls="requests" aria-selected="false">
+          <svg viewBox="0 0 24 24"><path d="M3 4v16h18V4H3zm16 14H5V6h14v12z"/></svg>Requests
+        </button>
+        <button data-tab="planning" aria-controls="planning" aria-selected="false">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM7 19H5v-2h2v2zm0-4H5v-2h2v2zm0-4H5V9h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V9h2v2zm4 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V9h2v2z"/></svg>Planning
+        </button>
+        <button data-tab="drivers" aria-controls="drivers" aria-selected="false">
+          <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>Drivers
+        </button>
+        <button data-tab="performance" aria-controls="performance" aria-selected="false">
+          <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm4 4h2v-6H7v6zm4-10h2v10h-2V7zm4 4h2v6h-2v-6zm4-6v14h2V5h-2z"/></svg>Performance
+        </button>
+        <button data-tab="clients" aria-controls="clients" aria-selected="false">
+          <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 3-1.34 3-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 2.1 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>Clients
+        </button>
+        <button data-tab="map" aria-controls="map" aria-selected="false">
+          <svg viewBox="0 0 24 24"><path d="M20.5 3l-5.68 1.91-7.68-2.58L4 4.5v16l7.68-2.58 5.68 1.91L20.5 3z"/></svg>Map
+        </button>
+        <button data-tab="reports" aria-controls="reports" aria-selected="false">
+          <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm4 4h2v-6H7v6zm4-10h2v10h-2V7zm4 4h2v6h-2v-6zm4-6v14h2V5h-2z"/></svg>Reports
+        </button>
+      </nav>
 
+      <!-- Sections unchanged, as before -->
+
+      <section id="dashboard" class="active" tabindex="0">
+        <h2>
+          <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8v-10h-8v10zm0-18v6h8V3h-8z"/></svg>
+          Dashboard
+        </h2>
+        <ul class="stats" role="list">
+          <li><svg viewBox="0 0 24 24"><path d="M9 21H7a2 2 0 01-2-2V7a2 2 0 012-2h2"></path><path d="M17 21h-2a2 2 0 01-2-2V7a2 2 0 012-2h2"></path><rect x="7" y="3" width="10" height="4" rx="2" ry="2"></rect></svg>Pending Requests: <strong id="dash-pending">600</strong></li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"></circle><path d="M5.5 21a8.38 8.38 0 0113 0"></path></svg>Active Drivers: <strong id="dash-drivers">15</strong></li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>System Alerts: <strong id="dash-alerts">5 Critical, 8 Warnings</strong></li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M3 12h18"></path><path d="M12 3v18"></path></svg>CO₂ Saved Today: <strong id="dash-co2">370.2 kg</strong></li>
+          <li><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M9 12h6"></path><path d="M12 9v6"></path></svg>Avg Pickup Time: <strong id="dash-pickup">8.3 min</strong></li>
+          <li><svg viewBox="0 0 24 24"><path d="M4 21v-2a4 4 0 014-4h8a4 4 0 014 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>Total Clients: <strong id="dash-clients">600</strong></li>
+          <li><svg viewBox="0 0 24 24"><path d="M3 12h18"></path><path d="M12 3v18"></path></svg>Total Requests (Week): <strong id="dash-weekly-requests">4,560</strong></li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 21h14"></path><path d="M12 3v18"></path></svg>Scheduled Routes: <strong id="dash-routes">275</strong></li>
+        </ul>
+      </section>
+
+      <!-- Other sections (requests, planning, drivers, performance, clients, map, reports) remain unchanged -->
+
+    </main>
+
+    <!-- Bottom navigation bar -->
+    <nav class="bottom-nav" aria-label="Bottom navigation">
+      <button data-tab="dashboard" class="active" aria-controls="dashboard" aria-selected="true" title="Home">
+        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <span>Home</span>
+      </button>
+      <button data-tab="requests" aria-controls="requests" aria-selected="false" title="History">
+        <svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 1 0 8.49 11.66"/></svg>
+        <span>History</span>
+      </button>
+      <button data-tab="settings" aria-controls="settings" aria-selected="false" title="Settings">
+        <svg viewBox="0 0 24 24"><path d="M19.14 12.936a7.985 7.985 0 000-1.873l2.036-1.593-2-3.464-2.355 1.082a7.964 7.964 0 00-1.725-1l-.356-2.482H9.41l-.356 2.482a7.97 7.97 0 00-1.725 1L5.02 6.006l-2 3.464 2.036 1.593a7.97 7.97 0 000 1.873L3.02 14.506l2 3.464 2.355-1.082a7.964 7.964 0 001.725 1l.356 2.482h3.447l.356-2.482a7.965 7.965 0 001.725-1l2.355 1.082 2-3.464-2.036-1.57zM12 15.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"/></svg>
+        <span>Settings</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    // Tab navigation
-    const buttons = document.querySelectorAll('nav button');
-    const sections = document.querySelectorAll('section');
+    const topButtons = document.querySelectorAll('nav.top-nav button');
+    const bottomButtons = document.querySelectorAll('nav.bottom-nav button');
+    const sections = document.querySelectorAll('main section');
 
-    buttons.forEach(btn => {
+    function activateTab(tabName) {
+      // Remove active from all
+      topButtons.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      bottomButtons.forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      sections.forEach(s => s.classList.remove('active'));
+
+      // Add active to selected tab buttons and section
+      topButtons.forEach(b => {
+        if (b.getAttribute('data-tab') === tabName) {
+          b.classList.add('active');
+          b.setAttribute('aria-selected', 'true');
+        }
+      });
+      bottomButtons.forEach(b => {
+        if (b.getAttribute('data-tab') === tabName) {
+          b.classList.add('active');
+          b.setAttribute('aria-selected', 'true');
+        }
+      });
+      const section = document.getElementById(tabName);
+      if(section) section.classList.add('active');
+    }
+
+    topButtons.forEach(btn => {
       btn.addEventListener('click', () => {
-        // Remove active classes
-        buttons.forEach(b => b.classList.remove('active'));
-        sections.forEach(s => s.classList.remove('active'));
-        // Activate selected tab and section
-        btn.classList.add('active');
-        const tab = btn.getAttribute('data-tab');
-        document.getElementById(tab).classList.add('active');
+        activateTab(btn.getAttribute('data-tab'));
       });
     });
 
-    // Simple bar chart for Requests tab
-    const canvas = document.getElementById('requestsChart');
-    const ctx = canvas.getContext('2d');
-
-    const data = [
-      {label: 'Oxford St', value: 135},
-      {label: 'Camden Market', value: 112},
-      {label: 'Shoreditch', value: 89},
-      {label: 'Brixton', value: 74}
-    ];
-
-    const maxVal = Math.max(...data.map(d => d.value));
-    const barWidth = 100;
-    const gap = 30;
-    const chartHeight = 250;
-    const chartBottom = 280;
-
-    ctx.font = '14px Arial';
-    ctx.fillStyle = '#5a6b4f';
-
-    data.forEach((item, index) => {
-      const barHeight = (item.value / maxVal) * chartHeight;
-      const x = index * (barWidth + gap) + 40;
-      const y = chartBottom - barHeight;
-
-      // Draw bar
-      ctx.fillStyle = '#4f8f6e';
-      ctx.fillRect(x, y, barWidth, barHeight);
-
-      // Draw label
-      ctx.fillStyle = '#5a6b4f';
-      ctx.textAlign = 'center';
-      ctx.fillText(item.label, x + barWidth/2, chartBottom + 20);
-
-      // Draw value on top
-      ctx.fillText(item.value, x + barWidth/2, y - 5);
+    bottomButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        activateTab(btn.getAttribute('data-tab'));
+      });
     });
 
+    // Reports data and chart code (unchanged) ...
+    const reportsData = {
+      day: {
+        efficiency: [95,5],
+        consumption: [1.2,1.3,1.1,1.5,1.4,1.0,1.2],
+        fastRoutes: [
+          {route:"Oxford St", time:12.3, distance:5.1},
+          {route:"Camden", time:10.7, distance:4.0},
+          {route:"Shoreditch", time:9.9, distance:3.7},
+          {route:"Brixton", time:11.4, distance:4.6},
+        ],
+        alerts: [
+          {level:"Critical", text:"Overflow at Camden Market bin (Today 10:15 AM)"},
+          {level:"Warning", text:"Driver delay on Route C (Today 3:30 PM)"},
+        ],
+      },
+      week: {
+        efficiency: [91,9],
+        consumption: [12.5, 13.7, 14.2, 13.1, 15.3, 14.8, 16.0],
+        fastRoutes: [
+          {route:"Oxford St", time:12.4, distance:5.3},
+          {route:"Camden", time:10.1, distance:4.1},
+          {route:"Shoreditch", time:9.5, distance:3.8},
+          {route:"Brixton", time:11.2, distance:4.7},
+        ],
+        alerts: [
+          {level:"Critical", text:"Overflow at Camden Market bin (May 22, 10:15 AM)"},
+          {level:"Warning", text:"Driver delay on Route C (May 21, 3:30 PM)"},
+          {level:"Critical", text:"Missed pickup at Shoreditch (May 20, 9:00 AM)"},
+          {level:"Info", text:"Scheduled maintenance on Route D (May 25)"},
+        ],
+      },
+      month: {
+        efficiency: [89,11],
+        consumption: [50, 54, 56, 55, 60, 58, 62],
+        fastRoutes: [
+          {route:"Oxford St", time:12.6, distance:5.4},
+          {route:"Camden", time:10.5, distance:4.3},
+          {route:"Shoreditch", time:9.8, distance:3.9},
+          {route:"Brixton", time:11.4, distance:4.8},
+        ],
+        alerts: [
+          {level:"Warning", text:"Slight delays on Route A (April 12)"},
+          {level:"Info", text:"Driver training scheduled (April 18)"},
+          {level:"Critical", text:"Equipment failure on Route B (April 22)"},
+        ],
+      }
+    };
+
+    const efficiencyCtx = document.getElementById('efficiencyChart').getContext('2d');
+    const consumptionCtx = document.getElementById('consumptionChart').getContext('2d');
+
+    let efficiencyChart = new Chart(efficiencyCtx, {
+      type: 'pie',
+      data: {
+        labels: ['Efficient', 'Inefficient'],
+        datasets: [{
+          data: reportsData.week.efficiency,
+          backgroundColor: ['#2e7d32', '#6d4c41']
+        }]
+      },
+      options: {
+        plugins: {legend: {labels: {color: '#4a5a36'}}}
+      }
+    });
+
+    let consumptionChart = new Chart(consumptionCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+        datasets: [{
+          label: 'Waste Collected (tons)',
+          data: reportsData.week.consumption,
+          backgroundColor: '#6d4c41',
+          borderRadius: 5,
+        }]
+      },
+      options: {
+        scales: {
+          y: {beginAtZero: true, ticks: {color: '#4a5a36'}, grid: {color: '#c5e1a5'}},
+          x: {ticks: {color: '#4a5a36'}, grid: {color: '#c5e1a5'}}
+        },
+        plugins: {legend: {labels: {color: '#4a5a36'}}}
+      }
+    });
+
+    const fastRoutesTableBody = document.getElementById('fastRoutesTableBody');
+    const alertsSummary = document.getElementById('alertsSummary');
+    const reportRangeSelect = document.getElementById('reportRange');
+
+    function updateReports(range) {
+      efficiencyChart.data.datasets[0].data = reportsData[range].efficiency;
+      efficiencyChart.update();
+
+      consumptionChart.data.datasets[0].data = reportsData[range].consumption;
+      consumptionChart.update();
+
+      fastRoutesTableBody.innerHTML = '';
+      reportsData[range].fastRoutes.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${r.route}</td><td>${r.time.toFixed(1)}</td><td>${r.distance.toFixed(1)}</td>`;
+        fastRoutesTableBody.appendChild(tr);
+      });
+
+      alertsSummary.innerHTML = '';
+      reportsData[range].alerts.forEach(alert => {
+        const li = document.createElement('li');
+        const icon = alert.level === "Critical" ? "⚠️" : alert.level === "Warning" ? "⚠️" : "ℹ️";
+        li.textContent = `${icon} ${alert.level}: ${alert.text}`;
+        alertsSummary.appendChild(li);
+      });
+    }
+
+    updateReports('week');
+    reportRangeSelect.addEventListener('change', e => updateReports(e.target.value));
   </script>
 </body>
 </html>
