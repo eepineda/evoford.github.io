@@ -84,6 +84,7 @@
     padding: 6px 0;
     transition: color 0.3s ease, transform 0.2s ease;
     white-space: nowrap;
+    user-select: none;
   }
   nav button svg {
     width: 20px;
@@ -286,7 +287,7 @@
       <section id="dashboard" tabindex="0" aria-label="Admin dashboard">
         <h2>
           <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8v-10h-8v10zm0-18v6h8V3h-8z"/></svg>
-          Dashboard
+          Home
         </h2>
         <div class="cards" role="list" aria-label="Key performance indicators">
           <div class="card" role="listitem">Pending Requests: 600</div>
@@ -301,20 +302,20 @@
 
       <!-- Requests -->
       <section id="requests" tabindex="0" aria-label="Collection requests overview">
-        <button class="back-btn" aria-label="Back to dashboard" type="button">
+        <button class="back-btn" aria-label="Back to home" type="button">
           <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
           Back
         </button>
         <h2>
           <svg viewBox="0 0 24 24"><path d="M3 4v16h18V4H3z"/></svg>
-          Collection Requests Overview
+          History
         </h2>
         <table aria-label="Collection requests table">
           <thead>
             <tr>
               <th>Store</th>
               <th>Location</th>
-              <th>Bin Type</th>
+              <th>Bin</th>
               <th>Volume (m³)</th>
               <th>Time Window</th>
               <th>Status</th>
@@ -327,13 +328,13 @@
 
       <!-- Planning -->
       <section id="planning" tabindex="0" aria-label="Schedule planning">
-        <button class="back-btn" aria-label="Back to dashboard" type="button">
+        <button class="back-btn" aria-label="Back to home" type="button">
           <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
           Back
         </button>
         <h2>
           <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-          Schedule Planning
+          Plan
         </h2>
         <p><strong>Calendar view (simulated)</strong></p>
         <p>Routes Scheduled Today: 275</p>
@@ -344,16 +345,16 @@
 
       <!-- Assignment -->
       <section id="assignment" tabindex="0" aria-label="Driver assignment panel">
-        <button class="back-btn" aria-label="Back to dashboard" type="button">
+        <button class="back-btn" aria-label="Back to home" type="button">
           <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
           Back
         </button>
         <h2>
           <svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a8.38 8.38 0 0113 0"/></svg>
-          Driver Assignment Panel
+          Assign
         </h2>
         <p><em>Drag & drop simulation</em></p>
-        <div class="drag-container" style="display:flex;gap:16px;flex-wrap:wrap;">
+        <div style="display:flex;gap:16px;flex-wrap:wrap;">
           <div style="flex:1; background:#e3f1d8; border-radius:12px; padding:12px; max-height:200px; overflow-y:auto;">
             <h3 style="color:#2e7d32;">Routes to Assign</h3>
             <ul id="routesList" style="list-style:none; padding:0; margin:0;"></ul>
@@ -367,13 +368,13 @@
 
       <!-- Map -->
       <section id="map" tabindex="0" aria-label="Live map view">
-        <button class="back-btn" aria-label="Back to dashboard" type="button">
+        <button class="back-btn" aria-label="Back to home" type="button">
           <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
           Back
         </button>
         <h2>
           <svg viewBox="0 0 24 24"><path d="M20.5 3l-5.68 1.91-7.68-2.58L4 4.5v16l7.68-2.58 5.68 1.91L20.5 3z"/></svg>
-          Live Map View
+          Map
         </h2>
         <div style="background:#e3f1d8; height: 180px; border-radius: 16px; display:flex; justify-content:center; align-items:center; font-weight:700; color:#2e7d32;">
           [Static London Map Placeholder]
@@ -382,13 +383,13 @@
 
       <!-- Performance -->
       <section id="performance" tabindex="0" aria-label="Driver performance">
-        <button class="back-btn" aria-label="Back to dashboard" type="button">
+        <button class="back-btn" aria-label="Back to home" type="button">
           <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
           Back
         </button>
         <h2>
           <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm4 4h2v-6H7v6zm4-10h2v10h-2V7zm4 4h2v6h-2v-6zm4-6v14h2V5h-2z"/></svg>
-          Driver Performance
+          Stats
         </h2>
         <table aria-label="Driver performance table">
           <thead>
@@ -405,13 +406,13 @@
 
       <!-- Clients -->
       <section id="clients" tabindex="0" aria-label="Client management">
-        <button class="back-btn" aria-label="Back to dashboard" type="button">
+        <button class="back-btn" aria-label="Back to home" type="button">
           <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
           Back
         </button>
         <h2>
           <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 3-1.34 3-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 2.1 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-          Client Management
+          Clients
         </h2>
         <table aria-label="Clients table">
           <thead>
@@ -428,13 +429,13 @@
 
       <!-- Settings -->
       <section id="settings" tabindex="0" aria-label="Settings and user management">
-        <button class="back-btn" aria-label="Back to dashboard" type="button">
+        <button class="back-btn" aria-label="Back to home" type="button">
           <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
           Back
         </button>
         <h2>
           <svg viewBox="0 0 24 24"><path d="M19.14 12.936a7.985 7.985 0 000-1.873l2.036-1.593-2-3.464-2.355 1.082a7.964 7.964 0 00-1.725-1l-.356-2.482H9.41l-.356 2.482a7.97 7.97 0 00-1.725 1L5.02 6.006l-2 3.464 2.036 1.593a7.97 7.97 0 000 1.873L3.02 14.506l2 3.464 2.355-1.082a7.964 7.964 0 001.725 1l.356 2.482h3.447l.356-2.482a7.965 7.965 0 001.725-1l2.355 1.082 2-3.464-2.036-1.57zM12 15.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"/></svg>
-          Settings / Support / User Management
+          Settings
         </h2>
         <p>Support chat and user management features coming soon.</p>
         <button class="btn btn-approve" onclick="alert('User management coming soon!')">Open User Management</button>
@@ -446,25 +447,25 @@
         <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
         Home
       </button>
-      <button data-tab="requests" aria-controls="requests" aria-selected="false" title="Requests" tabindex="-1">
+      <button data-tab="requests" aria-controls="requests" aria-selected="false" title="History" tabindex="-1">
         <svg viewBox="0 0 24 24"><path d="M3 4v16h18V4H3z"/></svg>
-        Requests
+        History
       </button>
-      <button data-tab="planning" aria-controls="planning" aria-selected="false" title="Planning" tabindex="-1">
+      <button data-tab="planning" aria-controls="planning" aria-selected="false" title="Plan" tabindex="-1">
         <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
-        Planning
+        Plan
       </button>
-      <button data-tab="assignment" aria-controls="assignment" aria-selected="false" title="Assignment" tabindex="-1">
+      <button data-tab="assignment" aria-controls="assignment" aria-selected="false" title="Assign" tabindex="-1">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a8.38 8.38 0 0113 0"/></svg>
-        Assignment
+        Assign
       </button>
       <button data-tab="map" aria-controls="map" aria-selected="false" title="Map" tabindex="-1">
         <svg viewBox="0 0 24 24"><path d="M20.5 3l-5.68 1.91-7.68-2.58L4 4.5v16l7.68-2.58 5.68 1.91L20.5 3z"/></svg>
         Map
       </button>
-      <button data-tab="performance" aria-controls="performance" aria-selected="false" title="Performance" tabindex="-1">
+      <button data-tab="performance" aria-controls="performance" aria-selected="false" title="Stats" tabindex="-1">
         <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm4 4h2v-6H7v6zm4-10h2v10h-2V7zm4 4h2v6h-2v-6zm4-6v14h2V5h-2z"/></svg>
-        Performance
+        Stats
       </button>
       <button data-tab="clients" aria-controls="clients" aria-selected="false" title="Clients" tabindex="-1">
         <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 3-1.34 3-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 2.1 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
@@ -483,9 +484,10 @@
 
   function activateTab(tab) {
     navButtons.forEach(btn => {
-      btn.classList.toggle('active', btn.getAttribute('data-tab') === tab);
-      btn.setAttribute('aria-selected', btn.getAttribute('data-tab') === tab ? 'true' : 'false');
-      btn.tabIndex = btn.getAttribute('data-tab') === tab ? 0 : -1;
+      const isActive = btn.getAttribute('data-tab') === tab;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      btn.tabIndex = isActive ? 0 : -1;
     });
     sections.forEach(sec => {
       sec.classList.toggle('active', sec.id === tab);
@@ -493,19 +495,140 @@
   }
 
   navButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      activateTab(btn.getAttribute('data-tab'));
-    });
+    btn.addEventListener('click', () => activateTab(btn.getAttribute('data-tab')));
   });
 
   document.querySelectorAll('.back-btn').forEach(btn => {
     btn.addEventListener('click', () => activateTab('dashboard'));
   });
 
+  // Init on login screen
   activateTab('login');
 
-  // Other existing JS data rendering omitted here for brevity
-  // ... (same as before)
+  // Data and rendering functions
+
+  // Collection Requests
+  const collectionRequests = [
+    {store:"Oxford St Store", location:"Oxford St", bin:"General Waste", volume:2.4, time:"9-11 AM", status:"Pending"},
+    {store:"Camden Central", location:"Camden Market", bin:"Recycling", volume:1.1, time:"11-13 PM", status:"Accepted"},
+    {store:"Shoreditch Hub", location:"Shoreditch", bin:"Food Waste", volume:1.8, time:"13-15 PM", status:"Pending"},
+    {store:"Brixton Point", location:"Brixton", bin:"General Waste", volume:3.2, time:"10-12 AM", status:"Scheduled"},
+    {store:"Greenwich Bay", location:"Greenwich", bin:"Recycling", volume:0.9, time:"14-16 PM", status:"Pending"},
+  ];
+
+  const requestsTableBody = document.getElementById('requestsTableBody');
+  function renderRequests() {
+    requestsTableBody.innerHTML = "";
+    collectionRequests.forEach((req, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${req.store}</td>
+        <td>${req.location}</td>
+        <td>${req.bin}</td>
+        <td>${req.volume}</td>
+        <td>${req.time}</td>
+        <td>${req.status}</td>
+        <td>
+          <button class="btn btn-approve" onclick="updateRequestStatus(${i}, 'Accepted')">Approve</button>
+          <button class="btn btn-decline" onclick="updateRequestStatus(${i}, 'Declined')">Decline</button>
+          <button class="btn btn-reschedule" onclick="alert('Reschedule feature coming soon')">Reschedule</button>
+        </td>`;
+      requestsTableBody.appendChild(tr);
+    });
+  }
+  function updateRequestStatus(index, status) {
+    collectionRequests[index].status = status;
+    renderRequests();
+  }
+  renderRequests();
+
+  // Driver Assignment simulation
+  const routes = [
+    "Route 1: Oxford St → Camden",
+    "Route 2: Shoreditch → Brixton",
+    "Route 3: Greenwich → Hackney",
+    "Route 4: Chelsea → Westminster",
+  ];
+  const drivers = [
+    "Driver 01 - John",
+    "Driver 02 - Alice",
+    "Driver 03 - Michael",
+    "Driver 04 - Sarah",
+    "Driver 05 - David",
+    "Driver 06 - Emma",
+    "Driver 07 - James",
+    "Driver 08 - Olivia",
+    "Driver 09 - Robert",
+    "Driver 10 - Sophia",
+    "Driver 11 - William",
+    "Driver 12 - Ava",
+    "Driver 13 - Liam",
+    "Driver 14 - Mia",
+    "Driver 15 - Noah",
+  ];
+  const routesList = document.getElementById('routesList');
+  const driversList = document.getElementById('driversList');
+
+  function addListItems(listElem, items) {
+    listElem.innerHTML = "";
+    items.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = item;
+      li.style.padding = "6px 8px";
+      li.style.marginBottom = "6px";
+      li.style.background = "#a7d08a";
+      li.style.borderRadius = "10px";
+      li.style.fontWeight = "700";
+      listElem.appendChild(li);
+    });
+  }
+  addListItems(routesList, routes);
+  addListItems(driversList, drivers);
+
+  // Driver performance
+  const driverPerformanceData = [
+    {driver:"John", pickups: 120, avgTime: 7.2, efficiency: 92},
+    {driver:"Alice", pickups: 110, avgTime: 7.9, efficiency: 89},
+    {driver:"Michael", pickups: 115, avgTime: 8.1, efficiency: 88},
+    {driver:"Sarah", pickups: 130, avgTime: 6.8, efficiency: 95},
+    {driver:"David", pickups: 105, avgTime: 7.5, efficiency: 90},
+  ];
+  const driverPerformanceBody = document.getElementById('driverPerformanceBody');
+  function renderDriverPerformance() {
+    driverPerformanceBody.innerHTML = "";
+    driverPerformanceData.forEach(d => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${d.driver}</td><td>${d.pickups}</td><td>${d.avgTime.toFixed(1)}</td><td>${d.efficiency}%</td>`;
+      driverPerformanceBody.appendChild(tr);
+    });
+  }
+  renderDriverPerformance();
+
+  // Clients
+  const clientsData = [
+    {store:"Oxford St Store", contact:"John Doe", phone:"020 1234 5678", history:"15 pickups"},
+    {store:"Camden Central", contact:"Alice Smith", phone:"020 9876 5432", history:"12 pickups"},
+    {store:"Shoreditch Hub", contact:"Michael Brown", phone:"020 1122 3344", history:"10 pickups"},
+    {store:"Brixton Point", contact:"Sarah Wilson", phone:"020 2233 4455", history:"8 pickups"},
+  ];
+  const clientsBody = document.getElementById('clientsBody');
+  function renderClients() {
+    clientsBody.innerHTML = "";
+    clientsData.forEach(c => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${c.store}</td><td>${c.contact}</td><td>${c.phone}</td><td>${c.history}</td>`;
+      clientsBody.appendChild(tr);
+    });
+  }
+  renderClients();
+
+  // Login handling
+  const loginForm = document.getElementById('loginForm');
+  loginForm.addEventListener('submit', e => {
+    e.preventDefault();
+    alert('Login successful! Loading dashboard...');
+    activateTab('dashboard');
+  });
 </script>
 </body>
 </html>
