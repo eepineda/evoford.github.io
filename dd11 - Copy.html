@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>EvoSustain Admin Portal - Business Management</title>
+<style>
+  /* Reset */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin:0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background: #f4f9f4;
+    color: #1b332b;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    background: #2e7d32;
+    color: white;
+    padding: 20px 40px;
+    font-weight: 700;
+    font-size: 1.8rem;
+    text-align: center;
+  }
+  nav {
+    display: flex;
+    background: #4caf50;
+    color: white;
+    justify-content: center;
+    gap: 20px;
+  }
+  nav button {
+    flex: 1 1 auto;
+    padding: 14px 0;
+    background: transparent;
+    border: none;
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  nav button:hover, nav button.active {
+    background: #2e7d32;
+  }
+  main {
+    flex: 1;
+    padding: 20px 40px;
+    overflow-y: auto;
+  }
+  section {
+    display: none;
+  }
+  section.active {
+    display: block;
+  }
+  h2 {
+    border-bottom: 3px solid #4caf50;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+    font-weight: 800;
+  }
+  /* Dashboard cards */
+  .cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .card {
+    background: white;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.12);
+    border-radius: 16px;
+    flex: 1 1 200px;
+    padding: 20px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #2a4d34;
+  }
+  /* Table styles */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 6px 20px rgb(0 0 0 / 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    background: white;
+  }
+  th, td {
+    padding: 14px 20px;
+    text-align: left;
+    border-bottom: 1px solid #cde9c7;
+    font-weight: 600;
+  }
+  th {
+    background: #4caf50;
+    color: white;
+  }
+  tbody tr:hover {
+    background: #e3f3e3;
+    cursor: pointer;
+  }
+  /* Buttons */
+  .btn {
+    padding: 8px 18px;
+    border-radius: 24px;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+    margin-right: 8px;
+  }
+  .btn-approve {
+    background-color: #4caf50;
+    color: white;
+  }
+  .btn-approve:hover {
+    background-color: #357a29;
+  }
+  .btn-decline {
+    background-color: #e94e3f;
+    color: white;
+  }
+  .btn-decline:hover {
+    background-color: #b53628;
+  }
+  .btn-reschedule {
+    background-color: #f0ad4e;
+    color: white;
+  }
+  .btn-reschedule:hover {
+    background-color: #c48830;
+  }
+  /* Schedule Planning */
+  .calendar {
+    max-width: 600px;
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 6px 20px rgb(0 0 0 / 0.1);
+  }
+  .routes-list {
+    margin-top: 20px;
+  }
+  .route-item {
+    border: 1px solid #a3d17a;
+    border-radius: 12px;
+    padding: 12px 18px;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  /* Drag & Drop */
+  .drag-container {
+    display: flex;
+    gap: 30px;
+  }
+  .drag-list {
+    background: white;
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 6px 20px rgb(0 0 0 / 0.1);
+    flex: 1;
+    min-height: 300px;
+  }
+  .drag-list h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-weight: 700;
+    color: #2e7d32;
+  }
+  .drag-item {
+    padding: 10px 14px;
+    background: #c6e3b0;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    cursor: grab;
+    user-select: none;
+  }
+  .drag-item:active {
+    cursor: grabbing;
+  }
+  /* Map (static placeholder) */
+  .map-container {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgb(0 0 0 / 0.1);
+    height: 400px;
+    margin-bottom: 30px;
+    display: flex; justify-content:center; align-items:center;
+    font-weight: 700;
+    color: #4caf50;
+    font-size: 1.5rem;
+  }
+  /* Form inputs */
+  input[type="text"], select {
+    padding: 12px;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: 1.8px solid #4caf50;
+    width: 100%;
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+  input[type="text"]:focus, select:focus {
+    outline: none;
+    border-color: #357a29;
+  }
+  /* Responsive */
+  @media (max-width: 900px) {
+    main {
+      padding: 20px;
+    }
+    .cards {
+      flex-direction: column;
+    }
+    .drag-container {
+      flex-direction: column;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>EvoSustain Admin Portal</header>
+
+<nav aria-label="Primary navigation">
+  <button data-tab="login" class="active">Login</button>
+  <button data-tab="dashboard">Dashboard</button>
+  <button data-tab="requests">Collection Requests</button>
+  <button data-tab="planning">Schedule Planning</button>
+  <button data-tab="assignment">Driver Assignment</button>
+  <button data-tab="map">Live Map View</button>
+  <button data-tab="performance">Driver Performance</button>
+  <button data-tab="clients">Client Management</button>
+  <button data-tab="settings">Settings / Support</button>
+</nav>
+
+<main>
+  <!-- Login -->
+  <section id="login" class="active">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <label for="username">Username</label><br />
+      <input type="text" id="username" placeholder="admin" required /><br />
+      <label for="password">Password</label><br />
+      <input type="text" id="password" placeholder="••••••" required /><br />
+      <button type="submit" class="btn btn-approve">Login</button>
+    </form>
+  </section>
+
+  <!-- Dashboard -->
+  <section id="dashboard">
+    <h2>Admin Dashboard</h2>
+    <div class="cards">
+      <div class="card">Pending Requests: 600</div>
+      <div class="card">Active Drivers: 15</div>
+      <div class="card">System Alerts: 3 Critical, 5 Warnings</div>
+      <div class="card">CO₂ Saved Today: 400.5 kg</div>
+      <div class="card">Average Pickup Time: 7.8 min</div>
+      <div class="card">Total Clients: 600</div>
+      <div class="card">Scheduled Routes Today: 275</div>
+    </div>
+  </section>
+
+  <!-- Collection Requests Overview -->
+  <section id="requests">
+    <h2>Collection Requests Overview</h2>
+    <table aria-label="Collection requests table">
+      <thead>
+        <tr>
+          <th>Store</th>
+          <th>Location</th>
+          <th>Bin Type</th>
+          <th>Volume (m³)</th>
+          <th>Time Window</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="requestsTableBody">
+        <!-- dynamically inserted -->
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Schedule Planning -->
+  <section id="planning">
+    <h2>Schedule Planning</h2>
+    <div class="calendar">
+      <p><strong>Calendar view (simulated)</strong></p>
+      <p>Routes Scheduled Today: 275</p>
+      <p>Optimized Routes: 260</p>
+      <p>Pending Optimization: 15</p>
+      <p>Peak Hours: 9:00–11:00 AM</p>
+    </div>
+  </section>
+
+  <!-- Driver Assignment Panel -->
+  <section id="assignment">
+    <h2>Driver Assignment Panel</h2>
+    <div class="drag-container">
+      <div class="drag-list" id="routesList">
+        <h3>Routes to Assign</h3>
+        <!-- routes draggable -->
+      </div>
+      <div class="drag-list" id="driversList">
+        <h3>Drivers</h3>
+        <!-- drivers draggable -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Map View -->
+  <section id="map">
+    <h2>Live Map View</h2>
+    <div class="map-container" aria-label="Static map of London with drivers and collections">
+      [Static Map Placeholder: London Area]
+    </div>
+  </section>
+
+  <!-- Driver Performance -->
+  <section id="performance">
+    <h2>Driver Performance</h2>
+    <table aria-label="Driver performance metrics">
+      <thead>
+        <tr>
+          <th>Driver</th>
+          <th>Completed Pickups</th>
+          <th>Avg Pickup Time (min)</th>
+          <th>Efficiency (%)</th>
+        </tr>
+      </thead>
+      <tbody id="driverPerformanceBody"></tbody>
+    </table>
+  </section>
+
+  <!-- Client Management -->
+  <section id="clients">
+    <h2>Client Management</h2>
+    <table aria-label="Client contact and history">
+      <thead>
+        <tr>
+          <th>Store</th>
+          <th>Contact</th>
+          <th>Phone</th>
+          <th>Collection History (last 7 days)</th>
+        </tr>
+      </thead>
+      <tbody id="clientsBody"></tbody>
+    </table>
+  </section>
+
+  <!-- Settings / Support / User Management -->
+  <section id="settings">
+    <h2>Settings / Support / User Management</h2>
+    <p>Support chat and user management features coming soon.</p>
+    <button class="btn btn-approve" onclick="alert('User management panel coming soon!')">Open User Management</button>
+  </section>
+
+</main>
+
+<script>
+  // Tabs switching
+  const navButtons = document.querySelectorAll('nav button');
+  const sections = document.querySelectorAll('main section');
+
+  navButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      navButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      sections.forEach(sec => sec.classList.remove('active'));
+      const tab = btn.getAttribute('data-tab');
+      document.getElementById(tab).classList.add('active');
+    });
+  });
+
+  // Simulated collection requests data
+  const collectionRequests = [
+    {store:"Oxford St Store", location:"Oxford St", bin:"General Waste", volume:2.4, time:"9-11 AM", status:"Pending"},
+    {store:"Camden Central", location:"Camden Market", bin:"Recycling", volume:1.1, time:"11-13 PM", status:"Accepted"},
+    {store:"Shoreditch Hub", location:"Shoreditch", bin:"Food Waste", volume:1.8, time:"13-15 PM", status:"Pending"},
+    {store:"Brixton Point", location:"Brixton", bin:"General Waste", volume:3.2, time:"10-12 AM", status:"Scheduled"},
+    {store:"Greenwich Bay", location:"Greenwich", bin:"Recycling", volume:0.9, time:"14-16 PM", status:"Pending"},
+  ];
+
+  // Populate requests table
+  const requestsTableBody = document.getElementById('requestsTableBody');
+  function renderRequests() {
+    requestsTableBody.innerHTML = "";
+    collectionRequests.forEach((req, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${req.store}</td>
+        <td>${req.location}</td>
+        <td>${req.bin}</td>
+        <td>${req.volume}</td>
+        <td>${req.time}</td>
+        <td>${req.status}</td>
+        <td>
+          <button class="btn btn-approve" onclick="updateRequestStatus(${i}, 'Accepted')">Approve</button>
+          <button class="btn btn-decline" onclick="updateRequestStatus(${i}, 'Declined')">Decline</button>
+          <button class="btn btn-reschedule" onclick="alert('Reschedule flow to be implemented')">Reschedule</button>
+        </td>`;
+      requestsTableBody.appendChild(tr);
+    });
+  }
+  function updateRequestStatus(index, status) {
+    collectionRequests[index].status = status;
+    renderRequests();
+  }
+  renderRequests();
+
+  // Schedule Planning data (already static in markup)
+
+  // Driver Assignment Panel (drag & drop simulation)
+  const routesList = document.getElementById('routesList');
+  const driversList = document.getElementById('driversList');
+
+  const routes = [
+    "Route 1: Oxford St → Camden",
+    "Route 2: Shoreditch → Brixton",
+    "Route 3: Greenwich → Hackney",
+    "Route 4: Chelsea → Westminster",
+  ];
+
+  const drivers = [
+    "Driver 01 - John",
+    "Driver 02 - Alice",
+    "Driver 03 - Michael",
+    "Driver 04 - Sarah",
+    "Driver 05 - David",
+    "Driver 06 - Emma",
+    "Driver 07 - James",
+    "Driver 08 - Olivia",
+    "Driver 09 - Robert",
+    "Driver 10 - Sophia",
+    "Driver 11 - William",
+    "Driver 12 - Ava",
+    "Driver 13 - Liam",
+    "Driver 14 - Mia",
+    "Driver 15 - Noah",
+  ];
+
+  function createDragItem(text) {
+    const div = document.createElement('div');
+    div.classList.add('drag-item');
+    div.textContent = text;
+    div.setAttribute('draggable', 'true');
+    return div;
+  }
+
+  function initDragAndDrop() {
+    // Clear lists
+    routesList.innerHTML = "<h3>Routes to Assign</h3>";
+    driversList.innerHTML = "<h3>Drivers</h3>";
+
+    routes.forEach(route => routesList.appendChild(createDragItem(route)));
+    drivers.forEach(driver => driversList.appendChild(createDragItem(driver)));
+
+    // Basic drag & drop events for demonstration
+    let draggedItem = null;
+
+    document.querySelectorAll('.drag-item').forEach(item => {
+      item.addEventListener('dragstart', e => {
+        draggedItem = item;
+        e.dataTransfer.effectAllowed = "move";
+        e.dataTransfer.setData('text/plain', item.textContent);
+      });
+      item.addEventListener('dragend', e => {
+        draggedItem = null;
+      });
+    });
+
+    // Allow dropping routes onto driversList and vice versa
+    [routesList, driversList].forEach(list => {
+      list.addEventListener('dragover', e => e.preventDefault());
+      list.addEventListener('drop', e => {
+        e.preventDefault();
+        if (draggedItem && e.currentTarget !== draggedItem.parentElement) {
+          e.currentTarget.appendChild(draggedItem);
+        }
+      });
+    });
+  }
+  initDragAndDrop();
+
+  // Driver Performance data
+  const driverPerformanceData = [
+    {driver:"John", pickups: 120, avgTime: 7.2, efficiency: 92},
+    {driver:"Alice", pickups: 110, avgTime: 7.9, efficiency: 89},
+    {driver:"Michael", pickups: 115, avgTime: 8.1, efficiency: 88},
+    {driver:"Sarah", pickups: 130, avgTime: 6.8, efficiency: 95},
+    {driver:"David", pickups: 105, avgTime: 7.5, efficiency: 90},
+  ];
+
+  const driverPerformanceBody = document.getElementById('driverPerformanceBody');
+  function renderDriverPerformance() {
+    driverPerformanceBody.innerHTML = "";
+    driverPerformanceData.forEach(d => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${d.driver}</td><td>${d.pickups}</td><td>${d.avgTime.toFixed(1)}</td><td>${d.efficiency}%</td>`;
+      driverPerformanceBody.appendChild(tr);
+    });
+  }
+  renderDriverPerformance();
+
+  // Client Management data
+  const clientsData = [
+    {store:"Oxford St Store", contact:"John Doe", phone:"020 1234 5678", history:"15 pickups"},
+    {store:"Camden Central", contact:"Alice Smith", phone:"020 9876 5432", history:"12 pickups"},
+    {store:"Shoreditch Hub", contact:"Michael Brown", phone:"020 1122 3344", history:"10 pickups"},
+    {store:"Brixton Point", contact:"Sarah Wilson", phone:"020 2233 4455", history:"8 pickups"},
+  ];
+  const clientsBody = document.getElementById('clientsBody');
+  function renderClients() {
+    clientsBody.innerHTML = "";
+    clientsData.forEach(c => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${c.store}</td><td>${c.contact}</td><td>${c.phone}</td><td>${c.history}</td>`;
+      clientsBody.appendChild(tr);
+    });
+  }
+  renderClients();
+
+  // Login form handler
+  const loginForm = document.getElementById('loginForm');
+  loginForm.addEventListener('submit', e => {
+    e.preventDefault();
+    alert('Login successful! Loading dashboard...');
+    // Switch to dashboard tab after login
+    document.querySelector('nav button[data-tab="login"]').classList.remove('active');
+    document.querySelector('section#login').classList.remove('active');
+    document.querySelector('nav button[data-tab="dashboard"]').classList.add('active');
+    document.querySelector('section#dashboard').classList.add('active');
+  });
+</script>
+
+</body>
+</html>
