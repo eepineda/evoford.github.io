@@ -97,22 +97,37 @@
     background-color: #4caf50;
     color: white;
     font-weight: 700;
-    font-size: 1.1rem;
-    padding: 14px 32px;
+    font-size: 1.3rem;
+    padding: 18px 40px;
     border-radius: 35px;
     border: none;
     cursor: pointer;
-    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.5);
+    box-shadow: 0 10px 25px rgba(76, 175, 80, 0.6);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     text-decoration: none;
     text-align: center;
-    flex: 1 1 250px;
+    flex: 1 1 300px;
+    user-select: none;
   }
 
   .btn:hover, .btn:focus {
     background-color: #357a29;
-    box-shadow: 0 12px 30px rgba(53, 122, 41, 0.75);
+    box-shadow: 0 14px 35px rgba(53, 122, 41, 0.8);
     outline: none;
+  }
+
+  .links-box {
+    border: 2px solid #4caf50;
+    padding: 30px 25px;
+    border-radius: 20px;
+    background: #eaf7ea;
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.25);
+    margin-bottom: 48px;
+    text-align: center;
+  }
+
+  .links-box h2 {
+    margin-bottom: 25px;
   }
 
   @media (max-width: 600px) {
@@ -127,11 +142,13 @@
     }
     .btn-group {
       flex-direction: column;
-      gap: 12px;
+      gap: 15px;
     }
     .btn {
       flex: none;
       width: 100%;
+      font-size: 1.2rem;
+      padding: 16px 0;
     }
   }
 </style>
@@ -177,14 +194,13 @@
     </ul>
   </section>
 
-  <section aria-labelledby="get-started">
-    <h2 id="get-started">Get Started Today</h2>
-    <p>Ready to take your waste management to the next level? Access the apps below to explore EvoSustain’s capabilities.</p>
-    <div class="btn-group">
-      <a href="https://www.evoford.com/app/storeapp.html" target="_blank" rel="noopener" class="btn" aria-label="Open Stores App">Stores App</a>
-      <a href="https://www.evoford.com/app/businessweb.html" target="_blank" rel="noopener" class="btn" aria-label="Open Business Admin Web">Business Admin Web</a>
-      <a href="https://www.evoford.com/app/businessapp.html" target="_blank" rel="noopener" class="btn" aria-label="Open Business Admin App">Business Admin App</a>
-      <a href="https://www.evoford.com/app/driversapp.html" target="_blank" rel="noopener" class="btn" aria-label="Open Drivers App">Drivers App</a>
+  <section class="links-box" aria-labelledby="app-links">
+    <h2 id="app-links">Explore Our Applications</h2>
+    <div class="btn-group" role="list">
+      <a href="https://www.evoford.com/app/storeapp.html" target="_blank" rel="noopener" class="btn" role="listitem" aria-label="Open Stores App">Stores App</a>
+      <a href="https://www.evoford.com/app/businessweb.html" target="_blank" rel="noopener" class="btn" role="listitem" aria-label="Open Business Admin Web">Business Admin Web</a>
+      <a href="https://www.evoford.com/app/businessapp.html" target="_blank" rel="noopener" class="btn" role="listitem" aria-label="Open Business Admin App">Business Admin App</a>
+      <a href="https://www.evoford.com/app/driversapp.html" target="_blank" rel="noopener" class="btn" role="listitem" aria-label="Open Drivers App">Drivers App</a>
     </div>
   </section>
 
