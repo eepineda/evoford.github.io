@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EvoSustain - Store App</title>
+  <link rel="icon" type="image/png" href="/mnt/data/EvoSustainLogo.png">
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(to bottom, #fefefe, #f3f4f6);
+      color: #1c1c1e;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding-top: 60px;
+      padding-bottom: 80px;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background-color: #ffffffcc;
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #007b83;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      z-index: 999;
+    }
+    .screen {
+      padding: 1.5rem;
+      max-width: 480px;
+      margin: 0 auto 4rem auto;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .screen.active {
+      display: block;
+      opacity: 1;
+    }
+    h2 {
+      font-size: 1.2rem;
+      color: #007b83;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 500;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.25rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      background-color: #fff;
+    }
+    button {
+      margin-top: 1.5rem;
+      width: 100%;
+      background: linear-gradient(90deg, #00b387, #0097d1);
+      border: none;
+      color: white;
+      padding: 0.85rem;
+      font-size: 1rem;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      justify-content: space-around;
+      background: #ffffff;
+      padding: 0.75rem 0;
+      border-top: 1px solid #ccc;
+      box-shadow: 0 -2px 6px rgba(0,0,0,0.05);
+    }
+    .nav a {
+      color: #007b83;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
+  <script>
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(screen => {
+        screen.classList.remove('active');
+      });
+      const target = document.getElementById(id);
+      if (target) target.classList.add('active');
+      const title = document.getElementById('title');
+      if (title) title.textContent = id.charAt(0).toUpperCase() + id.slice(1);
+    }
+    window.onload = () => showScreen('login');
+  </script>
+</head>
+<body>
+  <div class="topbar" id="title">Login</div>
+  <!-- Pantallas individuales -->
+  <div id="login" class="screen active">
+    <h2>Login</h2>
+    <input type="text" placeholder="Email / Store ID">
+    <input type="password" placeholder="Password">
+    <button onclick="showScreen('scan')">Log in</button>
+  </div>
+
+  <div id="scan" class="screen">
+    <h2>Scan QR Code</h2>
+    <div style="width:100%;height:240px;border:2px dashed #0097d1;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-top:1rem;">QR Scanner Placeholder</div>
+    <button onclick="showScreen('form')">Start Scan</button>
+  </div>
+
+  <div id="form" class="screen">
+    <h2>Request Collection</h2>
+    <label>Location</label>
+    <select>
+      <option>123 Oxford Street, London, UK</option>
+      <option>78 Camden High Street, London, UK</option>
+      <option>25 Soho Square, London, UK</option>
+      <option>10 Downing Street, London, UK</option>
+    </select>
+    <label>Bin Type</label>
+    <input type="text" value="General Waste" disabled>
+    <label>Volume (L)</label>
+    <input type="number" placeholder="Enter volume">
+    <label>Preferred Time</label>
+    <input type="text" placeholder="e.g. 2–4 PM">
+    <label>Notes</label>
+    <textarea rows="2" placeholder="Optional notes"></textarea>
+    <button onclick="showScreen('confirmation')">Submit</button>
+  </div>
+
+  <div id="confirmation" class="screen">
+    <h2>Request Confirmation</h2>
+    <div style="background:#d9f4ee;padding:1rem;border-radius:10px;text-align:center;font-weight:600;">Scheduled - ETA 3:00 PM</div>
+    <button onclick="showScreen('track')">Track Collection</button>
+  </div>
+
+  <div id="track" class="screen">
+    <h2>Track Collection</h2>
+    <div style="margin:1rem 0;padding:1rem;background:#eef;color:#007b83;border-radius:10px;">In Transit</div>
+    <button onclick="showScreen('history')">View History</button>
+  </div>
+
+  <div id="history" class="screen">
+    <h2>History</h2>
+    <div style="padding:1rem;background:#fff;border-radius:10px;margin-bottom:1rem;">123 Oxford Street - Collected</div>
+    <div style="padding:1rem;background:#fff;border-radius:10px;margin-bottom:1rem;">78 Camden High Street - In Transit</div>
+    <div style="padding:1rem;background:#fff;border-radius:10px;margin-bottom:1rem;">25 Soho Square - Requested</div>
+    <button onclick="showScreen('settings')">Settings</button>
+  </div>
+
+  <div id="settings" class="screen">
+    <h2>Settings / Help</h2>
+    <div style="margin-top:1rem;">Profile</div>
+    <div>FAQ</div>
+    <div>Support Chat</div>
+    <div style="margin-top:1rem;">Log out</div>
+  </div>
+
+  <div class="nav">
+    <a onclick="showScreen('login')">Home</a>
+    <a onclick="showScreen('history')">History</a>
+    <a onclick="showScreen('settings')">Settings</a>
+  </div>
+</body>
+</html>
