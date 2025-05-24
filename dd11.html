@@ -64,8 +64,8 @@
     background: #1c1c1e;
     border-radius: 28px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-    display: flex;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
     align-items: center;
     user-select: none;
     z-index: 100;
@@ -75,18 +75,19 @@
     border: none;
     color: #a3b18a;
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 4px;
-    padding: 6px 8px;
+    padding: 6px 0;
     transition: color 0.25s ease;
+    white-space: nowrap;
   }
   nav button svg {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     fill: currentColor;
     transition: fill 0.25s ease;
   }
@@ -242,6 +243,7 @@
     border-radius: 20px;
     user-select: none;
     transition: background-color 0.3s ease;
+    z-index: 10;
   }
   .back-btn:hover {
     background-color: #d1f0d1;
@@ -438,10 +440,6 @@
     </main>
 
     <nav aria-label="Bottom navigation">
-      <button data-tab="login" aria-controls="login" aria-selected="false" title="Login">
-        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4z"/><path d="M12 14c-4 0-6 2-6 6v2h12v-2c0-4-2-6-6-6z"/></svg>
-        Login
-      </button>
       <button data-tab="dashboard" aria-controls="dashboard" aria-selected="true" title="Home" class="active">
         <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
         Home
