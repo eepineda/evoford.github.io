@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>EvoSustain - Smart Waste Collection Apps</title>
+<style>
+  /* Reset & base */
+  *, *::before, *::after { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    background: linear-gradient(135deg, #d0e9d0 0%, #a0cfa0 100%);
+    color: #2f4a1e;
+    display: flex;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  nav {
+    width: 280px;
+    background: #4caf50;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 15px;
+    box-shadow: 3px 0 10px rgba(0,0,0,0.2);
+    user-select: none;
+  }
+  nav h1 {
+    margin: 0 0 20px;
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    user-select: none;
+  }
+  nav p.intro {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 30px;
+    line-height: 1.4;
+  }
+  nav button {
+    background: transparent;
+    border: none;
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    text-align: left;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: background-color 0.3s ease;
+  }
+  nav button svg {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    fill: white;
+    transition: fill 0.3s ease;
+  }
+  nav button:hover,
+  nav button.active {
+    background: #357a29;
+    outline: none;
+  }
+  nav button.active svg {
+    fill: #a5d6a7;
+  }
+  main {
+    flex: 1;
+    background: white;
+    padding: 30px 40px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+  }
+  main h2 {
+    font-size: 2.2rem;
+    color: #2e7d32;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 4px solid #4caf50;
+    padding-bottom: 8px;
+  }
+  main h3 {
+    color: #3a5f30;
+    margin-top: 30px;
+    margin-bottom: 12px;
+  }
+  main p, main li {
+    font-size: 1.12rem;
+    line-height: 1.6;
+  }
+  main ul {
+    padding-left: 24px;
+    margin-top: 10px;
+    margin-bottom: 22px;
+  }
+  main ul li {
+    margin-bottom: 10px;
+  }
+  main strong {
+    font-weight: 700;
+  }
+  .module-link {
+    display: inline-block;
+    margin-top: 18px;
+    padding: 14px 28px;
+    background: #4caf50;
+    color: white;
+    font-weight: 700;
+    border-radius: 14px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    box-shadow: 0 6px 12px rgb(76 175 80 / 0.5);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .module-link:hover,
+  .module-link:focus {
+    background: #357a29;
+    box-shadow: 0 8px 20px rgb(53 122 41 / 0.7);
+    outline: none;
+  }
+  footer {
+    background: #2e7d32;
+    color: white;
+    padding: 15px 30px;
+    text-align: center;
+    font-weight: 600;
+    user-select: none;
+  }
+  @media (max-width: 900px) {
+    body {
+      flex-direction: column;
+    }
+    nav {
+      width: 100%;
+      flex-direction: row;
+      overflow-x: auto;
+      padding: 15px 5px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    nav h1, nav p.intro {
+      display: none;
+    }
+    nav button {
+      flex: 1 0 auto;
+      margin: 0 6px;
+      font-size: 1rem;
+      padding: 12px 6px;
+      text-align: center;
+      border-radius: 8px;
+      justify-content: center;
+      gap: 6px;
+    }
+    nav button svg {
+      width: 18px; height: 18px;
+    }
+    main {
+      padding: 20px 20px 40px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav aria-label="Main Navigation">
+  <h1>EvoSustain Apps</h1>
+  <p class="intro">Discover our innovative suite of apps for smarter, greener waste collection — designed for stores, drivers, and business admins.</p>
+  <button id="btnStores" class="active" aria-controls="stores" aria-selected="true" role="tab" tabindex="0">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 13h2v-2H3v2zm4 4h2v-6H7v6zm4-10h2v10h-2V7zm4 4h2v6h-2v-6zm4-6v14h2V5h-2z"/></svg>
+    Stores App
+  </button>
+  <button id="btnBusiness" aria-controls="business" aria-selected="false" role="tab" tabindex="-1">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 4v16h18V4H3zm2 14H5V6h2v12zm14-2h-2v2h2v-2zm-6 2H9v-2h4v2zm4-6h-4v2h4v-2zm0-4H5v2h10v-2zm0 8H5v2h10v-2z"/></svg>
+    Business Admin
+  </button>
+  <button id="btnDrivers" aria-controls="drivers" aria-selected="false" role="tab" tabindex="-1">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4zm-4 6h8v-2H8v2z"/></svg>
+    Drivers App
+  </button>
+</nav>
+
+<main>
+  <section id="stores" role="tabpanel" aria-labelledby="btnStores" tabindex="0">
+    <h2>Stores App - Mobile First</h2>
+    <p><strong>Use Case:</strong> Store staff quickly requests waste collection, tracks status, and views history.</p>
+
+    <h3>Main Screens (5–7 screens):</h3>
+    <ul>
+      <li><strong>Login / Sign-Up:</strong> Fast access, store ID or QR onboarding.</li>
+      <li><strong>Scan QR Code (Home Screen):</strong> Opens camera to scan bin/waste-type QR code.</li>
+      <li><strong>Request Collection Form:</strong> Auto-fills location and bin type. Fields: volume, time window, notes.</li>
+      <li><strong>Request Confirmation:</strong> Status set to “Scheduled” with estimated collection time.</li>
+      <li><strong>Track Collection:</strong> Status updates: Requested → Accepted → In Transit → Collected.</li>
+      <li><strong>History:</strong> List past collections with filters by date and waste type.</li>
+      <li><strong>Settings / Help:</strong> Support chat, FAQ, and profile management.</li>
+    </ul>
+    <a href="https://www.evoford.com/app/storeapp.html" target="_blank" rel="noopener noreferrer" class="module-link" aria-label="Open Stores App">Open Stores App</a>
+  </section>
+
+  <section id="business" role="tabpanel" aria-labelledby="btnBusiness" tabindex="0" hidden>
+    <h2>Business Management - Admin Portal</h2>
+    <p><strong>Designed for:</strong> Operators and planners. Desktop-first with map interface.</p>
+
+    <h3>Main Screens (6–8 screens):</h3>
+    <ul>
+      <li><strong>Login / Admin Dashboard:</strong> KPIs, pending requests, system alerts.</li>
+      <li><strong>Collection Requests Overview:</strong> Approve, decline, reschedule requests.</li>
+      <li><strong>Schedule Planning:</strong> Calendar with route optimization logic.</li>
+      <li><strong>Driver Assignment Panel:</strong> Drag-and-drop or dropdown assignment interface.</li>
+      <li><strong>Live Map View:</strong> Real-time driver locations, active collections.</li>
+      <li><strong>Driver Performance:</strong> Metrics on time efficiency and completed pickups.</li>
+      <li><strong>Client Management:</strong> Contact info and collection history per store.</li>
+      <li><strong>Settings / Support / User Management.</strong></li>
+    </ul>
+    <a href="https://www.evoford.com/app/businessweb.html" target="_blank" rel="noopener noreferrer" class="module-link" aria-label="Open Business Admin Web">Open Admin Portal (Web)</a>
+    <br/>
+    <a href="https://www.evoford.com/app/businessapp.html" target="_blank" rel="noopener noreferrer" class="module-link" style="margin-top:10px;" aria-label="Open Business Admin App">Open Admin Portal (App)</a>
+  </section>
+
+  <section id="drivers" role="tabpanel" aria-labelledby="btnDrivers" tabindex="0" hidden>
+    <h2>Drivers App - Mobile Experience</h2>
+    <p><strong>Designed for:</strong> Quick daily use, mobile only.</p>
+
+    <h3>Main Screens (4–6 screens):</h3>
+    <ul>
+      <li><strong>Login / Daily Start:</strong> Driver login and work day start.</li>
+      <li><strong>Today’s Route Overview:</strong> Map + list view with optimized route.</li>
+      <li><strong>Collection Task Detail:</strong> Address, waste type, special notes.</li>
+      <li><strong>Update Status:</strong> Options to mark: Arrived, Collected, Issue Reported.</li>
+      <li><strong>Map Navigation:</strong> GPS integration or deep link simulation.</li>
+      <li><strong>End of Day Summary:</strong> Completed collections, notes, and metrics.</li>
+    </ul>
+    <a href="https://www.evoford.com/app/driversapp.html" target="_blank" rel="noopener noreferrer" class="module-link" aria-label="Open Drivers App">Open Drivers App</a>
+  </section>
+</main>
+
+<script>
+  const buttons = [...document.querySelectorAll('nav button')];
+  const sections = [...document.querySelectorAll('main section')];
+
+  function activateTab(selectedBtn) {
+    buttons.forEach(btn => {
+      const isActive = btn === selectedBtn;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-selected', isActive);
+      btn.tabIndex = isActive ? 0 : -1;
+    });
+    sections.forEach(section => {
+      section.hidden = section.getAttribute('aria-labelledby') !== selectedBtn.id;
+      if (!section.hidden) section.focus();
+    });
+  }
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => activateTab(btn));
+    btn.addEventListener('keydown', e => {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+        const nextIndex = (buttons.indexOf(e.target) + 1) % buttons.length;
+        buttons[nextIndex].focus();
+      }
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+        const prevIndex = (buttons.indexOf(e.target) - 1 + buttons.length) % buttons.length;
+        buttons[prevIndex].focus();
+      }
+    });
+  });
+
+  // Initialize default tab
+  activateTab(buttons[0]);
+</script>
+
+<footer>
+  © 2025 EvoSustain Ltd. All rights reserved.
+</footer>
+
+</body>
+</html>
