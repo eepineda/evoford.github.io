@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<title>EvoSustain Admin Portal - Mobile Business Management</title>
+<title>EvoSustain Admin Portal - Mobile Complete</title>
 <style>
   body, html {
     margin:0; padding:0; height:100vh;
@@ -25,6 +25,7 @@
       inset 0 0 8px rgba(255,255,255,0.6);
     display: flex; flex-direction: column; overflow: hidden;
     user-select: none;
+    position: relative;
   }
   header {
     background: #2e7d32;
@@ -52,6 +53,7 @@
     padding: 20px 24px 80px;
     color: #2f3e46;
     -webkit-overflow-scrolling: touch;
+    position: relative;
   }
   nav {
     position: fixed;
@@ -95,6 +97,7 @@
   section {
     display: none;
     animation: fadeIn 0.25s ease forwards;
+    position: relative;
   }
   section.active {
     display: block;
@@ -221,6 +224,33 @@
   form button:hover {
     background-color: #357a29;
   }
+  /* Back button */
+  .back-btn {
+    position: absolute;
+    top: 16px;
+    left: 20px;
+    background: transparent;
+    border: none;
+    color: #4caf50;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 20px;
+    user-select: none;
+    transition: background-color 0.3s ease;
+  }
+  .back-btn:hover {
+    background-color: #d1f0d1;
+  }
+  .back-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: #4caf50;
+  }
 </style>
 </head>
 <body>
@@ -267,6 +297,10 @@
 
       <!-- Requests -->
       <section id="requests" tabindex="0" aria-label="Collection requests overview">
+        <button class="back-btn" aria-label="Back to dashboard" type="button">
+          <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+          Back
+        </button>
         <h2>
           <svg viewBox="0 0 24 24"><path d="M3 4v16h18V4H3z"/></svg>
           Collection Requests Overview
@@ -289,6 +323,10 @@
 
       <!-- Planning -->
       <section id="planning" tabindex="0" aria-label="Schedule planning">
+        <button class="back-btn" aria-label="Back to dashboard" type="button">
+          <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+          Back
+        </button>
         <h2>
           <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
           Schedule Planning
@@ -300,8 +338,12 @@
         <p>Peak Hours: 9:00–11:00 AM</p>
       </section>
 
-      <!-- Driver Assignment -->
+      <!-- Assignment -->
       <section id="assignment" tabindex="0" aria-label="Driver assignment panel">
+        <button class="back-btn" aria-label="Back to dashboard" type="button">
+          <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+          Back
+        </button>
         <h2>
           <svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a8.38 8.38 0 0113 0"/></svg>
           Driver Assignment Panel
@@ -321,6 +363,10 @@
 
       <!-- Map -->
       <section id="map" tabindex="0" aria-label="Live map view">
+        <button class="back-btn" aria-label="Back to dashboard" type="button">
+          <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+          Back
+        </button>
         <h2>
           <svg viewBox="0 0 24 24"><path d="M20.5 3l-5.68 1.91-7.68-2.58L4 4.5v16l7.68-2.58 5.68 1.91L20.5 3z"/></svg>
           Live Map View
@@ -332,6 +378,10 @@
 
       <!-- Performance -->
       <section id="performance" tabindex="0" aria-label="Driver performance">
+        <button class="back-btn" aria-label="Back to dashboard" type="button">
+          <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+          Back
+        </button>
         <h2>
           <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm4 4h2v-6H7v6zm4-10h2v10h-2V7zm4 4h2v6h-2v-6zm4-6v14h2V5h-2z"/></svg>
           Driver Performance
@@ -351,6 +401,10 @@
 
       <!-- Clients -->
       <section id="clients" tabindex="0" aria-label="Client management">
+        <button class="back-btn" aria-label="Back to dashboard" type="button">
+          <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+          Back
+        </button>
         <h2>
           <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 3-1.34 3-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 2.1 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
           Client Management
@@ -370,6 +424,10 @@
 
       <!-- Settings -->
       <section id="settings" tabindex="0" aria-label="Settings and user management">
+        <button class="back-btn" aria-label="Back to dashboard" type="button">
+          <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+          Back
+        </button>
         <h2>
           <svg viewBox="0 0 24 24"><path d="M19.14 12.936a7.985 7.985 0 000-1.873l2.036-1.593-2-3.464-2.355 1.082a7.964 7.964 0 00-1.725-1l-.356-2.482H9.41l-.356 2.482a7.97 7.97 0 00-1.725 1L5.02 6.006l-2 3.464 2.036 1.593a7.97 7.97 0 000 1.873L3.02 14.506l2 3.464 2.355-1.082a7.964 7.964 0 001.725 1l.356 2.482h3.447l.356-2.482a7.965 7.965 0 001.725-1l2.355 1.082 2-3.464-2.036-1.57zM12 15.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"/></svg>
           Settings / Support / User Management
@@ -380,13 +438,37 @@
     </main>
 
     <nav aria-label="Bottom navigation">
-      <button data-tab="dashboard" class="active" aria-controls="dashboard" aria-selected="true" title="Home">
+      <button data-tab="login" aria-controls="login" aria-selected="false" title="Login">
+        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4z"/><path d="M12 14c-4 0-6 2-6 6v2h12v-2c0-4-2-6-6-6z"/></svg>
+        Login
+      </button>
+      <button data-tab="dashboard" aria-controls="dashboard" aria-selected="true" title="Home" class="active">
         <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
         Home
       </button>
-      <button data-tab="requests" aria-controls="requests" aria-selected="false" title="History">
-        <svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 1 0 8.49 11.66"/></svg>
-        History
+      <button data-tab="requests" aria-controls="requests" aria-selected="false" title="Requests">
+        <svg viewBox="0 0 24 24"><path d="M3 4v16h18V4H3z"/></svg>
+        Requests
+      </button>
+      <button data-tab="planning" aria-controls="planning" aria-selected="false" title="Planning">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+        Planning
+      </button>
+      <button data-tab="assignment" aria-controls="assignment" aria-selected="false" title="Assignment">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a8.38 8.38 0 0113 0"/></svg>
+        Assignment
+      </button>
+      <button data-tab="map" aria-controls="map" aria-selected="false" title="Map">
+        <svg viewBox="0 0 24 24"><path d="M20.5 3l-5.68 1.91-7.68-2.58L4 4.5v16l7.68-2.58 5.68 1.91L20.5 3z"/></svg>
+        Map
+      </button>
+      <button data-tab="performance" aria-controls="performance" aria-selected="false" title="Performance">
+        <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm4 4h2v-6H7v6zm4-10h2v10h-2V7zm4 4h2v6h-2v-6zm4-6v14h2V5h-2z"/></svg>
+        Performance
+      </button>
+      <button data-tab="clients" aria-controls="clients" aria-selected="false" title="Clients">
+        <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 3-1.34 3-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 2.1 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        Clients
       </button>
       <button data-tab="settings" aria-controls="settings" aria-selected="false" title="Settings">
         <svg viewBox="0 0 24 24"><path d="M19.14 12.936a7.985 7.985 0 000-1.873l2.036-1.593-2-3.464-2.355 1.082a7.964 7.964 0 00-1.725-1l-.356-2.482H9.41l-.356 2.482a7.97 7.97 0 00-1.725 1L5.02 6.006l-2 3.464 2.036 1.593a7.97 7.97 0 000 1.873L3.02 14.506l2 3.464 2.355-1.082a7.964 7.964 0 001.725 1l.356 2.482h3.447l.356-2.482a7.965 7.965 0 001.725-1l2.355 1.082 2-3.464-2.036-1.57zM12 15.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"/></svg>
@@ -414,6 +496,11 @@
     btn.addEventListener('click', () => {
       activateTab(btn.getAttribute('data-tab'));
     });
+  });
+
+  // Back buttons (all but login and dashboard)
+  document.querySelectorAll('.back-btn').forEach(btn => {
+    btn.addEventListener('click', () => activateTab('dashboard'));
   });
 
   // Initial state
