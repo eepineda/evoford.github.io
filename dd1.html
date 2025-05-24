@@ -2,292 +2,229 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EvoSustain - Store App</title>
-  <link rel="icon" type="image/png" href="/mnt/data/EvoSustainLogo.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EvoSustain Admin Portal</title>
   <style>
     body {
-      margin: 20px auto;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      background-color: #f9fafa;
-      color: #1c1c1e;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      padding-top: 60px;
-      padding-bottom: 80px;
-      box-sizing: border-box;
-      border: 2px solid #999;
-      border-radius: 38px;
-      max-width: 420px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-      overflow: hidden;
-      background-clip: padding-box;
+      margin: 0; padding: 20px;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #7db68e, #c5e1a5);
+      color: #5a6b4f;
     }
-    .topbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 60px;
-      background-color: #fff;
-      border-bottom: 1px solid #ddd;
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: #f0f5e9;
+      text-shadow: 0 0 5px #8ca57e;
+    }
+    nav {
       display: flex;
-      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
       justify-content: center;
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #1c1c1e;
-      z-index: 1000;
-    }
-    .screen {
-      padding: 1rem;
-      width: 100%;
-      max-width: 480px;
-      display: none;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .screen.active {
-      display: block;
-      opacity: 1;
-    }
-    h2 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-    label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: 500;
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 0.75rem;
-      margin-top: 0.25rem;
+      background: #8ca57e;
+      padding: 10px;
       border-radius: 12px;
-      border: 1px solid #ccc;
-      font-size: 1rem;
-      background-color: #fff;
+      margin-bottom: 20px;
     }
-    button {
-      margin-top: 1rem;
-      margin-bottom: 1rem;
-      width: 100%;
-      background: linear-gradient(90deg, #00b387, #0097d1);
+    nav button {
+      color: #f0f5e9;
+      background: #a7bc8e;
       border: none;
-      color: white;
-      padding: 0.85rem;
-      font-size: 1rem;
-      border-radius: 14px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: bold;
       cursor: pointer;
       transition: background 0.3s ease;
     }
-    .history-item {
-      background: #fff;
-      border-radius: 14px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    nav button:hover, nav button.active {
+      background: #728a63;
     }
-    .history-item h4 {
-      margin: 0.25rem 0 0.5rem;
-      font-weight: 600;
-      font-size: 1rem;
+    section {
+      background: #dcedc8;
+      border-radius: 15px;
+      padding: 20px;
+      max-width: 900px;
+      margin: 0 auto 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+      display: none;
     }
-    .history-item .meta {
-      font-size: 0.85rem;
-      color: #666;
+    section.active {
+      display: block;
     }
-    .status-badge {
-      display: inline-block;
-      background: #d6f5dd;
-      color: #137333;
-      font-size: 0.75rem;
-      padding: 0.2rem 0.6rem;
-      border-radius: 12px;
-      float: right;
+    section h2 {
+      margin-top: 0;
+      color: #6d7a44;
     }
-    .nav {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      max-width: 480px;
-      display: flex;
-      justify-content: space-around;
-      background: #ffffff;
-      padding: 0.75rem 0;
-      border-top: 1px solid #ccc;
+    ul.stats {
+      list-style: none;
+      padding-left: 0;
     }
-    .nav a {
-      color: #007b83;
-      text-decoration: none;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-      .status-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 20px;
-      background: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 12px;
-      font-size: 0.75rem;
-      color: #333;
-      z-index: 10000;
-    }
-    .status-bar .time {
+    ul.stats li {
+      margin-bottom: 8px;
       font-weight: 600;
     }
-    .status-bar .status-icons {
-      display: flex;
-      gap: 6px;
-    }
-  </style>
-  <script>
-    function showScreen(id) {
-      document.querySelectorAll('.screen').forEach(screen => {
-        screen.classList.remove('active');
-      });
-      const target = document.getElementById(id);
-      if (target) target.classList.add('active');
-      const title = document.getElementById('title');
-      if (title) title.textContent = id.charAt(0).toUpperCase() + id.slice(1);
-    }
-    window.onload = () => showScreen('login');
-  </script>
-  <style>
-    .notch {
-      position: fixed;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 210px;
-      height: 30px;
-      background: #111;
-      border-radius: 0 0 20px 20px;
-      z-index: 9999;
+    canvas {
+      display: block;
+      margin: 20px auto;
+      background: #f5f9e8;
+      border-radius: 8px;
     }
   </style>
 </head>
 <body>
-  <div class="status-bar">
-    <span class="time">9:41</span>
-    <div class="status-icons">
-      <span>📶</span>
-      <span>📡</span>
-      <span>🔋</span>
-    </div>
-  </div>
-  <div class="notch"></div>
-  <div class="topbar" id="title">Login</div>
+  <h1>🌿 EvoSustain Admin Portal</h1>
+  
+  <nav id="menu">
+    <button data-tab="dashboard" class="active">Dashboard</button>
+    <button data-tab="requests">Requests</button>
+    <button data-tab="planning">Planning</button>
+    <button data-tab="drivers">Drivers</button>
+    <button data-tab="performance">Performance</button>
+    <button data-tab="clients">Clients</button>
+    <button data-tab="map">Map</button>
+    <button data-tab="reports">Reports</button>
+    <button data-tab="settings">Settings</button>
+  </nav>
+  
+  <section id="dashboard" class="active">
+    <h2>Dashboard</h2>
+    <ul class="stats">
+      <li>📦 Pending Requests: <strong>144</strong></li>
+      <li>🚛 Active Drivers: <strong>20</strong></li>
+      <li>⚠️ System Alerts: <strong>4 Critical, 6 Warnings</strong></li>
+      <li>🌍 CO₂ Saved Today: <strong>184.6 kg</strong></li>
+      <li>⏱️ Avg Pickup Time: <strong>7.6 min</strong></li>
+      <li>🏪 Total Clients: <strong>180</strong></li>
+      <li>📊 Total Requests (Week): <strong>1,245</strong></li>
+      <li>📅 Scheduled Routes: <strong>210</strong></li>
+    </ul>
+  </section>
+  
+  <section id="requests">
+    <h2>Requests by Location</h2>
+    <canvas id="requestsChart" width="600" height="300"></canvas>
+  </section>
+  
+  <section id="planning">
+    <h2>Schedule Planning</h2>
+    <ul class="stats">
+      <li>Routes Scheduled: <strong>104</strong></li>
+      <li>Optimized Routes: <strong>98</strong></li>
+      <li>Pending Optimization: <strong>6</strong></li>
+      <li>Peak Hours: <strong>9:00–11:00 AM</strong></li>
+    </ul>
+  </section>
+  
+  <section id="drivers">
+    <h2>Driver Assignment</h2>
+    <ul class="stats">
+      <li>Drivers Available: <strong>134</strong></li>
+      <li>Assigned: <strong>120</strong></li>
+      <li>Unassigned: <strong>14</strong></li>
+      <li>Standby Drivers: <strong>6</strong></li>
+    </ul>
+  </section>
+  
+  <section id="performance">
+    <h2>Driver Performance</h2>
+    <ul class="stats">
+      <li>Total Pickups: <strong>204</strong></li>
+      <li>Avg Pickup Time: <strong>6.9 min</strong></li>
+      <li>Missed Pickups: <strong>5</strong></li>
+      <li>Top Performer: <strong>Driver #107</strong></li>
+    </ul>
+  </section>
+  
+  <section id="clients">
+    <h2>Client Management</h2>
+    <ul class="stats">
+      <li>Total Clients: <strong>180</strong></li>
+      <li>Top Client: <strong>Oxford St (142 pickups)</strong></li>
+      <li>Active Tickets: <strong>6</strong></li>
+      <li>Avg Response Time: <strong>2.1 hrs</strong></li>
+    </ul>
+  </section>
+  
+  <section id="map">
+    <h2>Live Map View</h2>
+    <ul class="stats">
+      <li>Active Routes: <strong>64</strong></li>
+      <li>Live Location Refresh: <strong>15 sec</strong></li>
+      <li>Last Sync: <strong>1:14 PM</strong></li>
+    </ul>
+  </section>
+  
+  <section id="reports">
+    <h2>Efficiency Breakdown</h2>
+    <ul class="stats">
+      <li>Efficient: <strong>91%</strong></li>
+      <li>Inefficient: <strong>9%</strong></li>
+    </ul>
+  </section>
+  
+  <section id="settings">
+    <h2>User Management</h2>
+    <input type="text" placeholder="Search users..." style="width:100%; padding:8px; margin-bottom:10px; border-radius:6px; border:1px solid #6d7a44;" />
+    <button style="background:#8ca57e; color:#f0f5e9; padding:10px 16px; border:none; border-radius:6px; cursor:pointer;">Manage Users</button>
+  </section>
 
-  <div id="login" class="screen active">
-    <h2>Login</h2>
-    <input type="text" placeholder="Email / Store ID">
-    <input type="password" placeholder="Password">
-    <button onclick="showScreen('scan')">Log in</button>
-  </div>
+  <script>
+    // Tab navigation
+    const buttons = document.querySelectorAll('nav button');
+    const sections = document.querySelectorAll('section');
 
-  <div id="scan" class="screen">
-    <h2>Scan QR Code</h2>
-    <div style="width:100%;height:240px;border:2px dashed #0097d1;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-top:1rem;">QR Scanner Placeholder</div>
-    <button onclick="showScreen('form')">Start Scan</button>
-  </div>
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remove active classes
+        buttons.forEach(b => b.classList.remove('active'));
+        sections.forEach(s => s.classList.remove('active'));
+        // Activate selected tab and section
+        btn.classList.add('active');
+        const tab = btn.getAttribute('data-tab');
+        document.getElementById(tab).classList.add('active');
+      });
+    });
 
-  <div id="form" class="screen">
-    <h2>Request Collection</h2>
-    <label>Location</label>
-    <select>
-      <option>123 Oxford Street, London, UK</option>
-      <option>78 Camden High Street, London, UK</option>
-      <option>25 Soho Square, London, UK</option>
-      <option>10 Downing Street, London, UK</option>
-    </select>
-    <label>Bin Type</label>
-    <input type="text" value="General Waste" disabled>
-    <label>Volume (L)</label>
-    <input type="number" placeholder="Enter volume">
-    <label>Preferred Time</label>
-    <input type="text" placeholder="e.g. 2–4 PM">
-    <label>Notes</label>
-    <textarea rows="2" placeholder="Optional notes"></textarea>
-    <button onclick="showScreen('confirmation')">Submit</button>
-  </div>
+    // Simple bar chart for Requests tab
+    const canvas = document.getElementById('requestsChart');
+    const ctx = canvas.getContext('2d');
 
-  <div id="confirmation" class="screen">
-    <h2>Request Confirmation</h2>
-    <div class="history-item" style="text-align:center;font-weight:600;color:#007b83;">Scheduled - ETA: 3:00 PM</div>
-    <button onclick="showScreen('track')">Track Collection</button>
-  </div>
+    const data = [
+      {label: 'Oxford St', value: 135},
+      {label: 'Camden Market', value: 112},
+      {label: 'Shoreditch', value: 89},
+      {label: 'Brixton', value: 74}
+    ];
 
-  <div id="track" class="screen">
-    <h2>Track Collection</h2>
-    <div class="history-item">Status: <strong>In Transit</strong></div>
-    <button onclick="showScreen('history')">View History</button>
-  </div>
+    const maxVal = Math.max(...data.map(d => d.value));
+    const barWidth = 100;
+    const gap = 30;
+    const chartHeight = 250;
+    const chartBottom = 280;
 
-  <div id="history" class="screen">
-    <h2>History</h2>
-    <div class="history-item">
-      <div class="meta">Apr 21, 2024</div>
-      <h4>Recycling</h4>
-      <div class="meta">Store ID: 123456</div>
-      <span class="status-badge">Collected</span>
-    </div>
-    <div class="history-item">
-      <div class="meta">Apr 10, 2024</div>
-      <h4>General Waste</h4>
-      <div class="meta">Store ID: 123456</div>
-      <span class="status-badge">Collected</span>
-    </div>
-    <div class="history-item">
-      <div class="meta">Apr 1, 2024</div>
-      <h4>Cardboard</h4>
-      <div class="meta">Store ID: 123456</div>
-      <span class="status-badge">Collected</span>
-    </div>
-    <div class="history-item">
-      <div class="meta">Mar 20, 2024</div>
-      <h4>General Waste</h4>
-      <div class="meta">Out of plastic bags</div>
-      <span class="status-badge">Collected</span>
-    </div>
-    <div class="history-item">
-      <div class="meta">Mar 5, 2024</div>
-      <h4>Organic Waste</h4>
-      <div class="meta">Store ID: 123456</div>
-      <span class="status-badge">Collected</span>
-    </div>
-    <button onclick="showScreen('settings')">Settings</button>
-  </div>
+    ctx.font = '14px Arial';
+    ctx.fillStyle = '#5a6b4f';
 
-  <div id="settings" class="screen">
-    <h2>Settings / Help</h2>
-    <div style="margin-top:1rem;">Profile</div>
-    <div>FAQ</div>
-    <div>Support Chat</div>
-    <div style="margin-top:1rem;">Log out</div>
-  </div>
+    data.forEach((item, index) => {
+      const barHeight = (item.value / maxVal) * chartHeight;
+      const x = index * (barWidth + gap) + 40;
+      const y = chartBottom - barHeight;
 
-  <div class="nav">
-  <a onclick="showScreen('login')">
-    🏠<br><span style="font-size: 0.75rem;">Home</span>
-  </a>
-  <a onclick="showScreen('history')">
-    📄<br><span style="font-size: 0.75rem;">History</span>
-  </a>
-  <a onclick="showScreen('settings')">
-    ⚙️<br><span style="font-size: 0.75rem;">Settings</span>
-  </a>
-</div>
+      // Draw bar
+      ctx.fillStyle = '#4f8f6e';
+      ctx.fillRect(x, y, barWidth, barHeight);
+
+      // Draw label
+      ctx.fillStyle = '#5a6b4f';
+      ctx.textAlign = 'center';
+      ctx.fillText(item.label, x + barWidth/2, chartBottom + 20);
+
+      // Draw value on top
+      ctx.fillText(item.value, x + barWidth/2, y - 5);
+    });
+
+  </script>
 </body>
 </html>
