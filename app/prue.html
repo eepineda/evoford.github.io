@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>EvoSustain App</title>
+<title>EvoSustain - Pilot & POC Plan Mobile</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 
@@ -97,33 +97,34 @@
     color: #2e7d32;
   }
 
-  main p {
+  main h3 {
+    font-weight: 700;
+    margin-top: 30px;
+    margin-bottom: 12px;
+    color: #2e7d32;
+  }
+
+  main p, main li {
     font-size: 1.05rem;
     line-height: 1.5;
     margin-bottom: 18px;
   }
 
   ul {
-    padding-left: 24px;
+    padding-left: 0;
     margin-bottom: 30px;
+    list-style: none; /* No bullets */
   }
 
   ul li {
-    position: relative;
     margin-bottom: 14px;
     font-weight: 600;
     font-size: 1rem;
-    padding-left: 25px;
+    padding-left: 0;
+    position: relative;
   }
 
-  ul li::before {
-    content: "✔️";
-    position: absolute;
-    left: 0;
-    top: 1px;
-    font-size: 1.2rem;
-    color: #4caf50;
-  }
+  /* Removed bullet icons */
 
   .btn-group {
     display: flex;
@@ -184,18 +185,19 @@
 
 <main>
   <section id="stores" role="tabpanel" aria-labelledby="btnStores" tabindex="0">
-    <h2>Stores App</h2>
+    <h2>Stores App - Mobile First</h2>
     <p><strong>Use Case:</strong> Store staff quickly requests waste collection, tracks status, and views history.</p>
-
-    <h3>Main Screens:</h3>
+    <p>The Stores app is designed with simplicity and speed in mind. Staff can log in quickly using store ID or by scanning a QR code. The home screen offers instant access to scan bin or waste-type QR codes, which auto-fills location and bin type on the request form. Users can enter volume, select a time window, and add notes.</p>
+    <p>After submitting, the request confirmation shows a scheduled status with estimated time of arrival (ETA). Staff can track their collection in real time as the status progresses through Requested, Accepted, In Transit, and Collected stages. A history section provides filters for date and waste type, helping users review past collections. Settings include support chat, FAQ, and profile management. Push notifications can keep users updated on their requests (especially if the app is installed as PWA or native).</p>
+    <h3>Main Screens (5–7 screens):</h3>
     <ul>
-      <li>Login / Sign-Up: Fast access, store ID or QR onboarding.</li>
-      <li>Scan QR Code (Home Screen): Opens camera to scan bin/waste-type QR code.</li>
-      <li>Request Collection Form: Auto-fills location and bin type. Fields: volume, time window, notes.</li>
-      <li>Request Confirmation: Status set to “Scheduled” with estimated collection time.</li>
-      <li>Track Collection: Status updates: Requested → Accepted → In Transit → Collected.</li>
-      <li>History: List past collections with filters by date and waste type.</li>
-      <li>Settings / Help: Support chat, FAQ, and profile management.</li>
+      <li>Login / Sign-Up (fast access, store ID or QR onboarding)</li>
+      <li>Scan QR Code (Home Screen)</li>
+      <li>Request Collection Form (auto-filled location/bin type, volume, time window, notes)</li>
+      <li>Request Confirmation (status = Scheduled, ETA)</li>
+      <li>Track Collection (Requested → Accepted → In Transit → Collected)</li>
+      <li>History with filters</li>
+      <li>Settings / Help (support chat, FAQ, profile)</li>
     </ul>
     <div class="btn-group">
       <a href="https://www.evoford.com/app/storeapp.html" target="_blank" rel="noopener" class="btn" aria-label="Open Stores App">Open Stores App</a>
@@ -204,37 +206,39 @@
 
   <section id="business" role="tabpanel" aria-labelledby="btnBusiness" tabindex="0" hidden>
     <h2>Business Management - Admin Portal</h2>
-    <p><strong>Designed for:</strong> Operators and planners. Desktop-first with map interface.</p>
-
-    <h3>Main Screens:</h3>
+    <p><strong>Designed for:</strong> Operators and planners managing routes and collections efficiently.</p>
+    <p>This desktop-first portal gives real-time KPIs, pending requests, and system alerts at login. Users can review and manage collection requests: approve, decline, or reschedule them easily. The schedule planning screen uses calendar views with advanced route optimization.</p>
+    <p>Driver assignment is simplified with drag-and-drop or dropdown selections, while the live map provides a clear overview of driver locations and active collections. Performance metrics track time efficiency and pickup completion rates. Client management helps maintain contact details and track collection history by store. Settings include user management and support tools.</p>
+    <h3>Main Screens (6–8 screens):</h3>
     <ul>
-      <li>Login / Admin Dashboard: KPIs, pending requests, system alerts.</li>
-      <li>Collection Requests Overview: Approve, decline, reschedule requests.</li>
-      <li>Schedule Planning: Calendar with route optimization logic.</li>
-      <li>Driver Assignment Panel: Drag-and-drop or dropdown assignment interface.</li>
-      <li>Live Map View: Real-time driver locations, active collections.</li>
-      <li>Driver Performance: Metrics on time efficiency and completed pickups.</li>
-      <li>Client Management: Contact info and collection history per store.</li>
-      <li>Settings / Support / User Management.</li>
+      <li>Login / Admin Dashboard (KPIs, requests, alerts)</li>
+      <li>Collection Requests Overview (approve, decline, reschedule)</li>
+      <li>Schedule Planning (calendar, route optimization)</li>
+      <li>Driver Assignment Panel (drag/drop or dropdown)</li>
+      <li>Live Map View (driver locations, active collections)</li>
+      <li>Driver Performance (time efficiency, pickups)</li>
+      <li>Client Management (contacts, collection history)</li>
+      <li>Settings / Support / User Management</li>
     </ul>
     <div class="btn-group">
       <a href="https://www.evoford.com/app/businessweb.html" target="_blank" rel="noopener" class="btn" aria-label="Open Business Admin Web">Open Admin Portal (Web)</a>
-      <a href="https://www.evoford.com/app/businessapp.html" target="_blank" rel="noopener" class="btn" aria-label="Open Business Admin App">Open Admin Portal (App)</a>
+      <a href="https://www.evoford.com/app/businessapp.html" target="_blank" rel="noopener" class="btn" style="margin-top:10px;" aria-label="Open Business Admin App">Open Admin Portal (App)</a>
     </div>
   </section>
 
   <section id="drivers" role="tabpanel" aria-labelledby="btnDrivers" tabindex="0" hidden>
     <h2>Drivers App - Mobile Experience</h2>
-    <p><strong>Designed for:</strong> Quick daily use, mobile only.</p>
-
-    <h3>Main Screens:</h3>
+    <p><strong>Designed for:</strong> Quick, mobile-only use by drivers.</p>
+    <p>The Drivers app provides an easy-to-use interface for daily tasks. Drivers log in to start their day, view an optimized route with map and list, and access detailed info for each collection task including address, waste type, and notes.</p>
+    <p>Status updates can be quickly set (Arrived, Collected, Issue Reported). GPS navigation is integrated for real-world route guidance or simulated deep links. At the end of the day, drivers get a summary of completed pickups, notes, and performance metrics.</p>
+    <h3>Main Screens (4–6 screens):</h3>
     <ul>
-      <li>Login / Daily Start: Driver login and work day start.</li>
-      <li>Today’s Route Overview: Map + list view with optimized route.</li>
-      <li>Collection Task Detail: Address, waste type, special notes.</li>
-      <li>Update Status: Options to mark: Arrived, Collected, Issue Reported.</li>
-      <li>Map Navigation: GPS integration or deep link simulation.</li>
-      <li>End of Day Summary: Completed collections, notes, and metrics.</li>
+      <li>Login / Daily Start</li>
+      <li>Today’s Route Overview (map + list)</li>
+      <li>Collection Task Detail (address, waste type, notes)</li>
+      <li>Update Status (Arrived, Collected, Issue Reported)</li>
+      <li>Map Navigation (GPS integration or simulation)</li>
+      <li>End of Day Summary (completed pickups, notes, metrics)</li>
     </ul>
     <div class="btn-group">
       <a href="https://www.evoford.com/app/driversapp.html" target="_blank" rel="noopener" class="btn" aria-label="Open Drivers App">Open Drivers App</a>
