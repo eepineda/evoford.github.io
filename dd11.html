@@ -1,118 +1,172 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>EvoSustain Admin Portal - Business Management</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>EvoSustain Admin Portal - Mobile Business Management</title>
 <style>
-  /* Reset */
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
-  body {
-    margin:0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+  body, html {
+    margin:0; padding:0; height:100vh;
+    display:flex; justify-content:center; align-items:center;
+    background: linear-gradient(135deg, #eaf4ea 0%, #d0e9d0 100%);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background: #f4f9f4;
-    color: #1b332b;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    color: #2f3e46;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .mobile-mockup {
+    width: 375px; height: 667px;
+    background: #ffffff;
+    border: 16px solid #1c1c1e;
+    border-radius: 44px;
+    box-shadow:
+      0 16px 32px rgba(0,0,0,0.28),
+      inset 0 0 8px rgba(255,255,255,0.6);
+    display: flex; flex-direction: column; overflow: hidden;
+    user-select: none;
   }
   header {
     background: #2e7d32;
-    color: white;
-    padding: 20px 40px;
-    font-weight: 700;
-    font-size: 1.8rem;
+    color: #fafafa;
     text-align: center;
-  }
-  nav {
+    padding: 18px 0;
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: 1.2px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+    user-select: none;
     display: flex;
-    background: #4caf50;
-    color: white;
     justify-content: center;
-    gap: 20px;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
   }
-  nav button {
-    flex: 1 1 auto;
-    padding: 14px 0;
-    background: transparent;
-    border: none;
-    color: white;
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  nav button:hover, nav button.active {
-    background: #2e7d32;
+  header svg {
+    width: 28px; height: 28px;
+    fill: #a8d5a2;
   }
   main {
     flex: 1;
-    padding: 20px 40px;
     overflow-y: auto;
+    padding: 20px 24px 80px;
+    color: #2f3e46;
+    -webkit-overflow-scrolling: touch;
+  }
+  nav {
+    position: fixed;
+    bottom: 0;
+    left: 16px;
+    right: 16px;
+    height: 60px;
+    background: #1c1c1e;
+    border-radius: 28px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    user-select: none;
+    z-index: 100;
+  }
+  nav button {
+    background: transparent;
+    border: none;
+    color: #a3b18a;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 8px;
+    transition: color 0.25s ease;
+  }
+  nav button svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+    transition: fill 0.25s ease;
+  }
+  nav button.active,
+  nav button:hover {
+    color: #4caf50;
   }
   section {
     display: none;
+    animation: fadeIn 0.25s ease forwards;
   }
   section.active {
     display: block;
   }
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(6px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
   h2 {
+    margin-top: 0;
+    font-weight: 900;
+    margin-bottom: 16px;
+    font-size: 1.4rem;
     border-bottom: 3px solid #4caf50;
     padding-bottom: 8px;
-    margin-bottom: 20px;
-    font-weight: 800;
-  }
-  /* Dashboard cards */
-  .cards {
+    color: #1a2b20;
     display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+  }
+  h2 svg {
+    width: 28px; height: 28px;
+    fill: #4caf50;
+    flex-shrink: 0;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
   }
   .card {
-    background: white;
-    box-shadow: 0 4px 12px rgb(0 0 0 / 0.12);
-    border-radius: 16px;
-    flex: 1 1 200px;
-    padding: 20px;
+    background: #e3f1d8;
+    border-radius: 14px;
+    padding: 14px;
     font-weight: 700;
-    font-size: 1.1rem;
-    color: #2a4d34;
+    color: #2f4a1e;
+    box-shadow: 0 3px 12px rgb(76 175 80 / 0.3);
+    user-select: text;
   }
-  /* Table styles */
   table {
     width: 100%;
     border-collapse: collapse;
-    box-shadow: 0 6px 20px rgb(0 0 0 / 0.1);
-    border-radius: 12px;
+    box-shadow: 0 6px 16px rgb(0 0 0 / 0.1);
+    border-radius: 14px;
     overflow: hidden;
-    margin-bottom: 30px;
     background: white;
+    margin-bottom: 20px;
   }
   th, td {
-    padding: 14px 20px;
+    padding: 12px 14px;
     text-align: left;
-    border-bottom: 1px solid #cde9c7;
+    border-bottom: 1px solid #cde8c7;
     font-weight: 600;
+    font-size: 0.85rem;
   }
   th {
     background: #4caf50;
     color: white;
   }
   tbody tr:hover {
-    background: #e3f3e3;
+    background: #dcedc8;
     cursor: pointer;
   }
-  /* Buttons */
   .btn {
-    padding: 8px 18px;
-    border-radius: 24px;
+    padding: 8px 14px;
+    border-radius: 20px;
     border: none;
     cursor: pointer;
     font-weight: 700;
     transition: background-color 0.3s ease;
-    margin-right: 8px;
+    font-size: 0.9rem;
+    margin-right: 6px;
   }
   .btn-approve {
     background-color: #4caf50;
@@ -135,251 +189,237 @@
   .btn-reschedule:hover {
     background-color: #c48830;
   }
-  /* Schedule Planning */
-  .calendar {
-    max-width: 600px;
-    background: white;
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 6px 20px rgb(0 0 0 / 0.1);
-  }
-  .routes-list {
-    margin-top: 20px;
-  }
-  .route-item {
-    border: 1px solid #a3d17a;
-    border-radius: 12px;
-    padding: 12px 18px;
-    margin-bottom: 12px;
-    font-weight: 600;
-  }
-  /* Drag & Drop */
-  .drag-container {
-    display: flex;
-    gap: 30px;
-  }
-  .drag-list {
-    background: white;
-    border-radius: 16px;
-    padding: 18px;
-    box-shadow: 0 6px 20px rgb(0 0 0 / 0.1);
-    flex: 1;
-    min-height: 300px;
-  }
-  .drag-list h3 {
-    margin-top: 0;
-    margin-bottom: 12px;
+  form label {
     font-weight: 700;
-    color: #2e7d32;
+    font-size: 0.9rem;
   }
-  .drag-item {
-    padding: 10px 14px;
-    background: #c6e3b0;
-    margin-bottom: 10px;
-    border-radius: 12px;
-    cursor: grab;
-    user-select: none;
-  }
-  .drag-item:active {
-    cursor: grabbing;
-  }
-  /* Map (static placeholder) */
-  .map-container {
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 6px 20px rgb(0 0 0 / 0.1);
-    height: 400px;
-    margin-bottom: 30px;
-    display: flex; justify-content:center; align-items:center;
-    font-weight: 700;
-    color: #4caf50;
-    font-size: 1.5rem;
-  }
-  /* Form inputs */
-  input[type="text"], select {
-    padding: 12px;
+  form input[type="text"], form input[type="password"] {
+    width: 100%;
+    padding: 10px 12px;
     font-size: 1rem;
     border-radius: 12px;
     border: 1.8px solid #4caf50;
-    width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     font-weight: 700;
+    color: #2f3e46;
   }
-  input[type="text"]:focus, select:focus {
+  form input:focus {
     outline: none;
     border-color: #357a29;
   }
-  /* Responsive */
-  @media (max-width: 900px) {
-    main {
-      padding: 20px;
-    }
-    .cards {
-      flex-direction: column;
-    }
-    .drag-container {
-      flex-direction: column;
-    }
+  form button {
+    width: 100%;
+    padding: 14px;
+    font-size: 1.1rem;
+    border-radius: 28px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 900;
+  }
+  form button:hover {
+    background-color: #357a29;
   }
 </style>
 </head>
 <body>
+  <div class="mobile-mockup" role="application" aria-label="EvoSustain Admin Mobile Portal">
+    <header>
+      EvoSustain
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="#a8d5a2" aria-hidden="true" focusable="false">
+        <circle cx="32" cy="32" r="30" stroke="#4caf50" stroke-width="3" fill="none" />
+        <circle cx="32" cy="32" r="14" />
+      </svg>
+    </header>
+    <main>
+      <!-- Login -->
+      <section id="login" class="active" tabindex="0" aria-label="Login screen">
+        <h2>
+          <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4z"/><path d="M12 14c-4 0-6 2-6 6v2h12v-2c0-4-2-6-6-6z"/></svg>
+          Login
+        </h2>
+        <form id="loginForm">
+          <label for="username">Username</label>
+          <input id="username" type="text" placeholder="admin" required />
+          <label for="password">Password</label>
+          <input id="password" type="password" placeholder="••••••" required />
+          <button type="submit">Login</button>
+        </form>
+      </section>
 
-<header>EvoSustain Admin Portal</header>
+      <!-- Dashboard -->
+      <section id="dashboard" tabindex="0" aria-label="Admin dashboard">
+        <h2>
+          <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8v-10h-8v10zm0-18v6h8V3h-8z"/></svg>
+          Dashboard
+        </h2>
+        <div class="cards" role="list" aria-label="Key performance indicators">
+          <div class="card" role="listitem">Pending Requests: 600</div>
+          <div class="card" role="listitem">Active Drivers: 15</div>
+          <div class="card" role="listitem">System Alerts: 3 Critical, 5 Warnings</div>
+          <div class="card" role="listitem">CO₂ Saved Today: 400.5 kg</div>
+          <div class="card" role="listitem">Average Pickup Time: 7.8 min</div>
+          <div class="card" role="listitem">Total Clients: 600</div>
+          <div class="card" role="listitem">Scheduled Routes Today: 275</div>
+        </div>
+      </section>
 
-<nav aria-label="Primary navigation">
-  <button data-tab="login" class="active">Login</button>
-  <button data-tab="dashboard">Dashboard</button>
-  <button data-tab="requests">Collection Requests</button>
-  <button data-tab="planning">Schedule Planning</button>
-  <button data-tab="assignment">Driver Assignment</button>
-  <button data-tab="map">Live Map View</button>
-  <button data-tab="performance">Driver Performance</button>
-  <button data-tab="clients">Client Management</button>
-  <button data-tab="settings">Settings / Support</button>
-</nav>
+      <!-- Requests -->
+      <section id="requests" tabindex="0" aria-label="Collection requests overview">
+        <h2>
+          <svg viewBox="0 0 24 24"><path d="M3 4v16h18V4H3z"/></svg>
+          Collection Requests Overview
+        </h2>
+        <table aria-label="Collection requests table">
+          <thead>
+            <tr>
+              <th>Store</th>
+              <th>Location</th>
+              <th>Bin Type</th>
+              <th>Volume (m³)</th>
+              <th>Time Window</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="requestsTableBody"></tbody>
+        </table>
+      </section>
 
-<main>
-  <!-- Login -->
-  <section id="login" class="active">
-    <h2>Login</h2>
-    <form id="loginForm">
-      <label for="username">Username</label><br />
-      <input type="text" id="username" placeholder="admin" required /><br />
-      <label for="password">Password</label><br />
-      <input type="text" id="password" placeholder="••••••" required /><br />
-      <button type="submit" class="btn btn-approve">Login</button>
-    </form>
-  </section>
+      <!-- Planning -->
+      <section id="planning" tabindex="0" aria-label="Schedule planning">
+        <h2>
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+          Schedule Planning
+        </h2>
+        <p><strong>Calendar view (simulated)</strong></p>
+        <p>Routes Scheduled Today: 275</p>
+        <p>Optimized Routes: 260</p>
+        <p>Pending Optimization: 15</p>
+        <p>Peak Hours: 9:00–11:00 AM</p>
+      </section>
 
-  <!-- Dashboard -->
-  <section id="dashboard">
-    <h2>Admin Dashboard</h2>
-    <div class="cards">
-      <div class="card">Pending Requests: 600</div>
-      <div class="card">Active Drivers: 15</div>
-      <div class="card">System Alerts: 3 Critical, 5 Warnings</div>
-      <div class="card">CO₂ Saved Today: 400.5 kg</div>
-      <div class="card">Average Pickup Time: 7.8 min</div>
-      <div class="card">Total Clients: 600</div>
-      <div class="card">Scheduled Routes Today: 275</div>
-    </div>
-  </section>
+      <!-- Driver Assignment -->
+      <section id="assignment" tabindex="0" aria-label="Driver assignment panel">
+        <h2>
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a8.38 8.38 0 0113 0"/></svg>
+          Driver Assignment Panel
+        </h2>
+        <p><em>Drag & drop simulation</em></p>
+        <div class="drag-container" style="display:flex;gap:16px;flex-wrap:wrap;">
+          <div style="flex:1; background:#e3f1d8; border-radius:12px; padding:12px; max-height:200px; overflow-y:auto;">
+            <h3 style="color:#2e7d32;">Routes to Assign</h3>
+            <ul id="routesList" style="list-style:none; padding:0; margin:0;"></ul>
+          </div>
+          <div style="flex:1; background:#e3f1d8; border-radius:12px; padding:12px; max-height:200px; overflow-y:auto;">
+            <h3 style="color:#2e7d32;">Drivers</h3>
+            <ul id="driversList" style="list-style:none; padding:0; margin:0;"></ul>
+          </div>
+        </div>
+      </section>
 
-  <!-- Collection Requests Overview -->
-  <section id="requests">
-    <h2>Collection Requests Overview</h2>
-    <table aria-label="Collection requests table">
-      <thead>
-        <tr>
-          <th>Store</th>
-          <th>Location</th>
-          <th>Bin Type</th>
-          <th>Volume (m³)</th>
-          <th>Time Window</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="requestsTableBody">
-        <!-- dynamically inserted -->
-      </tbody>
-    </table>
-  </section>
+      <!-- Map -->
+      <section id="map" tabindex="0" aria-label="Live map view">
+        <h2>
+          <svg viewBox="0 0 24 24"><path d="M20.5 3l-5.68 1.91-7.68-2.58L4 4.5v16l7.68-2.58 5.68 1.91L20.5 3z"/></svg>
+          Live Map View
+        </h2>
+        <div style="background:#e3f1d8; height: 180px; border-radius: 16px; display:flex; justify-content:center; align-items:center; font-weight:700; color:#2e7d32;">
+          [Static London Map Placeholder]
+        </div>
+      </section>
 
-  <!-- Schedule Planning -->
-  <section id="planning">
-    <h2>Schedule Planning</h2>
-    <div class="calendar">
-      <p><strong>Calendar view (simulated)</strong></p>
-      <p>Routes Scheduled Today: 275</p>
-      <p>Optimized Routes: 260</p>
-      <p>Pending Optimization: 15</p>
-      <p>Peak Hours: 9:00–11:00 AM</p>
-    </div>
-  </section>
+      <!-- Performance -->
+      <section id="performance" tabindex="0" aria-label="Driver performance">
+        <h2>
+          <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm4 4h2v-6H7v6zm4-10h2v10h-2V7zm4 4h2v6h-2v-6zm4-6v14h2V5h-2z"/></svg>
+          Driver Performance
+        </h2>
+        <table aria-label="Driver performance table">
+          <thead>
+            <tr>
+              <th>Driver</th>
+              <th>Completed Pickups</th>
+              <th>Avg Pickup Time (min)</th>
+              <th>Efficiency (%)</th>
+            </tr>
+          </thead>
+          <tbody id="driverPerformanceBody"></tbody>
+        </table>
+      </section>
 
-  <!-- Driver Assignment Panel -->
-  <section id="assignment">
-    <h2>Driver Assignment Panel</h2>
-    <div class="drag-container">
-      <div class="drag-list" id="routesList">
-        <h3>Routes to Assign</h3>
-        <!-- routes draggable -->
-      </div>
-      <div class="drag-list" id="driversList">
-        <h3>Drivers</h3>
-        <!-- drivers draggable -->
-      </div>
-    </div>
-  </section>
+      <!-- Clients -->
+      <section id="clients" tabindex="0" aria-label="Client management">
+        <h2>
+          <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 3-1.34 3-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 2.1 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+          Client Management
+        </h2>
+        <table aria-label="Clients table">
+          <thead>
+            <tr>
+              <th>Store</th>
+              <th>Contact</th>
+              <th>Phone</th>
+              <th>Collection History</th>
+            </tr>
+          </thead>
+          <tbody id="clientsBody"></tbody>
+        </table>
+      </section>
 
-  <!-- Live Map View -->
-  <section id="map">
-    <h2>Live Map View</h2>
-    <div class="map-container" aria-label="Static map of London with drivers and collections">
-      [Static Map Placeholder: London Area]
-    </div>
-  </section>
+      <!-- Settings -->
+      <section id="settings" tabindex="0" aria-label="Settings and user management">
+        <h2>
+          <svg viewBox="0 0 24 24"><path d="M19.14 12.936a7.985 7.985 0 000-1.873l2.036-1.593-2-3.464-2.355 1.082a7.964 7.964 0 00-1.725-1l-.356-2.482H9.41l-.356 2.482a7.97 7.97 0 00-1.725 1L5.02 6.006l-2 3.464 2.036 1.593a7.97 7.97 0 000 1.873L3.02 14.506l2 3.464 2.355-1.082a7.964 7.964 0 001.725 1l.356 2.482h3.447l.356-2.482a7.965 7.965 0 001.725-1l2.355 1.082 2-3.464-2.036-1.57zM12 15.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"/></svg>
+          Settings / Support / User Management
+        </h2>
+        <p>Support chat and user management features coming soon.</p>
+        <button class="btn btn-approve" onclick="alert('User management coming soon!')">Open User Management</button>
+      </section>
+    </main>
 
-  <!-- Driver Performance -->
-  <section id="performance">
-    <h2>Driver Performance</h2>
-    <table aria-label="Driver performance metrics">
-      <thead>
-        <tr>
-          <th>Driver</th>
-          <th>Completed Pickups</th>
-          <th>Avg Pickup Time (min)</th>
-          <th>Efficiency (%)</th>
-        </tr>
-      </thead>
-      <tbody id="driverPerformanceBody"></tbody>
-    </table>
-  </section>
-
-  <!-- Client Management -->
-  <section id="clients">
-    <h2>Client Management</h2>
-    <table aria-label="Client contact and history">
-      <thead>
-        <tr>
-          <th>Store</th>
-          <th>Contact</th>
-          <th>Phone</th>
-          <th>Collection History (last 7 days)</th>
-        </tr>
-      </thead>
-      <tbody id="clientsBody"></tbody>
-    </table>
-  </section>
-
-  <!-- Settings / Support / User Management -->
-  <section id="settings">
-    <h2>Settings / Support / User Management</h2>
-    <p>Support chat and user management features coming soon.</p>
-    <button class="btn btn-approve" onclick="alert('User management panel coming soon!')">Open User Management</button>
-  </section>
-
-</main>
+    <nav aria-label="Bottom navigation">
+      <button data-tab="dashboard" class="active" aria-controls="dashboard" aria-selected="true" title="Home">
+        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        Home
+      </button>
+      <button data-tab="requests" aria-controls="requests" aria-selected="false" title="History">
+        <svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 1 0 8.49 11.66"/></svg>
+        History
+      </button>
+      <button data-tab="settings" aria-controls="settings" aria-selected="false" title="Settings">
+        <svg viewBox="0 0 24 24"><path d="M19.14 12.936a7.985 7.985 0 000-1.873l2.036-1.593-2-3.464-2.355 1.082a7.964 7.964 0 00-1.725-1l-.356-2.482H9.41l-.356 2.482a7.97 7.97 0 00-1.725 1L5.02 6.006l-2 3.464 2.036 1.593a7.97 7.97 0 000 1.873L3.02 14.506l2 3.464 2.355-1.082a7.964 7.964 0 001.725 1l.356 2.482h3.447l.356-2.482a7.965 7.965 0 001.725-1l2.355 1.082 2-3.464-2.036-1.57zM12 15.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"/></svg>
+        Settings
+      </button>
+    </nav>
+  </div>
 
 <script>
-  // Tabs switching
-  const navButtons = document.querySelectorAll('nav button');
+  // Tab buttons
+  const navButtons = document.querySelectorAll('nav[aria-label="Bottom navigation"] button');
   const sections = document.querySelectorAll('main section');
+
+  function activateTab(tab) {
+    navButtons.forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-tab') === tab);
+      btn.setAttribute('aria-selected', btn.getAttribute('data-tab') === tab ? 'true' : 'false');
+    });
+    sections.forEach(sec => {
+      sec.classList.toggle('active', sec.id === tab);
+    });
+  }
 
   navButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-      navButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-
-      sections.forEach(sec => sec.classList.remove('active'));
-      const tab = btn.getAttribute('data-tab');
-      document.getElementById(tab).classList.add('active');
+      activateTab(btn.getAttribute('data-tab'));
     });
   });
 
-  // Simulated collection requests data
+  // Initial state
+  activateTab('login');
+
+  // Populate collection requests
   const collectionRequests = [
     {store:"Oxford St Store", location:"Oxford St", bin:"General Waste", volume:2.4, time:"9-11 AM", status:"Pending"},
     {store:"Camden Central", location:"Camden Market", bin:"Recycling", volume:1.1, time:"11-13 PM", status:"Accepted"},
@@ -388,7 +428,6 @@
     {store:"Greenwich Bay", location:"Greenwich", bin:"Recycling", volume:0.9, time:"14-16 PM", status:"Pending"},
   ];
 
-  // Populate requests table
   const requestsTableBody = document.getElementById('requestsTableBody');
   function renderRequests() {
     requestsTableBody.innerHTML = "";
@@ -415,19 +454,13 @@
   }
   renderRequests();
 
-  // Schedule Planning data (already static in markup)
-
-  // Driver Assignment Panel (drag & drop simulation)
-  const routesList = document.getElementById('routesList');
-  const driversList = document.getElementById('driversList');
-
+  // Driver Assignment simulation
   const routes = [
     "Route 1: Oxford St → Camden",
     "Route 2: Shoreditch → Brixton",
     "Route 3: Greenwich → Hackney",
     "Route 4: Chelsea → Westminster",
   ];
-
   const drivers = [
     "Driver 01 - John",
     "Driver 02 - Alice",
@@ -445,51 +478,26 @@
     "Driver 14 - Mia",
     "Driver 15 - Noah",
   ];
+  const routesList = document.getElementById('routesList');
+  const driversList = document.getElementById('driversList');
 
-  function createDragItem(text) {
-    const div = document.createElement('div');
-    div.classList.add('drag-item');
-    div.textContent = text;
-    div.setAttribute('draggable', 'true');
-    return div;
-  }
-
-  function initDragAndDrop() {
-    // Clear lists
-    routesList.innerHTML = "<h3>Routes to Assign</h3>";
-    driversList.innerHTML = "<h3>Drivers</h3>";
-
-    routes.forEach(route => routesList.appendChild(createDragItem(route)));
-    drivers.forEach(driver => driversList.appendChild(createDragItem(driver)));
-
-    // Basic drag & drop events for demonstration
-    let draggedItem = null;
-
-    document.querySelectorAll('.drag-item').forEach(item => {
-      item.addEventListener('dragstart', e => {
-        draggedItem = item;
-        e.dataTransfer.effectAllowed = "move";
-        e.dataTransfer.setData('text/plain', item.textContent);
-      });
-      item.addEventListener('dragend', e => {
-        draggedItem = null;
-      });
-    });
-
-    // Allow dropping routes onto driversList and vice versa
-    [routesList, driversList].forEach(list => {
-      list.addEventListener('dragover', e => e.preventDefault());
-      list.addEventListener('drop', e => {
-        e.preventDefault();
-        if (draggedItem && e.currentTarget !== draggedItem.parentElement) {
-          e.currentTarget.appendChild(draggedItem);
-        }
-      });
+  function addListItems(listElem, items) {
+    listElem.innerHTML = "";
+    items.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = item;
+      li.style.padding = "6px 8px";
+      li.style.marginBottom = "6px";
+      li.style.background = "#a7d08a";
+      li.style.borderRadius = "10px";
+      li.style.fontWeight = "700";
+      listElem.appendChild(li);
     });
   }
-  initDragAndDrop();
+  addListItems(routesList, routes);
+  addListItems(driversList, drivers);
 
-  // Driver Performance data
+  // Driver performance
   const driverPerformanceData = [
     {driver:"John", pickups: 120, avgTime: 7.2, efficiency: 92},
     {driver:"Alice", pickups: 110, avgTime: 7.9, efficiency: 89},
@@ -497,7 +505,6 @@
     {driver:"Sarah", pickups: 130, avgTime: 6.8, efficiency: 95},
     {driver:"David", pickups: 105, avgTime: 7.5, efficiency: 90},
   ];
-
   const driverPerformanceBody = document.getElementById('driverPerformanceBody');
   function renderDriverPerformance() {
     driverPerformanceBody.innerHTML = "";
@@ -509,7 +516,7 @@
   }
   renderDriverPerformance();
 
-  // Client Management data
+  // Clients
   const clientsData = [
     {store:"Oxford St Store", contact:"John Doe", phone:"020 1234 5678", history:"15 pickups"},
     {store:"Camden Central", contact:"Alice Smith", phone:"020 9876 5432", history:"12 pickups"},
@@ -527,18 +534,13 @@
   }
   renderClients();
 
-  // Login form handler
+  // Login handling
   const loginForm = document.getElementById('loginForm');
   loginForm.addEventListener('submit', e => {
     e.preventDefault();
     alert('Login successful! Loading dashboard...');
-    // Switch to dashboard tab after login
-    document.querySelector('nav button[data-tab="login"]').classList.remove('active');
-    document.querySelector('section#login').classList.remove('active');
-    document.querySelector('nav button[data-tab="dashboard"]').classList.add('active');
-    document.querySelector('section#dashboard').classList.add('active');
+    activateTab('dashboard');
   });
 </script>
-
 </body>
 </html>
