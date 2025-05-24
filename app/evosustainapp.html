@@ -3,289 +3,247 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>EvoSustain App</title>
+<title>EvoSustain - Smart Waste Collection Apps</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
-
-  * {
-    box-sizing: border-box;
-  }
-
+  *, *::before, *::after { box-sizing: border-box; }
   body {
-    margin: 0; padding: 0;
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
-    color: #1b4332;
-    min-height: 100vh;
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    background: linear-gradient(135deg, #d0e9d0 0%, #a0cfa0 100%);
+    color: #2f4a1e;
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
+    padding: 16px;
   }
-
+  header {
+    font-size: 2rem;
+    font-weight: 900;
+    text-align: center;
+    color: #2e7d32;
+    margin-bottom: 20px;
+  }
   nav {
-    width: 100%;
-    background: #2e7d32;
-    color: #c8e6c9;
     display: flex;
-    justify-content: space-around;
-    padding: 12px 0;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-    user-select: none;
-    position: fixed;
-    top: 0; left: 0;
-    z-index: 1000;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
   }
-
   nav button {
-    background: transparent;
+    background: #4caf50;
+    color: white;
     border: none;
-    color: #c8e6c9;
+    border-radius: 30px;
+    padding: 12px 24px;
     font-weight: 700;
     font-size: 1rem;
-    padding: 8px 10px;
-    border-radius: 25px;
     cursor: pointer;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    flex: 1;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    outline-offset: 3px;
+    transition: background-color 0.3s ease;
+    min-width: 100px;
   }
-
-  nav button svg {
-    width: 20px;
-    height: 20px;
-    fill: currentColor;
-    flex-shrink: 0;
-    transition: fill 0.3s ease;
-  }
-
-  nav button:hover,
-  nav button.active {
-    background-color: #4caf50;
-    color: #1b2f22;
+  nav button.active,
+  nav button:hover {
+    background: #357a29;
     outline: none;
   }
-
-  nav button.active svg {
-    fill: #1b2f22;
+  section {
+    max-width: 600px;
+    margin: 0 auto 40px;
+    background: #e6f1e6;
+    border-radius: 14px;
+    padding: 20px 30px;
+    box-shadow: 0 4px 10px rgb(53 122 41 / 0.3);
+    display: none;
   }
-
-  main {
-    margin-top: 58px; /* Height nav + spacing */
-    padding: 25px 20px 40px;
-    background: white;
-    border-radius: 0 0 25px 25px;
-    box-shadow: 0 20px 50px rgba(34, 139, 34, 0.1);
-    max-width: 480px;
-    margin-left: auto;
-    margin-right: auto;
-    flex-grow: 1;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+  section[aria-hidden="false"] {
+    display: block;
   }
-
-  main h2 {
-    font-size: 1.9rem;
-    font-weight: 900;
+  h2 {
     margin-top: 0;
-    margin-bottom: 20px;
-    border-left: 6px solid #4caf50;
-    padding-left: 15px;
     color: #2e7d32;
+    border-bottom: 3px solid #4caf50;
+    padding-bottom: 8px;
+    font-weight: 900;
   }
-
-  main p {
-    font-size: 1.05rem;
-    line-height: 1.5;
-    margin-bottom: 18px;
+  p {
+    line-height: 1.6;
+    font-size: 1.1rem;
+    margin: 14px 0;
   }
-
-  ul {
-    padding-left: 24px;
-    margin-bottom: 30px;
-  }
-
-  ul li {
-    position: relative;
-    margin-bottom: 14px;
-    font-weight: 600;
-    font-size: 1rem;
-    padding-left: 25px;
-  }
-
-  ul li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 1px;
-    font-size: 1.2rem;
-    color: #4caf50;
-  }
-
-  .btn-group {
+  .module-links {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    margin-top: 10px;
+    gap: 16px;
+    margin-top: 20px;
   }
-
-  .btn {
-    background-color: #4caf50;
+  .module-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #4caf50;
     color: white;
     font-weight: 700;
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     padding: 14px 0;
     border-radius: 30px;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 12px 30px rgba(76, 175, 80, 0.65);
     text-decoration: none;
-    text-align: center;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    user-select: none;
+    box-shadow: 0 6px 14px rgb(76 175 80 / 0.5);
+    transition: background-color 0.3s ease;
   }
-
-  .btn:hover, .btn:focus {
-    background-color: #357a29;
-    box-shadow: 0 16px 45px rgba(53, 122, 41, 0.85);
+  .module-link:hover,
+  .module-link:focus {
+    background: #357a29;
+    box-shadow: 0 8px 20px rgb(53 122 41 / 0.8);
     outline: none;
   }
-
+  .module-link svg {
+    margin-left: 12px;
+    width: 20px;
+    height: 20px;
+    fill: white;
+  }
+  .project-stages {
+    max-width: 700px;
+    margin: 0 auto 50px;
+    background: #f0faef;
+    border-left: 6px solid #4caf50;
+    padding: 16px 24px;
+    border-radius: 12px;
+  }
+  .project-stages h2 {
+    margin-top: 0;
+    font-weight: 900;
+    color: #2e7d32;
+  }
+  .stage {
+    margin-bottom: 20px;
+  }
+  .stage h3 {
+    margin-bottom: 6px;
+    font-weight: 800;
+    color: #357a29;
+  }
   footer {
     text-align: center;
-    font-weight: 600;
-    color: #4a7c4a;
-    margin-top: 30px;
-    font-size: 0.9rem;
-    user-select: none;
+    padding: 12px;
+    font-weight: 700;
+    color: #2e7d32;
   }
-
+  @media (max-width: 640px) {
+    section, .project-stages {
+      padding: 15px 20px;
+      margin: 0 10px 40px;
+    }
+    nav {
+      gap: 8px;
+    }
+    nav button {
+      min-width: 90px;
+      font-size: 0.95rem;
+      padding: 10px 20px;
+    }
+    .module-link {
+      font-size: 1rem;
+      padding: 12px 0;
+    }
+  }
 </style>
 </head>
 <body>
 
-<nav aria-label="Mobile main navigation">
-  <button id="btnStores" class="active" aria-controls="stores" aria-selected="true" role="tab" tabindex="0" aria-label="Stores App">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13h2v-2H3v2zm4 4h2v-6H7v6zm4-10h2v10h-2V7zm4 4h2v6h-2v-6zm4-6v14h2V5h-2z"/></svg>
-    Stores
-  </button>
-  <button id="btnBusiness" aria-controls="business" aria-selected="false" role="tab" tabindex="-1" aria-label="Business Admin Portal">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4v16h18V4H3zm2 14H5V6h2v12zm14-2h-2v2h2v-2zm-6 2H9v-2h4v2zm4-6h-4v2h4v-2zm0-4H5v2h10v-2zm0 8H5v2h10v-2z"/></svg>
-    Business
-  </button>
-  <button id="btnDrivers" aria-controls="drivers" aria-selected="false" role="tab" tabindex="-1" aria-label="Drivers App">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4zm-4 6h8v-2H8v2z"/></svg>
-    Drivers
-  </button>
+<header>EvoSustain Smart Waste Collection Apps</header>
+
+<nav role="tablist" aria-label="App Modules">
+  <button role="tab" aria-selected="true" aria-controls="section-pilot" id="btn-pilot" class="active">Project Stages</button>
+  <button role="tab" aria-selected="false" aria-controls="section-stores" id="btn-stores">Stores App</button>
+  <button role="tab" aria-selected="false" aria-controls="section-business" id="btn-business">Business Admin</button>
+  <button role="tab" aria-selected="false" aria-controls="section-drivers" id="btn-drivers">Drivers App</button>
 </nav>
 
-<main>
-  <section id="stores" role="tabpanel" aria-labelledby="btnStores" tabindex="0">
-    <h2>Stores App</h2>
-    <p><strong>Use Case:</strong> Store staff quickly requests waste collection, tracks status, and views history.</p>
+<section id="section-pilot" role="tabpanel" aria-labelledby="btn-pilot" aria-hidden="false" class="project-stages" tabindex="0">
+  <h2>Three Key Project Stages: Pilot & PoC</h2>
+  <div class="stage">
+    <h3>1. Proof of Concept (PoC)</h3>
+    <p>Deploy EvoSustain with select stores, drivers, and business users to validate core features like smart collection requests, route optimization, and live tracking. Focus on reliability, user experience, and integration in a controlled setting.</p>
+  </div>
+  <div class="stage">
+    <h3>2. Pilot Deployment</h3>
+    <p>Expand to a larger set of users in a targeted area (e.g., London). Collect operational data, improve route optimization, and gather user feedback for refining the system before full launch.</p>
+  </div>
+  <div class="stage">
+    <h3>3. Full-Scale Rollout</h3>
+    <p>Launch EvoSustain broadly with full features, robust user management, and detailed reporting for maximum efficiency and sustainability impact.</p>
+  </div>
+</section>
 
-    <h3>Main Screens:</h3>
-    <ul>
-      <li>Login / Sign-Up: Fast access, store ID or QR onboarding.</li>
-      <li>Scan QR Code (Home Screen): Opens camera to scan bin/waste-type QR code.</li>
-      <li>Request Collection Form: Auto-fills location and bin type. Fields: volume, time window, notes.</li>
-      <li>Request Confirmation: Status set to “Scheduled” with estimated collection time.</li>
-      <li>Track Collection: Status updates: Requested → Accepted → In Transit → Collected.</li>
-      <li>History: List past collections with filters by date and waste type.</li>
-      <li>Settings / Help: Support chat, FAQ, and profile management.</li>
-    </ul>
-    <div class="btn-group">
-      <a href="https://www.evoford.com/app/storeapp.html" target="_blank" rel="noopener" class="btn" aria-label="Open Stores App">Open Stores App</a>
-    </div>
-  </section>
+<section id="section-stores" role="tabpanel" aria-labelledby="btn-stores" aria-hidden="true" tabindex="0">
+  <h2>Stores App — Mobile First</h2>
+  <p><strong>Use Case:</strong> Store staff quickly requests waste collection, tracks status, and views history.</p>
+  <p><strong>Main Screens:</strong> Login/Sign-up, QR code scan, request collection form, confirmation with ETA, track collection status, history with filters, settings & support.</p>
+  <div class="module-links">
+    <a href="https://www.evoford.com/app/storeapp.html" target="_blank" rel="noopener" class="module-link" aria-label="Open Stores App">
+      Open Stores App
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 17l5-5-5-5v10z"/></svg>
+    </a>
+  </div>
+</section>
 
-  <section id="business" role="tabpanel" aria-labelledby="btnBusiness" tabindex="0" hidden>
-    <h2>Business Management
-    
-    
-    </h2>
-    <p><strong>Designed for:</strong> Operators and planners. Desktop-first with map interface.</p>
+<section id="section-business" role="tabpanel" aria-labelledby="btn-business" aria-hidden="true" tabindex="0">
+  <h2>Business Admin Portal</h2>
+  <p><strong>Designed for:</strong> Operators and planners on desktop, with map interface.</p>
+  <p><strong>Main Screens:</strong> Admin dashboard with KPIs, collection request overview, schedule planning, driver assignment panel, live map, driver performance metrics, client management, settings/support/user management.</p>
+  <div class="module-links">
+    <a href="https://www.evoford.com/app/businessweb.html" target="_blank" rel="noopener" class="module-link" aria-label="Open Business Admin Web">
+      Open Admin Portal (Web)
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 17l5-5-5-5v10z"/></svg>
+    </a>
+    <a href="https://www.evoford.com/app/businessapp.html" target="_blank" rel="noopener" class="module-link" aria-label="Open Business Admin App" style="margin-top:12px;">
+      Open Admin Portal (App)
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 17l5-5-5-5v10z"/></svg>
+    </a>
+  </div>
+</section>
 
-    <h3>Main Screens:</h3>
-    <ul>
-      <li>Login / Admin Dashboard: KPIs, pending requests, system alerts.</li>
-      <li>Collection Requests Overview: Approve, decline, reschedule requests.</li>
-      <li>Schedule Planning: Calendar with route optimization logic.</li>
-      <li>Driver Assignment Panel: Drag-and-drop or dropdown assignment interface.</li>
-      <li>Live Map View: Real-time driver locations, active collections.</li>
-      <li>Driver Performance: Metrics on time efficiency and completed pickups.</li>
-      <li>Client Management: Contact info and collection history per store.</li>
-      <li>Settings / Support / User Management.</li>
-    </ul>
-    <div class="btn-group">
-      <a href="https://www.evoford.com/app/businessweb.html" target="_blank" rel="noopener" class="btn" aria-label="Open Business Admin Web">Open Admin Portal (Web)</a>
-      <a href="https://www.evoford.com/app/businessapp.html" target="_blank" rel="noopener" class="btn" aria-label="Open Business Admin App">Open Admin Portal (App)</a>
-    </div>
-  </section>
+<section id="section-drivers" role="tabpanel" aria-labelledby="btn-drivers" aria-hidden="true" tabindex="0">
+  <h2>Drivers App — Mobile Experience</h2>
+  <p><strong>Designed for:</strong> Quick daily mobile use by drivers.</p>
+  <p><strong>Main Screens:</strong> Login/Daily start, route overview with map/list, collection task detail, update status, map navigation, end of day summary.</p>
+  <div class="module-links">
+    <a href="https://www.evoford.com/app/driversapp.html" target="_blank" rel="noopener" class="module-link" aria-label="Open Drivers App">
+      Open Drivers App
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 17l5-5-5-5v10z"/></svg>
+    </a>
+  </div>
+</section>
 
-  <section id="drivers" role="tabpanel" aria-labelledby="btnDrivers" tabindex="0" hidden>
-    <h2>Drivers App</h2>
-    <p><strong>Designed for:</strong> Quick daily use, mobile only.</p>
-
-    <h3>Main Screens:</h3>
-    <ul>
-      <li>Login / Daily Start: Driver login and work day start.</li>
-      <li>Today’s Route Overview: Map + list view with optimized route.</li>
-      <li>Collection Task Detail: Address, waste type, special notes.</li>
-      <li>Update Status: Options to mark: Arrived, Collected, Issue Reported.</li>
-      <li>Map Navigation: GPS integration or deep link simulation.</li>
-      <li>End of Day Summary: Completed collections, notes, and metrics.</li>
-    </ul>
-    <div class="btn-group">
-      <a href="https://www.evoford.com/app/driversapp.html" target="_blank" rel="noopener" class="btn" aria-label="Open Drivers App">Open Drivers App</a>
-    </div>
-  </section>
-</main>
-
-<footer>
-  © 2025 EvoSustain Ltd. All rights reserved.
-</footer>
+<footer>© 2025 EvoSustain Ltd. All rights reserved.</footer>
 
 <script>
-  const buttons = [...document.querySelectorAll('nav button')];
-  const sections = [...document.querySelectorAll('main section')];
+  const buttons = document.querySelectorAll('nav button');
+  const sections = document.querySelectorAll('section[role="tabpanel"]');
 
-  function activateTab(selectedBtn) {
-    buttons.forEach(btn => {
-      const isActive = btn === selectedBtn;
-      btn.classList.toggle('active', isActive);
-      btn.setAttribute('aria-selected', isActive);
-      btn.tabIndex = isActive ? 0 : -1;
-    });
-    sections.forEach(section => {
-      if (section.getAttribute('aria-labelledby') === selectedBtn.id) {
-        section.removeAttribute('hidden');
-        section.focus();
-      } else {
-        section.setAttribute('hidden', '');
-      }
-    });
-  }
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      buttons.forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-selected', 'false');
+      });
+      sections.forEach(section => {
+        section.setAttribute('aria-hidden', 'true');
+      });
 
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => activateTab(btn));
-    btn.addEventListener('keydown', e => {
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-        const nextIndex = (buttons.indexOf(e.target) + 1) % buttons.length;
-        buttons[nextIndex].focus();
-      }
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        const prevIndex = (buttons.indexOf(e.target) - 1 + buttons.length) % buttons.length;
-        buttons[prevIndex].focus();
-      }
+      button.classList.add('active');
+      button.setAttribute('aria-selected', 'true');
+      const target = button.getAttribute('aria-controls');
+      const targetSection = document.getElementById(target);
+      targetSection.setAttribute('aria-hidden', 'false');
+      targetSection.focus();
     });
   });
 
-  // Start with Stores tab active
-  activateTab(buttons[0]);
+  // Initialize first tab as active
+  buttons[0].click();
 </script>
 
 </body>
