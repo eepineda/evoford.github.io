@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>EvoSustain Driver App - Full Experience</title>
+<style>
+  body, html {
+    margin:0; padding:0; height:100vh;
+    display:flex; justify-content:center; align-items:center;
+    background: linear-gradient(135deg, #d0e9d0 0%, #a0cfa0 100%);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #2f3e46;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .mobile-mockup {
+    width: 375px; height: 667px;
+    background: #ffffff;
+    border: 16px solid #1c1c1e;
+    border-radius: 44px;
+    box-shadow:
+      0 16px 32px rgba(0,0,0,0.28),
+      inset 0 0 8px rgba(255,255,255,0.6);
+    display: flex; flex-direction: column; overflow: hidden;
+    user-select: none;
+    position: relative;
+  }
+  header {
+    background: #2e7d32;
+    color: #fafafa;
+    text-align: center;
+    padding: 18px 0;
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: 1.2px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  header svg {
+    width: 28px; height: 28px;
+    fill: #a8d5a2;
+  }
+  main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 24px 80px;
+    color: #2f3e46;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+  }
+  section {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    position: relative;
+  }
+  section.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  h2 {
+    margin-top: 0;
+    font-weight: 900;
+    margin-bottom: 16px;
+    font-size: 1.4rem;
+    border-bottom: 3px solid #4caf50;
+    padding-bottom: 8px;
+    color: #1a2b20;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2 svg {
+    width: 28px; height: 28px;
+    fill: #4caf50;
+    flex-shrink: 0;
+  }
+  button.back-btn {
+    position: absolute;
+    top: 16px;
+    left: 20px;
+    background: transparent;
+    border: none;
+    color: #4caf50;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 20px;
+    user-select: none;
+    transition: background-color 0.3s ease;
+    z-index: 10;
+  }
+  button.back-btn:hover {
+    background-color: #d1f0d1;
+  }
+  button.back-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: #4caf50;
+  }
+  form label {
+    font-weight: 700;
+    font-size: 1rem;
+    display: block;
+    margin-bottom: 6px;
+  }
+  form input, form select {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: 1.8px solid #4caf50;
+    margin-bottom: 16px;
+    font-weight: 700;
+    color: #2f3e46;
+  }
+  form input:focus, form select:focus {
+    outline: none;
+    border-color: #357a29;
+  }
+  form button.submit-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 1.1rem;
+    border-radius: 28px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 900;
+    transition: background-color 0.3s ease;
+  }
+  form button.submit-btn:hover {
+    background-color: #357a29;
+  }
+  ul.route-list {
+    list-style:none;
+    padding-left:0;
+    margin:0;
+  }
+  ul.route-list li {
+    background: #e3f1d8;
+    margin-bottom: 12px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-weight: 700;
+    color: #2f4a1e;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  ul.route-list li.completed {
+    background: #a7d08a;
+    color: #1a3b12;
+    text-decoration: line-through;
+  }
+  ul.route-list li.issue {
+    background: #e07a73;
+    color: #5a1e17;
+    font-weight: 900;
+  }
+  ul.route-list li:hover {
+    background: #cde8c7;
+  }
+  .map-placeholder {
+    background: #a8d5a2;
+    border-radius: 16px;
+    height: 180px;
+    margin-bottom: 20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color: white;
+    font-weight: 900;
+    user-select: none;
+  }
+  .status-btns {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .status-btns button {
+    flex: 1;
+    padding: 14px;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 24px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    user-select: none;
+    color: white;
+  }
+  .btn-arrived {
+    background-color: #4caf50;
+  }
+  .btn-arrived:hover {
+    background-color: #357a29;
+  }
+  .btn-collected {
+    background-color: #2196f3;
+  }
+  .btn-collected:hover {
+    background-color: #1769aa;
+  }
+  .btn-issue {
+    background-color: #e94e3f;
+  }
+  .btn-issue:hover {
+    background-color: #b53628;
+  }
+  .summary-box {
+    background: #e3f1d8;
+    border-radius: 14px;
+    padding: 20px;
+    font-weight: 700;
+    color: #2f4a1e;
+    white-space: pre-wrap;
+  }
+</style>
+</head>
+<body>
+<div class="mobile-mockup" role="application" aria-label="EvoSustain Driver Mobile App">
+  <header>
+    EvoSustain Driver
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="#a8d5a2" aria-hidden="true" focusable="false">
+      <circle cx="32" cy="32" r="30" stroke="#4caf50" stroke-width="3" fill="none" />
+      <circle cx="32" cy="32" r="14" />
+    </svg>
+  </header>
+  <main>
+    <!-- Login / Daily Start -->
+    <section id="login" class="active" tabindex="0" aria-label="Login screen">
+      <h2>
+        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4z"/><path d="M12 14c-4 0-6 2-6 6v2h12v-2c0-4-2-6-6-6z"/></svg>
+        Login / Start Day
+      </h2>
+      <form id="loginForm">
+        <label for="driverId">Driver ID</label>
+        <input id="driverId" type="text" placeholder="Enter Driver ID" required autocomplete="off"/>
+        <label for="workDate">Work Date</label>
+        <input id="workDate" type="date" required />
+        <button type="submit" class="submit-btn">Start Day</button>
+      </form>
+    </section>
+
+    <!-- Today's Route Overview -->
+    <section id="routeOverview" tabindex="0" aria-label="Today's Route Overview">
+      <button class="back-btn" aria-label="Logout" type="button">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        Logout
+      </button>
+      <h2>
+        <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8v-10h-8v10zm0-18v6h8V3h-8z"/></svg>
+        Today's Route
+      </h2>
+      <div class="map-placeholder" aria-label="Static map of route">
+        [Map Preview]
+      </div>
+      <ul class="route-list" id="routeList" tabindex="0" aria-label="Route tasks list"></ul>
+    </section>
+
+    <!-- Collection Task Detail -->
+    <section id="taskDetail" tabindex="0" aria-label="Collection Task Detail">
+      <button class="back-btn" aria-label="Back to Route Overview" type="button">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        Back
+      </button>
+      <h2>
+        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4z"/><path d="M12 14c-4 0-6 2-6 6v2h12v-2c0-4-2-6-6-6z"/></svg>
+        Task Details
+      </h2>
+      <p><strong>Address:</strong> <span id="taskAddress"></span></p>
+      <p><strong>Type of Waste:</strong> <span id="taskWaste"></span></p>
+      <p><strong>Special Notes:</strong> <span id="taskNotes"></span></p>
+      <button id="navigateBtn" class="submit-btn" style="margin-top:10px;">Navigate to Location</button>
+      <div class="status-btns">
+        <button id="btnArrived" class="status-btn btn-arrived">Arrived</button>
+        <button id="btnCollected" class="status-btn btn-collected">Collected</button>
+        <button id="btnIssue" class="status-btn btn-issue">Report Issue</button>
+      </div>
+    </section>
+
+    <!-- End of Day Summary -->
+    <section id="endOfDay" tabindex="0" aria-label="End of Day Summary">
+      <h2>
+        <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm4 4h2v-6H7v6zm4-10h2v10h-2V7zm4 4h2v6h-2v-6zm4-6v14h2V5h-2z"/></svg>
+        End of Day Summary
+      </h2>
+      <div class="summary-box" id="summaryBox"></div>
+      <button id="logoutBtn" class="submit-btn" style="margin-top: 20px;">Logout</button>
+    </section>
+  </main>
+</div>
+
+<script>
+  const navSections = {
+    login: document.getElementById('login'),
+    routeOverview: document.getElementById('routeOverview'),
+    taskDetail: document.getElementById('taskDetail'),
+    endOfDay: document.getElementById('endOfDay')
+  };
+
+  const driverIdInput = document.getElementById('driverId');
+  const workDateInput = document.getElementById('workDate');
+  const loginForm = document.getElementById('loginForm');
+  const routeListElem = document.getElementById('routeList');
+  const taskAddress = document.getElementById('taskAddress');
+  const taskWaste = document.getElementById('taskWaste');
+  const taskNotes = document.getElementById('taskNotes');
+  const navigateBtn = document.getElementById('navigateBtn');
+  const btnArrived = document.getElementById('btnArrived');
+  const btnCollected = document.getElementById('btnCollected');
+  const btnIssue = document.getElementById('btnIssue');
+  const summaryBox = document.getElementById('summaryBox');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const backLogoutBtn = document.querySelector('#routeOverview .back-btn');
+  const backTaskBtn = document.querySelector('#taskDetail .back-btn');
+
+  let currentDriver = null;
+  let currentDate = null;
+  let currentTaskIndex = null;
+  let completedTasks = [];
+  let issuesReported = [];
+
+  // Simulated tasks data with estimated times (in minutes)
+  const tasksTemplate = [
+    {address: "Oxford St Store", waste: "General Waste", notes: "Handle with care", estTime: 15},
+    {address: "Camden Central", waste: "Recycling", notes: "No heavy items", estTime: 10},
+    {address: "Shoreditch Hub", waste: "Food Waste", notes: "Pickup before 3pm", estTime: 20},
+    {address: "Brixton Point", waste: "General Waste", notes: "Extra bin near entrance", estTime: 18},
+    {address: "Greenwich Bay", waste: "Recycling", notes: "Use protective gloves", estTime: 12},
+  ];
+
+  let tasks = [];
+
+  function showSection(id) {
+    Object.values(navSections).forEach(sec => sec.classList.remove('active'));
+    navSections[id].classList.add('active');
+  }
+
+  // Login form submission
+  loginForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const id = driverIdInput.value.trim();
+    const date = workDateInput.value;
+    if(!id) {
+      alert('Please enter your Driver ID');
+      return;
+    }
+    if(!date) {
+      alert('Please select the work date');
+      return;
+    }
+    currentDriver = id;
+    currentDate = date;
+    completedTasks = [];
+    issuesReported = [];
+    tasks = JSON.parse(JSON.stringify(tasksTemplate)); // clone
+    alert(`Welcome, Driver ${id}! Route loaded for ${date}.`);
+    loadRouteOverview();
+    showSection('routeOverview');
+  });
+
+  // Load route overview list with status indicators
+  function loadRouteOverview() {
+    routeListElem.innerHTML = '';
+    tasks.forEach((task, idx) => {
+      const li = document.createElement('li');
+      li.textContent = `${task.address} - ${task.waste}`;
+      li.tabIndex = 0;
+      li.setAttribute('role', 'button');
+      li.dataset.index = idx;
+
+      if(completedTasks.includes(idx)) {
+        li.classList.add('completed');
+        li.textContent += ' ✔️';
+      } else if(issuesReported.includes(idx)) {
+        li.classList.add('issue');
+        li.textContent += ' ⚠️';
+      }
+
+      li.addEventListener('click', () => openTaskDetail(idx));
+      routeListElem.appendChild(li);
+    });
+  }
+
+  // Open task detail
+  function openTaskDetail(idx) {
+    currentTaskIndex = idx;
+    const task = tasks[idx];
+    taskAddress.textContent = task.address;
+    taskWaste.textContent = task.waste;
+    taskNotes.textContent = task.notes;
+    showSection('taskDetail');
+  }
+
+  // Navigate button -> open Google Maps
+  navigateBtn.addEventListener('click', () => {
+    if(currentTaskIndex === null) return;
+    const task = tasks[currentTaskIndex];
+    const query = encodeURIComponent(task.address + ", London, UK");
+    window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
+  });
+
+  // Update status buttons
+  btnArrived.addEventListener('click', () => {
+    alert(`Status updated: Arrived at ${tasks[currentTaskIndex].address}`);
+  });
+  btnCollected.addEventListener('click', () => {
+    alert(`Status updated: Collected waste at ${tasks[currentTaskIndex].address}`);
+    if (!completedTasks.includes(currentTaskIndex)) {
+      completedTasks.push(currentTaskIndex);
+    }
+    // Remove from issues if fixed
+    const issueIdx = issuesReported.indexOf(currentTaskIndex);
+    if(issueIdx > -1) issuesReported.splice(issueIdx, 1);
+    loadRouteOverview();
+    showSection('routeOverview');
+    checkEndOfDay();
+  });
+  btnIssue.addEventListener('click', () => {
+    const issue = prompt('Describe the issue encountered:');
+    if(issue) {
+      alert(`Issue reported: "${issue}" at ${tasks[currentTaskIndex].address}`);
+      if (!issuesReported.includes(currentTaskIndex)) {
+        issuesReported.push(currentTaskIndex);
+      }
+      loadRouteOverview();
+      showSection('routeOverview');
+    }
+  });
+
+  // Back buttons
+  backLogoutBtn.addEventListener('click', () => {
+    if(confirm('End day and logout?')) {
+      resetApp();
+      showSection('login');
+    }
+  });
+  backTaskBtn.addEventListener('click', () => {
+    showSection('routeOverview');
+  });
+
+  // Logout button in end of day summary
+  logoutBtn.addEventListener('click', () => {
+    if(confirm('Are you sure you want to logout?')) {
+      resetApp();
+      showSection('login');
+    }
+  });
+
+  // End of Day Summary
+  function checkEndOfDay() {
+    if(completedTasks.length === tasks.length) {
+      let totalTime = tasks.reduce((acc, t) => acc + t.estTime, 0);
+      let issuesCount = issuesReported.length;
+      let summary = `Driver: ${currentDriver}\nDate: ${currentDate}\n\nCollections completed: ${completedTasks.length}\nIssues reported: ${issuesCount}\nEstimated total time: ${totalTime} minutes\n\nNotes:\n`;
+      if(issuesCount > 0) {
+        summary += issuesReported.map(i => `- ${tasks[i].address}: Issue reported`).join('\n');
+      } else {
+        summary += "No issues reported.";
+      }
+      summaryBox.textContent = summary;
+      showSection('endOfDay');
+    }
+  }
+
+  function resetApp() {
+    currentDriver = null;
+    currentDate = null;
+    currentTaskIndex = null;
+    completedTasks = [];
+    issuesReported = [];
+    driverIdInput.value = '';
+    workDateInput.value = '';
+  }
+</script>
+</body>
+</html>
