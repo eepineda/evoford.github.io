@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<title>EvoSustain Driver App - Full Experience</title>
+<title>EvoSustain Driver App - Full Functional</title>
 <style>
   body, html {
     margin:0; padding:0; height:100vh;
@@ -23,7 +23,7 @@
     box-shadow:
       0 16px 32px rgba(0,0,0,0.28),
       inset 0 0 8px rgba(255,255,255,0.6);
-    display: flex; flex-direction: column; overflow: hidden;
+    display: flex; flex-direction: column;
     user-select: none;
     position: relative;
   }
@@ -232,6 +232,50 @@
     color: #2f4a1e;
     white-space: pre-wrap;
   }
+  /* Bottom nav */
+  nav.bottom-nav {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    height: 60px;
+    background: #1c1c1e;
+    border-radius: 28px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 8px;
+    user-select: none;
+    z-index: 100;
+  }
+  nav.bottom-nav button {
+    background: transparent;
+    border: none;
+    color: #a3b18a;
+    font-weight: 700;
+    font-size: 0.7rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 8px;
+    white-space: nowrap;
+    user-select: none;
+    min-width: 48px;
+  }
+  nav.bottom-nav button svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+    transition: fill 0.3s ease;
+  }
+  nav.bottom-nav button.active,
+  nav.bottom-nav button:hover {
+    color: #4caf50;
+    transform: translateY(-3px);
+  }
 </style>
 </head>
 <body>
@@ -244,7 +288,7 @@
     </svg>
   </header>
   <main>
-    <!-- Login / Daily Start -->
+    <!-- Sections -->
     <section id="login" class="active" tabindex="0" aria-label="Login screen">
       <h2>
         <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4z"/><path d="M12 14c-4 0-6 2-6 6v2h12v-2c0-4-2-6-6-6z"/></svg>
@@ -259,7 +303,6 @@
       </form>
     </section>
 
-    <!-- Today's Route Overview -->
     <section id="routeOverview" tabindex="0" aria-label="Today's Route Overview">
       <button class="back-btn" aria-label="Logout" type="button">
         <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
@@ -275,7 +318,6 @@
       <ul class="route-list" id="routeList" tabindex="0" aria-label="Route tasks list"></ul>
     </section>
 
-    <!-- Collection Task Detail -->
     <section id="taskDetail" tabindex="0" aria-label="Collection Task Detail">
       <button class="back-btn" aria-label="Back to Route Overview" type="button">
         <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
@@ -296,7 +338,24 @@
       </div>
     </section>
 
-    <!-- End of Day Summary -->
+    <section id="chat" tabindex="0" aria-label="Support Chat">
+      <h2>
+        <svg viewBox="0 0 24 24"><path d="M4 4h16v12H5.17L4 17.17V4z"/></svg>
+        Support Chat
+      </h2>
+      <div id="chatMessages" style="height:300px; background:#e3f1d8; border-radius:14px; padding:10px; overflow-y:auto; font-weight:700; color:#2f4a1e;">
+        <p><em>Chat feature coming soon...</em></p>
+      </div>
+    </section>
+
+    <section id="settings" tabindex="0" aria-label="Settings">
+      <h2>
+        <svg viewBox="0 0 24 24"><path d="M19.14 12.936a7.985 7.985 0 000-1.873l2.036-1.593-2-3.464-2.355 1.082a7.964 7.964 0 00-1.725-1l-.356-2.482H9.41l-.356 2.482a7.97 7.97 0 00-1.725 1L5.02 6.006l-2 3.464 2.036 1.593a7.97 7.97 0 000 1.873L3.02 14.506l2 3.464 2.355-1.082a7.964 7.964 0 001.725 1l.356 2.482h3.447l.356-2.482a7.965 7.965 0 001.725-1l2.355 1.082 2-3.464-2.036-1.57zM12 15.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"/></svg>
+        Settings
+      </h2>
+      <p><em>User profile and app settings will be here.</em></p>
+    </section>
+
     <section id="endOfDay" tabindex="0" aria-label="End of Day Summary">
       <h2>
         <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm4 4h2v-6H7v6zm4-10h2v10h-2V7zm4 4h2v6h-2v-6zm4-6v14h2V5h-2z"/></svg>
@@ -306,6 +365,21 @@
       <button id="logoutBtn" class="submit-btn" style="margin-top: 20px;">Logout</button>
     </section>
   </main>
+
+  <nav class="bottom-nav" aria-label="Bottom navigation">
+    <button data-tab="routeOverview" aria-controls="routeOverview" aria-selected="true" class="active" title="Home" tabindex="0">
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      Home
+    </button>
+    <button data-tab="chat" aria-controls="chat" aria-selected="false" title="Chat" tabindex="-1">
+      <svg viewBox="0 0 24 24"><path d="M4 4h16v12H5.17L4 17.17V4z"/></svg>
+      Chat
+    </button>
+    <button data-tab="settings" aria-controls="settings" aria-selected="false" title="Settings" tabindex="-1">
+      <svg viewBox="0 0 24 24"><path d="M19.14 12.936a7.985 7.985 0 000-1.873l2.036-1.593-2-3.464-2.355 1.082a7.964 7.964 0 00-1.725-1l-.356-2.482H9.41l-.356 2.482a7.97 7.97 0 00-1.725 1L5.02 6.006l-2 3.464 2.036 1.593a7.97 7.97 0 000 1.873L3.02 14.506l2 3.464 2.355-1.082a7.964 7.964 0 001.725 1l.356 2.482h3.447l.356-2.482a7.965 7.965 0 001.725-1l2.355 1.082 2-3.464-2.036-1.57zM12 15.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"/></svg>
+      Settings
+    </button>
+  </nav>
 </div>
 
 <script>
@@ -313,9 +387,36 @@
     login: document.getElementById('login'),
     routeOverview: document.getElementById('routeOverview'),
     taskDetail: document.getElementById('taskDetail'),
+    chat: document.getElementById('chat'),
+    settings: document.getElementById('settings'),
     endOfDay: document.getElementById('endOfDay')
   };
 
+  const navButtons = document.querySelectorAll('nav.bottom-nav button');
+
+  // Function to show the specified section and update nav active states
+  function showSection(id) {
+    Object.values(navSections).forEach(sec => sec.classList.remove('active'));
+    navSections[id].classList.add('active');
+
+    navButtons.forEach(btn => {
+      const isActive = btn.getAttribute('data-tab') === id;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      btn.tabIndex = isActive ? 0 : -1;
+    });
+  }
+
+  navButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tab = btn.getAttribute('data-tab');
+      if(['routeOverview', 'chat', 'settings'].includes(tab)) {
+        showSection(tab);
+      }
+    });
+  });
+
+  // Elements references
   const driverIdInput = document.getElementById('driverId');
   const workDateInput = document.getElementById('workDate');
   const loginForm = document.getElementById('loginForm');
@@ -332,6 +433,7 @@
   const backLogoutBtn = document.querySelector('#routeOverview .back-btn');
   const backTaskBtn = document.querySelector('#taskDetail .back-btn');
 
+  // Data variables
   let currentDriver = null;
   let currentDate = null;
   let currentTaskIndex = null;
@@ -349,10 +451,14 @@
 
   let tasks = [];
 
-  function showSection(id) {
-    Object.values(navSections).forEach(sec => sec.classList.remove('active'));
-    navSections[id].classList.add('active');
+  // Show section helper
+  function showSectionWithBack(id) {
+    showSection(id);
   }
+
+  // Show section and manage active nav button if needed
+  // But we want nav buttons only for Home, Chat, Settings
+  // Other sections have back buttons.
 
   // Login form submission
   loginForm.addEventListener('submit', e => {
@@ -481,6 +587,7 @@
     }
   }
 
+  // Reset app state
   function resetApp() {
     currentDriver = null;
     currentDate = null;
@@ -490,6 +597,9 @@
     driverIdInput.value = '';
     workDateInput.value = '';
   }
+
+  // Initialize app showing login
+  showSection('login');
 </script>
 </body>
 </html>
