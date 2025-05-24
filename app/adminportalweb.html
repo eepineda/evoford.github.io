@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>EvoSustain Admin Portal - Responsive Web</title>
+<style>
+  /* Reset and base */
+  body, html {
+    margin: 0; padding: 0; min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background: linear-gradient(135deg, #eaf4ea 0%, #d0e9d0 100%);
+    color: #2f3e46;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  header {
+    background: #2e7d32;
+    color: #fafafa;
+    text-align: center;
+    padding: 20px 0;
+    font-weight: 800;
+    font-size: 2rem;
+    letter-spacing: 1.2px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
+  header svg {
+    width: 36px; height: 36px;
+    fill: #a8d5a2;
+  }
+  .container {
+    max-width: 1200px;
+    margin: 20px auto 40px;
+    padding: 0 24px;
+  }
+  nav.tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+  nav.tabs button {
+    background: #1c1c1e;
+    border: none;
+    border-radius: 24px;
+    color: #a3b18a;
+    font-weight: 700;
+    padding: 12px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  nav.tabs button svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+  }
+  nav.tabs button.active,
+  nav.tabs button:hover {
+    background: #4caf50;
+    color: #fafafa;
+  }
+  section {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  section.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  h2 {
+    margin-top: 0;
+    font-weight: 900;
+    margin-bottom: 24px;
+    font-size: 2rem;
+    border-bottom: 3px solid #4caf50;
+    padding-bottom: 8px;
+    color: #1a2b20;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  h2 svg {
+    width: 36px; height: 36px;
+    fill: #4caf50;
+    flex-shrink: 0;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  .card {
+    background: #e3f1d8;
+    border-radius: 16px;
+    padding: 20px;
+    font-weight: 700;
+    color: #2f4a1e;
+    box-shadow: 0 6px 16px rgb(76 175 80 / 0.3);
+    user-select: text;
+    font-size: 1.1rem;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 6px 20px rgb(0 0 0 / 0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    background: white;
+    margin-bottom: 40px;
+  }
+  th, td {
+    padding: 16px 20px;
+    text-align: left;
+    border-bottom: 1px solid #cde8c7;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  th {
+    background: #4caf50;
+    color: white;
+  }
+  tbody tr:hover {
+    background: #dcedc8;
+    cursor: pointer;
+  }
+  .btn {
+    padding: 10px 18px;
+    border-radius: 28px;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+    margin-right: 10px;
+  }
+  .btn-approve {
+    background-color: #4caf50;
+    color: white;
+  }
+  .btn-approve:hover {
+    background-color: #357a29;
+  }
+  .btn-decline {
+    background-color: #e94e3f;
+    color: white;
+  }
+  .btn-decline:hover {
+    background-color: #b53628;
+  }
+  .btn-reschedule {
+    background-color: #f0ad4e;
+    color: white;
+  }
+  .btn-reschedule:hover {
+    background-color: #c48830;
+  }
+  form label {
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  form input[type="text"], form input[type="password"] {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 1.1rem;
+    border-radius: 16px;
+    border: 2px solid #4caf50;
+    margin-bottom: 24px;
+    font-weight: 700;
+    color: #2f3e46;
+    box-sizing: border-box;
+  }
+  form input:focus {
+    outline: none;
+    border-color: #357a29;
+  }
+  form button {
+    width: 100%;
+    padding: 18px;
+    font-size: 1.3rem;
+    border-radius: 36px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 900;
+    transition: background-color 0.3s ease;
+  }
+  form button:hover {
+    background-color: #357a29;
+  }
+  /* Back button for smaller screens */
+  .back-btn {
+    background: transparent;
+    border: none;
+    color: #4caf50;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 28px;
+    user-select: none;
+    transition: background-color 0.3s ease;
+    margin-bottom: 16px;
+  }
+  .back-btn:hover {
+    background-color: #d1f0d1;
+  }
+  .back-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: #4caf50;
+  }
+  @media (max-width: 768px) {
+    h2 {
+      font-size: 1.6rem;
+    }
+    .card {
+      font-size: 1rem;
+      padding: 14px;
+    }
+    form label {
+      font-size: 1rem;
+    }
+    form input[type="text"], form input[type="password"] {
+      padding: 10px 12px;
+      font-size: 1rem;
+    }
+    form button {
+      font-size: 1.1rem;
+      padding: 14px;
+    }
+  }
+</style>
+</head>
+<body>
+<header>
+  EvoSustain
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="#a8d5a2" aria-hidden="true" focusable="false">
+    <circle cx="32" cy="32" r="30" stroke="#4caf50" stroke-width="3" fill="none" />
+    <circle cx="32" cy="32" r="14" />
+  </svg>
+</header>
+<div class="container">
+
+  <nav class="tabs" aria-label="Main navigation">
+    <button data-tab="login" aria-selected="false" title="Login">
+      <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4z"/><path d="M12 14c-4 0-6 2-6 6v2h12v-2c0-4-2-6-6-6z"/></svg>
+      Login
+    </button>
+    <button data-tab="dashboard" aria-selected="true" title="Home" class="active">
+      <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8v-10h-8v10zm0-18v6h8V3h-8z"/></svg>
+      Home
+    </button>
+    <button data-tab="requests" aria-selected="false" title="History">
+      <svg viewBox="0 0 24 24"><path d="M3 4v16h18V4H3z"/></svg>
+      History
+    </button>
+    <button data-tab="planning" aria-selected="false" title="Plan">
+      <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+      Plan
+    </button>
+    <button data-tab="assignment" aria-selected="false" title="Assign">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a8.38 8.38 0 0113 0"/></svg>
+      Assign
+    </button>
+    <button data-tab="map" aria-selected="false" title="Map">
+      <svg viewBox="0 0 24 24"><path d="M20.5 3l-5.68 1.91-7.68-2.58L4 4.5v16l7.68-2.58 5.68 1.91L20.5 3z"/></svg>
+      Map
+    </button>
+    <button data-tab="performance" aria-selected="false" title="Stats">
+      <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm4 4h2v-6H7v6zm4-10h2v10h-2V7zm4 4h2v6h-2v-6zm4-6v14h2V5h-2z"/></svg>
+      Stats
+    </button>
+    <button data-tab="clients" aria-selected="false" title="Clients">
+      <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 3-1.34 3-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 2.1 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      Clients
+    </button>
+    <button data-tab="settings" aria-selected="false" title="Settings">
+      <svg viewBox="0 0 24 24"><path d="M19.14 12.936a7.985 7.985 0 000-1.873l2.036-1.593-2-3.464-2.355 1.082a7.964 7.964 0 00-1.725-1l-.356-2.482H9.41l-.356 2.482a7.97 7.97 0 00-1.725 1L5.02 6.006l-2 3.464 2.036 1.593a7.97 7.97 0 000 1.873L3.02 14.506l2 3.464 2.355-1.082a7.964 7.964 0 001.725 1l.356 2.482h3.447l.356-2.482a7.965 7.965 0 001.725-1l2.355 1.082 2-3.464-2.036-1.57zM12 15.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"/></svg>
+      Settings
+    </button>
+  </nav>
+
+  <!-- Sections -->
+
+  <section id="login" tabindex="0" aria-label="Login screen">
+    <h2>
+      <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4z"/><path d="M12 14c-4 0-6 2-6 6v2h12v-2c0-4-2-6-6-6z"/></svg>
+      Login
+    </h2>
+    <form id="loginForm">
+      <label for="username">Username</label>
+      <input id="username" type="text" placeholder="admin" required />
+      <label for="password">Password</label>
+      <input id="password" type="password" placeholder="••••••" required />
+      <button type="submit">Login</button>
+    </form>
+  </section>
+
+  <section id="dashboard" class="active" tabindex="0" aria-label="Admin dashboard">
+    <h2>
+      <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8v-10h-8v10zm0-18v6h8V3h-8z"/></svg>
+      Home
+    </h2>
+    <div class="cards" role="list" aria-label="Key performance indicators">
+      <div class="card" role="listitem">Pending Requests: 600</div>
+      <div class="card" role="listitem">Active Drivers: 15</div>
+      <div class="card" role="listitem">System Alerts: 3 Critical, 5 Warnings</div>
+      <div class="card" role="listitem">CO₂ Saved Today: 400.5 kg</div>
+      <div class="card" role="listitem">Average Pickup Time: 7.8 min</div>
+      <div class="card" role="listitem">Total Clients: 600</div>
+      <div class="card" role="listitem">Scheduled Routes Today: 275</div>
+    </div>
+  </section>
+
+  <section id="requests" tabindex="0" aria-label="Collection requests overview">
+    <button class="back-btn" aria-label="Back to home" type="button" style="display:none;">
+      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      Back
+    </button>
+    <h2>
+      <svg viewBox="0 0 24 24"><path d="M3 4v16h18V4H3z"/></svg>
+      History
+    </h2>
+    <table aria-label="Collection requests table">
+      <thead>
+        <tr>
+          <th>Store</th>
+          <th>Location</th>
+          <th>Bin</th>
+          <th>Volume (m³)</th>
+          <th>Time Window</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="requestsTableBody"></tbody>
+    </table>
+  </section>
+
+  <section id="planning" tabindex="0" aria-label="Schedule planning">
+    <button class="back-btn" aria-label="Back to home" type="button" style="display:none;">
+      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      Back
+    </button>
+    <h2>
+      <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+      Plan
+    </h2>
+    <p><strong>Calendar view (simulated)</strong></p>
+    <p>Routes Scheduled Today: 275</p>
+    <p>Optimized Routes: 260</p>
+    <p>Pending Optimization: 15</p>
+    <p>Peak Hours: 9:00–11:00 AM</p>
+  </section>
+
+  <section id="assignment" tabindex="0" aria-label="Driver assignment panel">
+    <button class="back-btn" aria-label="Back to home" type="button" style="display:none;">
+      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      Back
+    </button>
+    <h2>
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M5.5 21a8.38 8.38 0 0113 0"/></svg>
+      Assign
+    </h2>
+    <p><em>Drag & drop simulation</em></p>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;">
+      <div style="flex:1; background:#e3f1d8; border-radius:12px; padding:12px; max-height:400px; overflow-y:auto;">
+        <h3 style="color:#2e7d32;">Routes to Assign</h3>
+        <ul id="routesList" style="list-style:none; padding:0; margin:0;"></ul>
+      </div>
+      <div style="flex:1; background:#e3f1d8; border-radius:12px; padding:12px; max-height:400px; overflow-y:auto;">
+        <h3 style="color:#2e7d32;">Drivers</h3>
+        <ul id="driversList" style="list-style:none; padding:0; margin:0;"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="map" tabindex="0" aria-label="Live map view">
+    <button class="back-btn" aria-label="Back to home" type="button" style="display:none;">
+      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      Back
+    </button>
+    <h2>
+      <svg viewBox="0 0 24 24"><path d="M20.5 3l-5.68 1.91-7.68-2.58L4 4.5v16l7.68-2.58 5.68 1.91L20.5 3z"/></svg>
+      Map
+    </h2>
+    <div style="background:#e3f1d8; height: 280px; border-radius: 16px; display:flex; justify-content:center; align-items:center; font-weight:700; color:#2e7d32;">
+      [Static London Map Placeholder]
+    </div>
+  </section>
+
+  <section id="performance" tabindex="0" aria-label="Driver performance">
+    <button class="back-btn" aria-label="Back to home" type="button" style="display:none;">
+      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      Back
+    </button>
+    <h2>
+      <svg viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm4 4h2v-6H7v6zm4-10h2v10h-2V7zm4 4h2v6h-2v-6zm4-6v14h2V5h-2z"/></svg>
+      Stats
+    </h2>
+    <table aria-label="Driver performance table">
+      <thead>
+        <tr>
+          <th>Driver</th>
+          <th>Completed Pickups</th>
+          <th>Avg Pickup Time (min)</th>
+          <th>Efficiency (%)</th>
+        </tr>
+      </thead>
+      <tbody id="driverPerformanceBody"></tbody>
+    </table>
+  </section>
+
+  <section id="clients" tabindex="0" aria-label="Client management">
+    <button class="back-btn" aria-label="Back to home" type="button" style="display:none;">
+      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      Back
+    </button>
+    <h2>
+      <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 3-1.34 3-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 2.1 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      Clients
+    </h2>
+    <table aria-label="Clients table">
+      <thead>
+        <tr>
+          <th>Store</th>
+          <th>Contact</th>
+          <th>Phone</th>
+          <th>Collection History</th>
+        </tr>
+      </thead>
+      <tbody id="clientsBody"></tbody>
+    </table>
+  </section>
+
+  <section id="settings" tabindex="0" aria-label="Settings and user management">
+    <button class="back-btn" aria-label="Back to home" type="button" style="display:none;">
+      <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+      Back
+    </button>
+    <h2>
+      <svg viewBox="0 0 24 24"><path d="M19.14 12.936a7.985 7.985 0 000-1.873l2.036-1.593-2-3.464-2.355 1.082a7.964 7.964 0 00-1.725-1l-.356-2.482H9.41l-.356 2.482a7.97 7.97 0 00-1.725 1L5.02 6.006l-2 3.464 2.036 1.593a7.97 7.97 0 000 1.873L3.02 14.506l2 3.464 2.355-1.082a7.964 7.964 0 001.725 1l.356 2.482h3.447l.356-2.482a7.965 7.965 0 001.725-1l2.355 1.082 2-3.464-2.036-1.57zM12 15.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"/></svg>
+      Settings
+    </h2>
+    <p>Support chat and user management features coming soon.</p>
+    <button class="btn btn-approve" onclick="alert('User management coming soon!')">Open User Management</button>
+  </section>
+
+</div>
+
+<script>
+  const navButtons = document.querySelectorAll('nav.tabs button');
+  const sections = document.querySelectorAll('section');
+  const backButtons = document.querySelectorAll('.back-btn');
+
+  function activateTab(tab) {
+    navButtons.forEach(btn => {
+      const isActive = btn.getAttribute('data-tab') === tab;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+    sections.forEach(sec => {
+      sec.classList.toggle('active', sec.id === tab);
+    });
+    backButtons.forEach(btn => {
+      btn.style.display = (tab === 'dashboard' || tab === 'login') ? 'none' : 'inline-flex';
+    });
+  }
+
+  navButtons.forEach(btn => {
+    btn.addEventListener('click', () => activateTab(btn.getAttribute('data-tab')));
+  });
+
+  backButtons.forEach(btn => {
+    btn.addEventListener('click', () => activateTab('dashboard'));
+  });
+
+  // Init at login screen
+  activateTab('login');
+
+  // Data and rendering functions from mobile version (reuse)
+
+  // Collection Requests
+  const collectionRequests = [
+    {store:"Oxford St Store", location:"Oxford St", bin:"General Waste", volume:2.4, time:"9-11 AM", status:"Pending"},
+    {store:"Camden Central", location:"Camden Market", bin:"Recycling", volume:1.1, time:"11-13 PM", status:"Accepted"},
+    {store:"Shoreditch Hub", location:"Shoreditch", bin:"Food Waste", volume:1.8, time:"13-15 PM", status:"Pending"},
+    {store:"Brixton Point", location:"Brixton", bin:"General Waste", volume:3.2, time:"10-12 AM", status:"Scheduled"},
+    {store:"Greenwich Bay", location:"Greenwich", bin:"Recycling", volume:0.9, time:"14-16 PM", status:"Pending"},
+  ];
+
+  const requestsTableBody = document.getElementById('requestsTableBody');
+  function renderRequests() {
+    requestsTableBody.innerHTML = "";
+    collectionRequests.forEach((req, i) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${req.store}</td>
+        <td>${req.location}</td>
+        <td>${req.bin}</td>
+        <td>${req.volume}</td>
+        <td>${req.time}</td>
+        <td>${req.status}</td>
+        <td>
+          <button class="btn btn-approve" onclick="updateRequestStatus(${i}, 'Accepted')">Approve</button>
+          <button class="btn btn-decline" onclick="updateRequestStatus(${i}, 'Declined')">Decline</button>
+          <button class="btn btn-reschedule" onclick="alert('Reschedule feature coming soon')">Reschedule</button>
+        </td>`;
+      requestsTableBody.appendChild(tr);
+    });
+  }
+  function updateRequestStatus(index, status) {
+    collectionRequests[index].status = status;
+    renderRequests();
+  }
+  renderRequests();
+
+  // Driver Assignment
+  const routes = [
+    "Route 1: Oxford St → Camden",
+    "Route 2: Shoreditch → Brixton",
+    "Route 3: Greenwich → Hackney",
+    "Route 4: Chelsea → Westminster",
+  ];
+  const drivers = [
+    "Driver 01 - John",
+    "Driver 02 - Alice",
+    "Driver 03 - Michael",
+    "Driver 04 - Sarah",
+    "Driver 05 - David",
+    "Driver 06 - Emma",
+    "Driver 07 - James",
+    "Driver 08 - Olivia",
+    "Driver 09 - Robert",
+    "Driver 10 - Sophia",
+    "Driver 11 - William",
+    "Driver 12 - Ava",
+    "Driver 13 - Liam",
+    "Driver 14 - Mia",
+    "Driver 15 - Noah",
+  ];
+  const routesList = document.getElementById('routesList');
+  const driversList = document.getElementById('driversList');
+
+  function addListItems(listElem, items) {
+    listElem.innerHTML = "";
+    items.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = item;
+      li.style.padding = "8px 12px";
+      li.style.marginBottom = "8px";
+      li.style.background = "#a7d08a";
+      li.style.borderRadius = "12px";
+      li.style.fontWeight = "700";
+      listElem.appendChild(li);
+    });
+  }
+  addListItems(routesList, routes);
+  addListItems(driversList, drivers);
+
+  // Driver Performance
+  const driverPerformanceData = [
+    {driver:"John", pickups: 120, avgTime: 7.2, efficiency: 92},
+    {driver:"Alice", pickups: 110, avgTime: 7.9, efficiency: 89},
+    {driver:"Michael", pickups: 115, avgTime: 8.1, efficiency: 88},
+    {driver:"Sarah", pickups: 130, avgTime: 6.8, efficiency: 95},
+    {driver:"David", pickups: 105, avgTime: 7.5, efficiency: 90},
+  ];
+  const driverPerformanceBody = document.getElementById('driverPerformanceBody');
+  function renderDriverPerformance() {
+    driverPerformanceBody.innerHTML = "";
+    driverPerformanceData.forEach(d => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${d.driver}</td><td>${d.pickups}</td><td>${d.avgTime.toFixed(1)}</td><td>${d.efficiency}%</td>`;
+      driverPerformanceBody.appendChild(tr);
+    });
+  }
+  renderDriverPerformance();
+
+  // Clients
+  const clientsData = [
+    {store:"Oxford St Store", contact:"John Doe", phone:"020 1234 5678", history:"15 pickups"},
+    {store:"Camden Central", contact:"Alice Smith", phone:"020 9876 5432", history:"12 pickups"},
+    {store:"Shoreditch Hub", contact:"Michael Brown", phone:"020 1122 3344", history:"10 pickups"},
+    {store:"Brixton Point", contact:"Sarah Wilson", phone:"020 2233 4455", history:"8 pickups"},
+  ];
+  const clientsBody = document.getElementById('clientsBody');
+  function renderClients() {
+    clientsBody.innerHTML = "";
+    clientsData.forEach(c => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${c.store}</td><td>${c.contact}</td><td>${c.phone}</td><td>${c.history}</td>`;
+      clientsBody.appendChild(tr);
+    });
+  }
+  renderClients();
+
+  // Login handling
+  const loginForm = document.getElementById('loginForm');
+  loginForm.addEventListener('submit', e => {
+    e.preventDefault();
+    alert('Login successful! Loading dashboard...');
+    activateTab('dashboard');
+  });
+</script>
+</body>
+</html>
