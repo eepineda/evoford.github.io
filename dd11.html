@@ -64,27 +64,35 @@
     background: #1c1c1e;
     border-radius: 28px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
+    display: flex;              /* Flex layout */
+    justify-content: space-around;  /* Space around buttons */
     align-items: center;
     user-select: none;
     z-index: 100;
+    padding: 0 8px;
+    gap: 4px;
+    overflow-x: auto;           /* Horizontal scroll if needed */
+    scrollbar-width: none;      /* Hide scrollbar Firefox */
+  }
+  nav::-webkit-scrollbar {
+    display: none;              /* Hide scrollbar Chrome, Safari, Edge */
   }
   nav button {
     background: transparent;
     border: none;
     color: #a3b18a;
     font-weight: 700;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
-    padding: 6px 0;
-    transition: color 0.3s ease, transform 0.2s ease;
+    gap: 3px;
+    padding: 6px 8px;
     white-space: nowrap;
     user-select: none;
+    min-width: 48px;
+    flex-shrink: 0;
   }
   nav button svg {
     width: 20px;
