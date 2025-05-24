@@ -3,157 +3,195 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>EvoSustain - App Modules Overview</title>
+<title>EvoSustain - Pilot & POC Plan for Clients</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
   body {
-    font-family: Arial, sans-serif;
-    padding: 40px 20px;
-    background: #e0f2e9;
-    color: #2e7d32;
+    margin: 0; padding: 0;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    color: #1b4332;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 30px 15px;
+  }
+
+  .container {
     max-width: 900px;
-    margin: auto;
-  }
-  h1 {
-    text-align: center;
-    margin-bottom: 50px;
-    font-size: 2.8rem;
-  }
-  section {
     background: white;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(46,125,50,0.3);
-    padding: 30px 30px 40px;
+    border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(34, 139, 34, 0.15);
+    padding: 40px 45px 60px;
+    box-sizing: border-box;
+  }
+
+  header {
+    text-align: center;
     margin-bottom: 40px;
   }
-  h2 {
+
+  header h1 {
+    font-size: 2.8rem;
+    font-weight: 900;
+    margin-bottom: 10px;
     color: #2e7d32;
-    font-size: 2.2rem;
-    margin-top: 0;
-    margin-bottom: 16px;
-    border-bottom: 4px solid #4caf50;
-    padding-bottom: 8px;
+    letter-spacing: 1.5px;
   }
-  h3 {
-    color: #3a5f30;
-    margin-top: 30px;
-    margin-bottom: 14px;
+
+  header p {
+    font-size: 1.15rem;
+    color: #4a7c4a;
   }
-  p, li {
-    font-size: 1.12rem;
-    line-height: 1.6;
+
+  section {
+    margin-bottom: 48px;
   }
-  ul {
-    padding-left: 20px;
+
+  section h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    border-left: 6px solid #4caf50;
+    padding-left: 15px;
+    color: #2e7d32;
+  }
+
+  section p {
+    font-size: 1.1rem;
     margin-bottom: 20px;
   }
+
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-bottom: 20px;
+  }
+
   ul li {
-    margin-bottom: 8px;
+    padding-left: 35px;
+    position: relative;
+    margin-bottom: 15px;
+    font-weight: 600;
   }
-  .btn-open {
-    display: inline-block;
-    margin-top: 25px;
-    padding: 16px 42px;
-    background: #4caf50;
+
+  ul li::before {
+    content: "✔️";
+    position: absolute;
+    left: 0;
+    top: 3px;
+    font-size: 1.2rem;
+    color: #4caf50;
+  }
+
+  .btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+
+  .btn {
+    background-color: #4caf50;
     color: white;
-    font-weight: 900;
-    border-radius: 30px;
-    text-decoration: none;
-    font-size: 1.25rem;
-    box-shadow: 0 10px 28px rgba(76,175,80,0.7);
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 14px 32px;
+    border-radius: 35px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.5);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+    flex: 1 1 250px;
   }
-  .btn-open:hover,
-  .btn-open:focus {
-    background: #357a29;
-    box-shadow: 0 14px 38px rgba(53,122,41,0.9);
+
+  .btn:hover, .btn:focus {
+    background-color: #357a29;
+    box-shadow: 0 12px 30px rgba(53, 122, 41, 0.75);
     outline: none;
   }
-  footer {
-    text-align: center;
-    margin-top: 60px;
-    font-weight: 700;
-    color: #2e7d32;
-    font-size: 1.1rem;
-  }
+
   @media (max-width: 600px) {
-    body {
-      padding: 20px 15px;
+    .container {
+      padding: 25px 20px 40px;
     }
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 30px;
+    header h1 {
+      font-size: 2.2rem;
     }
-    section {
-      padding: 20px 20px 30px;
-      margin-bottom: 30px;
+    section h2 {
+      font-size: 1.7rem;
     }
-    .btn-open {
-      font-size: 1rem;
-      padding: 14px 30px;
+    .btn-group {
+      flex-direction: column;
+      gap: 12px;
+    }
+    .btn {
+      flex: none;
+      width: 100%;
     }
   }
 </style>
 </head>
 <body>
 
-<h1>EvoSustain App Modules Overview</h1>
+<div class="container" role="main" aria-label="EvoSustain Pilot and Proof of Concept Plan">
+  <header>
+    <h1>EvoSustain Pilot & POC Plan</h1>
+    <p>Discover the benefits of EvoSustain’s innovative waste management solutions with our tailored pilot and proof of concept for your business.</p>
+  </header>
 
-<section aria-labelledby="stores-title">
-  <h2 id="stores-title">1. Stores App (Mobile-First)</h2>
-  <p><strong>Use case:</strong> Store staff quickly requests collection, tracks it, and views history.</p>
-  
-  <h3>Main Screens (5–7):</h3>
-  <ul>
-    <li><strong>Login / Sign-Up:</strong> Fast access, possibly via store ID or QR onboarding.</li>
-    <li><strong>Scan QR Code (Home Screen):</strong> Opens camera to scan bin/waste-type QR code.</li>
-    <li><strong>Request Collection Form:</strong> Auto-fills location and bin type. Fields: volume, time window, optional notes.</li>
-    <li><strong>Request Confirmation:</strong> Status = “Scheduled” with collection ETA.</li>
-    <li><strong>Track Collection:</strong> Simple status updates: Requested → Accepted → In Transit → Collected.</li>
-    <li><strong>History:</strong> List of past collections with filters by date/type.</li>
-    <li><strong>Settings / Help:</strong> Support chat, FAQ, profile management.</li>
-    <li><em>Optional:</em> Push notifications for collection updates.</li>
-  </ul>
-  <a href="https://www.evoford.com/app/storeapp.html" target="_blank" rel="noopener" class="btn-open" aria-label="Open Stores App">Open Stores App</a>
-</section>
+  <section aria-labelledby="pilot-overview">
+    <h2 id="pilot-overview">Why Pilot with EvoSustain?</h2>
+    <p>Our pilot program lets you experience firsthand how EvoSustain's technology can revolutionize your waste collection operations, improving efficiency, sustainability, and cost-effectiveness.</p>
+    <ul>
+      <li>Test real-time route optimization and task assignment</li>
+      <li>Gain detailed visibility of driver performance and collection status</li>
+      <li>Receive actionable sustainability reports and CO₂ impact data</li>
+      <li>Engage your team with easy-to-use mobile apps for stores and drivers</li>
+      <li>Access support and training from EvoSustain experts throughout the pilot</li>
+    </ul>
+  </section>
 
-<section aria-labelledby="business-title">
-  <h2 id="business-title">2. Business Management (Admin Portal)</h2>
-  <p><strong>Designed for:</strong> Operators and planners. Desktop-first with possible map interface.</p>
-  
-  <h3>Main Screens (6–8):</h3>
-  <ul>
-    <li><strong>Login / Admin Dashboard:</strong> KPIs, pending requests, system alerts.</li>
-    <li><strong>Collection Requests Overview:</strong> Approve, decline, reschedule requests.</li>
-    <li><strong>Schedule Planning:</strong> Calendar + route optimization logic.</li>
-    <li><strong>Driver Assignment Panel:</strong> Drag-and-drop or dropdown assignment.</li>
-    <li><strong>Live Map View:</strong> Real-time driver locations, active collections.</li>
-    <li><strong>Driver Performance:</strong> Metrics: time efficiency, completed pickups.</li>
-    <li><strong>Client Management:</strong> Contact info, collection history per store.</li>
-    <li><strong>Settings / Support / User Management.</strong></li>
-  </ul>
-  <a href="https://www.evoford.com/app/businessweb.html" target="_blank" rel="noopener" class="btn-open" aria-label="Open Business Admin Web">Open Admin Portal (Web)</a><br />
-  <a href="https://www.evoford.com/app/businessapp.html" target="_blank" rel="noopener" class="btn-open" style="margin-top: 12px;" aria-label="Open Business Admin App">Open Admin Portal (App)</a>
-</section>
+  <section aria-labelledby="pilot-details">
+    <h2 id="pilot-details">Pilot Program Details</h2>
+    <p>The pilot is designed for quick deployment with measurable results:</p>
+    <ul>
+      <li>Duration: 3 months with full access to all modules</li>
+      <li>Participants: Up to 50 stores, 15 drivers, and admin users</li>
+      <li>Comprehensive training and onboarding support</li>
+      <li>Customizable KPIs and reports tailored to your goals</li>
+      <li>Feedback loops to adapt and enhance the solution during the pilot</li>
+    </ul>
+  </section>
 
-<section aria-labelledby="drivers-title">
-  <h2 id="drivers-title">3. Drivers App (Mobile Experience)</h2>
-  <p><strong>Designed for:</strong> Quick daily use, mobile-only.</p>
-  
-  <h3>Main Screens (4–6):</h3>
-  <ul>
-    <li><strong>Login / Daily Start:</strong> Driver login and workday start.</li>
-    <li><strong>Today’s Route Overview:</strong> Map + list view, optimized route.</li>
-    <li><strong>Collection Task Detail:</strong> Address, type of waste, special notes.</li>
-    <li><strong>Update Status:</strong> Options: Arrived, Collected, Issue Reported.</li>
-    <li><strong>Map Navigation:</strong> Integration with GPS or deep link simulation.</li>
-    <li><strong>End of Day Summary:</strong> Completed collections, notes, metrics.</li>
-  </ul>
-  <a href="https://www.evoford.com/app/driversapp.html" target="_blank" rel="noopener" class="btn-open" aria-label="Open Drivers App">Open Drivers App</a>
-</section>
+  <section aria-labelledby="modules-overview">
+    <h2 id="modules-overview">Key Modules Included</h2>
+    <ul>
+      <li><strong>Stores App:</strong> Quick collection requests, QR code scanning, tracking, and history views.</li>
+      <li><strong>Business Admin Portal:</strong> Request approvals, schedule planning, driver assignments, and analytics.</li>
+      <li><strong>Drivers App:</strong> Daily route overview, task details, status updates, and navigation support.</li>
+    </ul>
+  </section>
 
-<footer>
-  © 2025 EvoSustain Ltd. All rights reserved.
-</footer>
+  <section aria-labelledby="get-started">
+    <h2 id="get-started">Get Started Today</h2>
+    <p>Ready to take your waste management to the next level? Access the apps below to explore EvoSustain’s capabilities.</p>
+    <div class="btn-group">
+      <a href="https://www.evoford.com/app/storeapp.html" target="_blank" rel="noopener" class="btn" aria-label="Open Stores App">Stores App</a>
+      <a href="https://www.evoford.com/app/businessweb.html" target="_blank" rel="noopener" class="btn" aria-label="Open Business Admin Web">Business Admin Web</a>
+      <a href="https://www.evoford.com/app/businessapp.html" target="_blank" rel="noopener" class="btn" aria-label="Open Business Admin App">Business Admin App</a>
+      <a href="https://www.evoford.com/app/driversapp.html" target="_blank" rel="noopener" class="btn" aria-label="Open Drivers App">Drivers App</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 EvoSustain Ltd. All rights reserved.</p>
+  </footer>
+</div>
 
 </body>
 </html>
