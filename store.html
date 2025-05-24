@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<title>EvoSustain Store App</title>
+<title>EvoSustain Store App - Full Process</title>
 <style>
   body, html {
     margin:0; padding:0; height:100vh;
@@ -244,13 +244,14 @@
     <section id="login" class="active" tabindex="0" aria-label="Login screen">
       <h2>
         <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4z"/><path d="M12 14c-4 0-6 2-6 6v2h12v-2c0-4-2-6-6-6z"/></svg>
-        Login
+        Login / Sign-Up
       </h2>
       <form id="loginForm">
         <label for="storeId">Store ID</label>
         <input id="storeId" type="text" placeholder="Enter Store ID" required autocomplete="off"/>
         <button type="submit" class="submit-btn">Login</button>
       </form>
+      <p style="text-align:center; font-weight:700; margin-top:10px;">Or use QR onboarding on Home screen</p>
     </section>
 
     <!-- Home / Scan QR -->
@@ -438,14 +439,15 @@
     activateTab('home');
   });
 
-  // Simulate QR code scan
+  // Simulate QR code scan onboarding (fast login)
   const startScanBtn = document.getElementById('startScanBtn');
   const locationInput = document.getElementById('location');
   const binTypeInput = document.getElementById('binType');
   startScanBtn.addEventListener('click', () => {
-    // Simulate filling location and bin type from QR
+    // Simulate scanning QR onboarding: fill location and bin type + auto login
     locationInput.value = "Oxford St Store";
     binTypeInput.value = "General Waste";
+    alert('QR code scanned, onboarding complete.');
     activateTab('requestForm');
   });
 
@@ -486,6 +488,7 @@
       currentStatusIndex++;
       if (currentStatusIndex >= statuses.length) {
         clearInterval(interval);
+        alert('Collection Completed!');
         return;
       }
       trackStatusBox.innerHTML = 'Status: <strong>' + statuses[currentStatusIndex] + '</strong>';
