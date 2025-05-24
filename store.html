@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<title>EvoSustain Store App - Full Process</title>
+<title>EvoSustain Store App - Full Process with Back Buttons</title>
 <style>
   body, html {
     margin:0; padding:0; height:100vh;
@@ -420,7 +420,10 @@
   });
 
   backButtons.forEach(btn => {
-    btn.addEventListener('click', () => activateTab('home'));
+    btn.addEventListener('click', () => {
+      // For Back: return always to Home (could be adapted for more complex history)
+      activateTab('home');
+    });
   });
 
   // Start on login
@@ -519,7 +522,6 @@
   }
   filterType.addEventListener('change', e => renderHistory(e.target.value));
   renderHistory();
-
 </script>
 </body>
 </html>
