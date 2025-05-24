@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>EvoSustain Mobile App Mockup</title>
+  <style>
+    body, html {
+      margin: 0; padding: 0; height: 100vh;
+      display: flex; justify-content: center; align-items: center;
+      background: linear-gradient(135deg, #d4e8c7 0%, #a5d6a7 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .mobile-mockup {
+      width: 375px;
+      height: 667px;
+      background: #f1f8e9;
+      border: 16px solid #000000;
+      border-radius: 36px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    header {
+      background: #000000;
+      color: #f1f8e9;
+      text-align: center;
+      padding: 16px 0;
+      font-weight: 700;
+      font-size: 1.25rem;
+      user-select: none;
+    }
+    main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px;
+      color: #4a5a36;
+    }
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+      justify-content: center;
+    }
+    nav button {
+      flex: 1 1 30%;
+      min-width: 90px;
+      background: #68b176;
+      border: none;
+      border-radius: 12px;
+      padding: 8px 6px;
+      font-size: 0.8rem;
+      color: #f1f8e9;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.25s ease;
+      white-space: nowrap;
+    }
+    nav button.active, nav button:hover {
+      background: #2e7d32;
+    }
+    section {
+      display: none;
+    }
+    section.active {
+      display: block;
+    }
+    h2 {
+      margin-top: 0;
+      font-weight: 700;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+    ul.stats {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+    ul.stats li {
+      margin-bottom: 6px;
+    }
+    canvas {
+      max-width: 100%;
+      border-radius: 10px;
+      background: #dcedc8;
+      margin-bottom: 12px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: 1px solid #4a5a36;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    button.manage-btn {
+      background: #2e7d32;
+      color: #f1f8e9;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+      width: 100%;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+    }
+    table thead tr {
+      background:#4f8f6e;
+      color:#f1f8e9;
+    }
+    table th, table td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #c5e1a5;
+    }
+  </style>
+</head>
+<body>
+  <div class="mobile-mockup" role="application" aria-label="EvoSustain Mobile Admin Portal">
+    <header>🌿 EvoSustain</header>
+    <main>
+      <nav aria-label="Main navigation">
+        <button data-tab="dashboard" class="active" aria-controls="dashboard" aria-selected="true">Dashboard</button>
+        <button data-tab="requests" aria-controls="requests" aria-selected="false">Requests</button>
+        <button data-tab="planning" aria-controls="planning" aria-selected="false">Planning</button>
+        <button data-tab="drivers" aria-controls="drivers" aria-selected="false">Drivers</button>
+        <button data-tab="performance" aria-controls="performance" aria-selected="false">Performance</button>
+        <button data-tab="clients" aria-controls="clients" aria-selected="false">Clients</button>
+        <button data-tab="map" aria-controls="map" aria-selected="false">Map</button>
+        <button data-tab="reports" aria-controls="reports" aria-selected="false">Reports</button>
+        <button data-tab="settings" aria-controls="settings" aria-selected="false">Settings</button>
+      </nav>
+
+      <section id="dashboard" class="active" tabindex="0">
+        <h2>Dashboard</h2>
+        <ul class="stats" role="list">
+          <li>📦 Pending Requests: <strong>144</strong></li>
+          <li>🚛 Active Drivers: <strong>20</strong></li>
+          <li>⚠️ System Alerts: <strong>4 Critical, 6 Warnings</strong></li>
+          <li>🌍 CO₂ Saved Today: <strong>184.6 kg</strong></li>
+          <li>⏱️ Avg Pickup Time: <strong>7.6 min</strong></li>
+          <li>🏪 Total Clients: <strong>180</strong></li>
+          <li>📊 Total Requests (Week): <strong>1,245</strong></li>
+          <li>📅 Scheduled Routes: <strong>210</strong></li>
+        </ul>
+      </section>
+
+      <section id="requests" tabindex="0">
+        <h2>Requests by Location</h2>
+        <canvas id="requestsChart" width="320" height="180" role="img" aria-label="Bar chart showing requests by location"></canvas>
+      </section>
+
+      <section id="planning" tabindex="0">
+        <h2>Schedule Planning</h2>
+        <ul class="stats">
+          <li>Routes Scheduled: <strong>104</strong></li>
+          <li>Optimized Routes: <strong>98</strong></li>
+          <li>Pending Optimization: <strong>6</strong></li>
+          <li>Peak Hours: <strong>9:00–11:00 AM</strong></li>
+        </ul>
+      </section>
+
+      <section id="drivers" tabindex="0">
+        <h2>Driver Assignment</h2>
+        <ul class="stats">
+          <li>Drivers Available: <strong>134</strong></li>
+          <li>Assigned: <strong>120</strong></li>
+          <li>Unassigned: <strong>14</strong></li>
+          <li>Standby Drivers: <strong>6</strong></li>
+        </ul>
+      </section>
+
+      <section id="performance" tabindex="0">
+        <h2>Driver Performance</h2>
+        <ul class="stats">
+          <li>Total Pickups: <strong>204</strong></li>
+          <li>Avg Pickup Time: <strong>6.9 min</strong></li>
+          <li>Missed Pickups: <strong>5</strong></li>
+          <li>Top Performer: <strong>Driver #107</strong></li>
+        </ul>
+      </section>
+
+      <section id="clients" tabindex="0">
+        <h2>Client Management</h2>
+        <ul class="stats">
+          <li>Total Clients: <strong>180</strong></li>
+          <li>Top Client: <strong>Oxford St (142 pickups)</strong></li>
+          <li>Active Tickets: <strong>6</strong></li>
+          <li>Avg Response Time: <strong>2.1 hrs</strong></li>
+        </ul>
+      </section>
+
+      <section id="map" tabindex="0">
+        <h2>Live Map View</h2>
+        <ul class="stats">
+          <li>Active Routes: <strong>64</strong></li>
+          <li>Live Location Refresh: <strong>15 sec</strong></li>
+          <li>Last Sync: <strong>1:14 PM</strong></li>
+        </ul>
+      </section>
+
+      <section id="reports" tabindex="0">
+        <h2>Efficiency Breakdown</h2>
+        <canvas id="efficiencyChart" width="320" height="180" role="img" aria-label="Pie chart showing efficiency breakdown"></canvas>
+
+        <h2>Consumption Report (Monthly)</h2>
+        <canvas id="consumptionChart" width="320" height="180" role="img" aria-label="Bar chart showing monthly consumption"></canvas>
+
+        <h2>Fast Routes Report</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Route</th>
+              <th>Avg Time (min)</th>
+              <th>Distance (miles)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Route A - Oxford St</td><td>12.4</td><td>5.3</td></tr>
+            <tr><td>Route B - Camden</td><td>10.1</td><td>4.1</td></tr>
+            <tr><td>Route C - Shoreditch</td><td>9.5</td><td>3.8</td></tr>
+            <tr><td>Route D - Brixton</td><td>11.2</td><td>4.7</td></tr>
+          </tbody>
+        </table>
+
+        <h2>Alerts Summary</h2>
+        <ul style="padding-left: 20px; margin: 0; color:#6d4c41;">
+          <li>⚠️ <strong>Critical:</strong> Overflow at Camden Market bin (May 22, 10:15 AM)</li>
+          <li>⚠️ <strong>Warning:</strong> Driver delay on Route C (May 21, 3:30 PM)</li>
+          <li>⚠️ <strong>Critical:</strong> Missed pickup at Shoreditch (May 20, 9:00 AM)</li>
+          <li>⚠️ <strong>Info:</strong> Scheduled maintenance on Route D (May 25)</li>
+        </ul>
+      </section>
+
+      <section id="settings" tabindex="0">
+        <h2>User Management</h2>
+        <input type="text" placeholder="Search users..." aria-label="Search users" />
+        <button class="manage-btn">Manage Users</button>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const buttons = document.querySelectorAll('nav button');
+    const sections = document.querySelectorAll('main section');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        sections.forEach(s => s.classList.remove('active'));
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+        const tab = btn.getAttribute('data-tab');
+        document.getElementById(tab).classList.add('active');
+      });
+    });
+
+    // Requests bar chart
+    const requestsCtx = document.getElementById('requestsChart').getContext('2d');
+    const requestsChart = new Chart(requestsCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Oxford St', 'Camden Market', 'Shoreditch', 'Brixton'],
+        datasets: [{
+          label: 'Requests',
+          data: [135, 112, 89, 74],
+          backgroundColor: '#4f8f6e',
+          borderRadius: 5,
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { color: '#4a5a36' },
+            grid: { color: '#c5e1a5' }
+          },
+          x: {
+            ticks: { color: '#4a5a36' },
+            grid: { color: '#c5e1a5' }
+          }
+        },
+        plugins: {
+          legend: { labels: { color: '#4a5a36' } }
+        }
+      }
+    });
+
+    // Efficiency pie chart
+    const efficiencyCtx = document.getElementById('efficiencyChart').getContext('2d');
+    const efficiencyChart = new Chart(efficiencyCtx, {
+      type: 'pie',
+      data: {
+        labels: ['Efficient', 'Inefficient'],
+        datasets: [{
+          data: [91, 9],
+          backgroundColor: ['#2e7d32', '#6d4c41']
+        }]
+      },
+      options: {
+        plugins: {
+          legend: { labels: { color: '#4a5a36' } }
+        }
+      }
+    });
+
+    // Consumption bar chart
+    const consumptionCtx = document.getElementById('consumptionChart').getContext('2d');
+    const consumptionChart = new Chart(consumptionCtx, {
+      type: 'bar',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        datasets: [{
+          label: 'Waste Collected (tons)',
+          data: [12.5, 13.7, 14.2, 13.1, 15.3, 14.8, 16.0],
+          backgroundColor: '#6d4c41',
+          borderRadius: 5,
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { color: '#4a5a36' },
+            grid: { color: '#c5e1a5' }
+          },
+          x: {
+            ticks: { color: '#4a5a36' },
+            grid: { color: '#c5e1a5' }
+          }
+        },
+        plugins: {
+          legend: { labels: { color: '#4a5a36' } }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
