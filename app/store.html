@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>EvoSustain Store App - Full Process with Back Buttons</title>
+<style>
+  body, html {
+    margin:0; padding:0; height:100vh;
+    display:flex; justify-content:center; align-items:center;
+    background: linear-gradient(135deg, #eaf4ea 0%, #d0e9d0 100%);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #2f3e46;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .mobile-mockup {
+    width: 375px; height: 667px;
+    background: #ffffff;
+    border: 16px solid #1c1c1e;
+    border-radius: 44px;
+    box-shadow:
+      0 16px 32px rgba(0,0,0,0.28),
+      inset 0 0 8px rgba(255,255,255,0.6);
+    display: flex; flex-direction: column; overflow: hidden;
+    user-select: none;
+    position: relative;
+  }
+  header {
+    background: #2e7d32;
+    color: #fafafa;
+    text-align: center;
+    padding: 18px 0;
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: 1.2px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  header svg {
+    width: 28px; height: 28px;
+    fill: #a8d5a2;
+  }
+  main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 24px 80px;
+    color: #2f3e46;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+  }
+  nav {
+    position: fixed;
+    bottom: 0;
+    left: 16px;
+    right: 16px;
+    height: 60px;
+    background: #1c1c1e;
+    border-radius: 28px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    display: flex;              
+    justify-content: space-around;  
+    align-items: center;
+    user-select: none;
+    z-index: 100;
+    padding: 0 8px;
+    gap: 4px;
+    overflow-x: auto;           
+    scrollbar-width: none;      
+  }
+  nav::-webkit-scrollbar {
+    display: none;              
+  }
+  nav button {
+    background: transparent;
+    border: none;
+    color: #a3b18a;
+    font-weight: 700;
+    font-size: 0.7rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 6px 8px;
+    white-space: nowrap;
+    user-select: none;
+    min-width: 48px;
+    flex-shrink: 0;
+  }
+  nav button svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    transition: fill 0.3s ease;
+  }
+  nav button.active,
+  nav button:hover {
+    color: #4caf50;
+    transform: translateY(-3px);
+  }
+  section {
+    display: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    position: relative;
+  }
+  section.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  h2 {
+    margin-top: 0;
+    font-weight: 900;
+    margin-bottom: 16px;
+    font-size: 1.4rem;
+    border-bottom: 3px solid #4caf50;
+    padding-bottom: 8px;
+    color: #1a2b20;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2 svg {
+    width: 28px; height: 28px;
+    fill: #4caf50;
+    flex-shrink: 0;
+  }
+  button.back-btn {
+    position: absolute;
+    top: 16px;
+    left: 20px;
+    background: transparent;
+    border: none;
+    color: #4caf50;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 20px;
+    user-select: none;
+    transition: background-color 0.3s ease;
+    z-index: 10;
+  }
+  button.back-btn:hover {
+    background-color: #d1f0d1;
+  }
+  button.back-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: #4caf50;
+  }
+  form label {
+    font-weight: 700;
+    font-size: 1rem;
+    display: block;
+    margin-bottom: 6px;
+  }
+  form input, form select, form textarea {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: 1.8px solid #4caf50;
+    margin-bottom: 16px;
+    font-weight: 700;
+    color: #2f3e46;
+    resize: vertical;
+  }
+  form input:focus, form select:focus, form textarea:focus {
+    outline: none;
+    border-color: #357a29;
+  }
+  form button.submit-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 1.1rem;
+    border-radius: 28px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 900;
+    transition: background-color 0.3s ease;
+  }
+  form button.submit-btn:hover {
+    background-color: #357a29;
+  }
+  .status-box {
+    padding: 20px;
+    background: #e3f1d8;
+    border-radius: 14px;
+    box-shadow: 0 3px 12px rgb(76 175 80 / 0.3);
+    font-weight: 700;
+    color: #2f4a1e;
+    text-align: center;
+  }
+  ul.history-list {
+    list-style:none;
+    padding-left:0;
+    margin:0;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  ul.history-list li {
+    background: #e3f1d8;
+    margin-bottom: 10px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-weight: 700;
+    color: #2f4a1e;
+  }
+  .filter-group {
+    margin-bottom: 16px;
+  }
+  .filter-group label {
+    margin-right: 12px;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+<div class="mobile-mockup" role="application" aria-label="EvoSustain Store Mobile App">
+  <header>
+    EvoSustain Store
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="#a8d5a2" aria-hidden="true" focusable="false">
+      <circle cx="32" cy="32" r="30" stroke="#4caf50" stroke-width="3" fill="none" />
+      <circle cx="32" cy="32" r="14" />
+    </svg>
+  </header>
+  <main>
+    <!-- Login -->
+    <section id="login" class="active" tabindex="0" aria-label="Login screen">
+      <h2>
+        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4S14.21 4 12 4 8 5.79 8 8s1.79 4 4 4z"/><path d="M12 14c-4 0-6 2-6 6v2h12v-2c0-4-2-6-6-6z"/></svg>
+        Login / Sign-Up
+      </h2>
+      <form id="loginForm">
+        <label for="storeId">Store ID</label>
+        <input id="storeId" type="text" placeholder="Enter Store ID" required autocomplete="off"/>
+        <button type="submit" class="submit-btn">Login</button>
+      </form>
+      <p style="text-align:center; font-weight:700; margin-top:10px;">Or use QR onboarding on Home screen</p>
+    </section>
+
+    <!-- Home / Scan QR -->
+    <section id="home" tabindex="0" aria-label="Home and Scan QR" >
+      <h2>
+        <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z" fill="none"/><path d="M21 3H3v18h18V3zM9 8H7v2H5v2h2v2h2v-2h2v-2H9z"/></svg>
+        Scan QR Code
+      </h2>
+      <button id="startScanBtn" class="submit-btn">Simulate Scan QR Code</button>
+    </section>
+
+    <!-- Request Collection Form -->
+    <section id="requestForm" tabindex="0" aria-label="Request Collection Form">
+      <button class="back-btn" aria-label="Back to Home" type="button">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        Back
+      </button>
+      <h2>
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>
+        Request Collection
+      </h2>
+      <form id="collectionForm">
+        <label for="location">Location</label>
+        <input id="location" type="text" readonly />
+        <label for="binType">Bin Type</label>
+        <input id="binType" type="text" readonly />
+        <label for="volume">Volume (m³)</label>
+        <input id="volume" type="number" step="0.1" min="0.1" placeholder="e.g., 2.5" required />
+        <label for="timeWindow">Time Window</label>
+        <select id="timeWindow" required>
+          <option value="" disabled selected>Select time window</option>
+          <option>9:00–11:00 AM</option>
+          <option>11:00 AM–1:00 PM</option>
+          <option>1:00–3:00 PM</option>
+          <option>3:00–5:00 PM</option>
+        </select>
+        <label for="notes">Additional Notes (optional)</label>
+        <textarea id="notes" rows="3" placeholder="Enter any notes..."></textarea>
+        <button type="submit" class="submit-btn">Submit Request</button>
+      </form>
+    </section>
+
+    <!-- Request Confirmation -->
+    <section id="requestConfirm" tabindex="0" aria-label="Request Confirmation">
+      <button class="back-btn" aria-label="Back to Home" type="button">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        Back
+      </button>
+      <h2>
+        <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/></svg>
+        Request Confirmed
+      </h2>
+      <div class="status-box">
+        <p>Status: <strong>Scheduled</strong></p>
+        <p>Estimated Collection Time: <strong id="etaTime">12:30 PM</strong></p>
+      </div>
+      <button id="trackBtn" class="submit-btn">Track Collection</button>
+    </section>
+
+    <!-- Track Collection -->
+    <section id="trackCollection" tabindex="0" aria-label="Track Collection">
+      <button class="back-btn" aria-label="Back to Home" type="button">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        Back
+      </button>
+      <h2>
+        <svg viewBox="0 0 24 24"><path d="M13 2v2H7v8H5v2h2v2h2v-2h6v-2h-2V6h2V4h-2V2z"/></svg>
+        Track Collection
+      </h2>
+      <div class="status-box" id="trackStatus">
+        Status: <strong>Requested</strong>
+      </div>
+    </section>
+
+    <!-- History -->
+    <section id="history" tabindex="0" aria-label="Collection History">
+      <button class="back-btn" aria-label="Back to Home" type="button">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        Back
+      </button>
+      <h2>
+        <svg viewBox="0 0 24 24"><path d="M3 6h18v2H3zM3 10h18v2H3zM3 14h18v2H3z"/></svg>
+        History
+      </h2>
+      <div class="filter-group" role="region" aria-label="Filter history">
+        <label>Filter by Type:</label>
+        <select id="filterType">
+          <option value="all">All</option>
+          <option value="General Waste">General Waste</option>
+          <option value="Recycling">Recycling</option>
+          <option value="Food Waste">Food Waste</option>
+        </select>
+      </div>
+      <ul class="history-list" id="historyList"></ul>
+    </section>
+
+    <!-- Settings / Help -->
+    <section id="settings" tabindex="0" aria-label="Settings and Help">
+      <button class="back-btn" aria-label="Back to Home" type="button">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        Back
+      </button>
+      <h2>
+        <svg viewBox="0 0 24 24"><path d="M19.14 12.936a7.985 7.985 0 000-1.873l2.036-1.593-2-3.464-2.355 1.082a7.964 7.964 0 00-1.725-1l-.356-2.482H9.41l-.356 2.482a7.97 7.97 0 00-1.725 1L5.02 6.006l-2 3.464 2.036 1.593a7.97 7.97 0 000 1.873L3.02 14.506l2 3.464 2.355-1.082a7.964 7.964 0 001.725 1l.356 2.482h3.447l.356-2.482a7.965 7.965 0 001.725-1l2.355 1.082 2-3.464-2.036-1.57zM12 15.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"/></svg>
+        Settings & Help
+      </h2>
+      <h3>Support Chat</h3>
+      <p><em>Coming soon...</em></p>
+      <h3>FAQ</h3>
+      <ul>
+        <li><strong>How to request a collection?</strong> Use the Request Collection form after scanning the QR code.</li>
+        <li><strong>How to track my collection?</strong> Use the Track Collection screen.</li>
+        <li><strong>How to update my profile?</strong> Available soon in Settings.</li>
+      </ul>
+      <h3>Profile</h3>
+      <p><em>Coming soon...</em></p>
+    </section>
+  </main>
+  
+  <nav aria-label="Bottom navigation">
+    <button data-tab="home" aria-controls="home" aria-selected="true" title="Home" class="active" tabindex="0">
+      <svg viewBox="0 0 24 24"><path d="M3 3h18v18H3z" fill="none"/><path d="M21 3H3v18h18V3zM9 8H7v2H5v2h2v2h2v-2h2v-2H9z"/></svg>
+      Home
+    </button>
+    <button data-tab="history" aria-controls="history" aria-selected="false" title="History" tabindex="-1">
+      <svg viewBox="0 0 24 24"><path d="M3 4v16h18V4H3z"/></svg>
+      History
+    </button>
+    <button data-tab="settings" aria-controls="settings" aria-selected="false" title="Settings" tabindex="-1">
+      <svg viewBox="0 0 24 24"><path d="M19.14 12.936a7.985 7.985 0 000-1.873l2.036-1.593-2-3.464-2.355 1.082a7.964 7.964 0 00-1.725-1l-.356-2.482H9.41l-.356 2.482a7.97 7.97 0 00-1.725 1L5.02 6.006l-2 3.464 2.036 1.593a7.97 7.97 0 000 1.873L3.02 14.506l2 3.464 2.355-1.082a7.964 7.964 0 001.725 1l.356 2.482h3.447l.356-2.482a7.965 7.965 0 001.725-1l2.355 1.082 2-3.464-2.036-1.57zM12 15.5a3.5 3.5 0 110-7 3.5 3.5 0 010 7z"/></svg>
+      Settings
+    </button>
+  </nav>
+</div>
+
+<script>
+  const navButtons = document.querySelectorAll('nav[aria-label="Bottom navigation"] button');
+  const sections = document.querySelectorAll('main section');
+  const backButtons = document.querySelectorAll('button.back-btn');
+
+  function activateTab(tab) {
+    navButtons.forEach(btn => {
+      const isActive = btn.getAttribute('data-tab') === tab;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      btn.tabIndex = isActive ? 0 : -1;
+    });
+    sections.forEach(sec => {
+      sec.classList.toggle('active', sec.id === tab);
+    });
+
+    // Show back button except on home and login
+    sections.forEach(sec => {
+      const backBtn = sec.querySelector('button.back-btn');
+      if (!backBtn) return;
+      if (sec.id === 'home' || sec.id === 'login') {
+        backBtn.style.display = 'none';
+      } else {
+        backBtn.style.display = 'flex';
+      }
+    });
+  }
+
+  navButtons.forEach(btn => {
+    btn.addEventListener('click', () => activateTab(btn.getAttribute('data-tab')));
+  });
+
+  backButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // For Back: return always to Home (could be adapted for more complex history)
+      activateTab('home');
+    });
+  });
+
+  // Start on login
+  activateTab('login');
+
+  // Login form
+  const loginForm = document.getElementById('loginForm');
+  const storeIdInput = document.getElementById('storeId');
+  loginForm.addEventListener('submit', e => {
+    e.preventDefault();
+    if (storeIdInput.value.trim() === '') {
+      alert('Please enter your Store ID');
+      return;
+    }
+    alert(`Welcome Store ${storeIdInput.value.trim()}!`);
+    activateTab('home');
+  });
+
+  // Simulate QR code scan onboarding (fast login)
+  const startScanBtn = document.getElementById('startScanBtn');
+  const locationInput = document.getElementById('location');
+  const binTypeInput = document.getElementById('binType');
+  startScanBtn.addEventListener('click', () => {
+    // Simulate scanning QR onboarding: fill location and bin type + auto login
+    locationInput.value = "Oxford St Store";
+    binTypeInput.value = "General Waste";
+    alert('QR code scanned, onboarding complete.');
+    activateTab('requestForm');
+  });
+
+  // Handle collection request submission
+  const collectionForm = document.getElementById('collectionForm');
+  collectionForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const volume = parseFloat(document.getElementById('volume').value);
+    const timeWindow = document.getElementById('timeWindow').value;
+
+    if (!volume || volume <= 0) {
+      alert('Please enter a valid volume');
+      return;
+    }
+    if (!timeWindow) {
+      alert('Please select a time window');
+      return;
+    }
+
+    // Simulate ETA calculation (random 30-90 minutes later)
+    const now = new Date();
+    const eta = new Date(now.getTime() + (30 + Math.floor(Math.random() * 60)) * 60000);
+    document.getElementById('etaTime').textContent = eta.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+    activateTab('requestConfirm');
+  });
+
+  // Track Collection simulation
+  const trackBtn = document.getElementById('trackBtn');
+  const trackStatusBox = document.getElementById('trackStatus');
+  const statuses = ["Requested", "Accepted", "In Transit", "Collected"];
+  let currentStatusIndex = 0;
+  trackBtn.addEventListener('click', () => {
+    currentStatusIndex = 0;
+    trackStatusBox.innerHTML = 'Status: <strong>' + statuses[currentStatusIndex] + '</strong>';
+
+    const interval = setInterval(() => {
+      currentStatusIndex++;
+      if (currentStatusIndex >= statuses.length) {
+        clearInterval(interval);
+        alert('Collection Completed!');
+        return;
+      }
+      trackStatusBox.innerHTML = 'Status: <strong>' + statuses[currentStatusIndex] + '</strong>';
+    }, 3000);
+    activateTab('trackCollection');
+  });
+
+  // History data & filter
+  const historyList = document.getElementById('historyList');
+  const filterType = document.getElementById('filterType');
+  const pastCollections = [
+    {date:"2025-05-01", location:"Oxford St Store", bin:"General Waste", volume:2.3, status:"Collected"},
+    {date:"2025-05-02", location:"Camden Central", bin:"Recycling", volume:1.0, status:"Collected"},
+    {date:"2025-05-03", location:"Shoreditch Hub", bin:"Food Waste", volume:1.5, status:"Collected"},
+    {date:"2025-05-04", location:"Brixton Point", bin:"General Waste", volume:3.1, status:"Collected"},
+    {date:"2025-05-05", location:"Oxford St Store", bin:"Recycling", volume:0.9, status:"Collected"},
+  ];
+
+  function renderHistory(filter = 'all') {
+    historyList.innerHTML = '';
+    pastCollections
+      .filter(c => filter === 'all' || c.bin === filter)
+      .forEach(c => {
+      const li = document.createElement('li');
+      li.textContent = `${c.date} - ${c.location} - ${c.bin} - Volume: ${c.volume}m³ - Status: ${c.status}`;
+      historyList.appendChild(li);
+    });
+  }
+  filterType.addEventListener('change', e => renderHistory(e.target.value));
+  renderHistory();
+</script>
+</body>
+</html>
