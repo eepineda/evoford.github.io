@@ -24,6 +24,7 @@
       display: flex;
       flex-direction: column;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 20px;
     }
 
     header {
@@ -46,28 +47,30 @@
     .card {
       background-color: #f0f8ff;
       padding: 1rem;
-      border-radius: 12px;
+      border-radius: 16px;
       margin-bottom: 1rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
     .button {
       display: block;
       width: 100%;
       padding: 0.75rem;
-      background-color: #2196f3;
+      background: linear-gradient(to right, #42a5f5, #1e88e5);
       color: white;
       border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: 700;
       cursor: pointer;
       margin-top: 1rem;
-      transition: background 0.3s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 10px rgba(33, 150, 243, 0.4);
     }
 
     .button:hover {
-      background-color: #1976d2;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(33, 150, 243, 0.5);
     }
 
     nav {
@@ -77,6 +80,8 @@
       background-color: #e3f2fd;
       border-top: 1px solid #bbdefb;
       padding: 0.75rem 0;
+      border-bottom-left-radius: 1rem;
+      border-bottom-right-radius: 1rem;
     }
 
     nav button {
@@ -94,24 +99,61 @@
     <header>EvoSustain</header>
     <main>
       <div class="card">
-        <h2 style="margin-top:0;">Request Pickup</h2>
-        <p><strong>Location:</strong> Oxford Street, London</p>
-        <p><strong>Bin Type:</strong> Recycling</p>
-        <p><strong>Volume:</strong> 2.5 m³</p>
-        <p><strong>Time:</strong> 11:00 AM – 1:00 PM</p>
+        <h2 style="margin-top:0;">Login / Sign-Up</h2>
+        <p>Enter your store ID or scan QR code to login quickly.</p>
+        <input type="text" placeholder="Store ID" style="width:100%;padding:0.5rem;margin-top:0.5rem;border-radius:8px;border:1px solid #ccc;">
+        <button class="button">Login</button>
+        <button class="button" style="background:#64b5f6;margin-top:0.5rem;">Scan QR Code</button>
+      </div>
+
+      <div class="card">
+        <h2 style="margin-top:0;">Request Collection</h2>
+        <p><strong>Location:</strong> Auto-filled</p>
+        <p><strong>Bin Type:</strong> Auto-filled</p>
+        <input type="number" placeholder="Volume (m³)" style="width:100%;padding:0.5rem;border-radius:8px;border:1px solid #ccc;">
+        <select style="width:100%;padding:0.5rem;border-radius:8px;border:1px solid #ccc;margin-top:0.5rem;">
+          <option>Select Time Window</option>
+          <option>9:00–11:00</option>
+          <option>11:00–13:00</option>
+          <option>13:00–15:00</option>
+        </select>
+        <textarea placeholder="Additional Notes" rows="3" style="width:100%;margin-top:0.5rem;padding:0.5rem;border-radius:8px;border:1px solid #ccc;"></textarea>
         <button class="button">Submit Request</button>
+      </div>
+
+      <div class="card">
+        <h2 style="margin-top:0;">Request Confirmation</h2>
+        <p>Status: <strong>Scheduled</strong></p>
+        <p>ETA: <strong>12:42 PM</strong></p>
       </div>
 
       <div class="card">
         <h2 style="margin-top:0;">Track Collection</h2>
         <p>Status: <strong>In Transit 🚚</strong></p>
-        <p>ETA: 12:42 PM</p>
+        <ul>
+          <li>Requested</li>
+          <li>Accepted</li>
+          <li><strong>In Transit</strong></li>
+          <li>Collected</li>
+        </ul>
       </div>
 
       <div class="card">
         <h2 style="margin-top:0;">History</h2>
+        <select style="width:100%;padding:0.5rem;border-radius:8px;border:1px solid #ccc;margin-bottom:0.5rem;">
+          <option>Filter by Type</option>
+          <option>Food Waste</option>
+          <option>Recycling</option>
+        </select>
         <p>📅 20 May - Food Waste - Collected</p>
         <p>📅 18 May - Recycling - Collected</p>
+      </div>
+
+      <div class="card">
+        <h2 style="margin-top:0;">Settings & Help</h2>
+        <p><strong>Support Chat:</strong> Coming soon</p>
+        <p><strong>FAQ:</strong> How to request, track, and update your profile</p>
+        <p><strong>Profile:</strong> Edit and update your store info (coming soon)</p>
       </div>
     </main>
     <nav>
