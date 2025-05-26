@@ -9,44 +9,63 @@
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', 'Roboto', sans-serif;
-      background: linear-gradient(to bottom, #e3f2fd, #ffffff);
+      background: #f5f9ff;
       color: #0d47a1;
-      min-height: 100vh;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .device-frame {
+      width: 390px;
+      height: 844px;
+      border: 12px solid #333;
+      border-radius: 40px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.2);
       display: flex;
       flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      background: white;
+    }
+
+    .status-bar {
+      height: 24px;
+      background: #e3f2fd;
+      padding: 0 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #0d47a1;
+      font-weight: bold;
+    }
+
+    .status-bar span {
+      display: inline-block;
     }
 
     .app-container {
-      max-width: 430px;
-      margin: auto;
-      background: white;
-      min-height: 100vh;
+      flex: 1;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      border-radius: 20px;
-      overflow: hidden;
     }
 
     header {
       background-color: #2196f3;
       color: white;
-      padding: 1rem;
+      padding: 0.75rem;
       text-align: center;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: bold;
-    }
-
-    .hero-image {
-      width: 100%;
-      height: 140px;
-      background: url('https://images.unsplash.com/photo-1590646297931-fd7c27e36e4c?fit=crop&w=800&q=80') center center/cover no-repeat;
     }
 
     main {
       flex: 1;
-      padding: 1rem 1rem 0.5rem;
+      padding: 0.75rem;
       overflow-y: auto;
+      background: #f9fcff;
     }
 
     .section {
@@ -58,11 +77,11 @@
     }
 
     .card {
-      background-color: #f0f8ff;
+      background-color: #ffffff;
       padding: 1rem;
       border-radius: 16px;
       margin-bottom: 1rem;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     }
 
     .button {
@@ -72,41 +91,43 @@
       background: linear-gradient(to right, #42a5f5, #1e88e5);
       color: white;
       border: none;
-      border-radius: 30px;
-      font-size: 1.1rem;
-      font-weight: 700;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
       cursor: pointer;
-      margin-top: 1rem;
+      margin-top: 0.75rem;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
-      box-shadow: 0 4px 10px rgba(33, 150, 243, 0.4);
+      box-shadow: 0 2px 5px rgba(33, 150, 243, 0.3);
     }
 
     .button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 14px rgba(33, 150, 243, 0.5);
+      transform: scale(1.02);
+      box-shadow: 0 4px 10px rgba(33, 150, 243, 0.4);
     }
 
     nav {
       display: flex;
-      justify-content: space-evenly;
+      justify-content: space-around;
       align-items: center;
       background-color: #e3f2fd;
-      border-top: 1px solid #bbdefb;
-      padding: 0.4rem 0;
+      padding: 0.5rem 0;
       font-weight: 600;
-      gap: 5px;
+      font-size: 0.9rem;
     }
 
     nav button {
-      background: linear-gradient(to right, #bbdefb, #e3f2fd);
-      border: 1px solid #90caf9;
-      padding: 0.4rem 0.8rem;
-      border-radius: 20px;
+      background: none;
+      border: none;
       font-weight: 600;
       color: #1976d2;
-      font-size: 0.85rem;
+      padding: 0.4rem 0.6rem;
+      border-radius: 10px;
       cursor: pointer;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      transition: background 0.2s;
+    }
+
+    nav button:hover {
+      background: #bbdefb;
     }
   </style>
   <script>
@@ -119,79 +140,81 @@
   </script>
 </head>
 <body>
-  <div class="app-container">
-    <header>EvoSustain</header>
-    <div class="hero-image" aria-hidden="true"></div>
-    <main>
-      <section id="login" class="section active">
-        <div class="card">
-          <h2>Login / Sign-Up</h2>
-          <p>Enter your store ID or scan QR code to login quickly.</p>
-          <input type="text" placeholder="Store ID" style="width:100%;padding:0.5rem;margin-top:0.5rem;border-radius:8px;border:1px solid #ccc;">
-          <button class="button">Login</button>
-          <button class="button" style="background:#64b5f6;margin-top:0.5rem;">Scan QR Code</button>
-        </div>
-      </section>
+  <div class="device-frame">
+    <div class="status-bar">
+      <span>9:41 AM</span>
+      <span>📶 🔋</span>
+    </div>
+    <div class="app-container">
+      <header>
+        EvoSustain
+      </header>
+      <main>
+        <section id="login" class="section active">
+          <div class="card">
+            <h2>Login / Sign-Up</h2>
+            <input type="text" placeholder="Store ID" style="width:100%;padding:0.5rem;margin-top:0.5rem;border-radius:8px;border:1px solid #ccc;">
+            <button class="button" onclick="showSection('request')">Login</button>
+            <button class="button" onclick="showSection('request')">Scan QR Code</button>
+          </div>
+        </section>
 
-      <section id="request" class="section">
-        <div class="card">
-          <h2>Request Collection</h2>
-          <p><strong>Location:</strong> Auto-filled</p>
-          <p><strong>Bin Type:</strong> Auto-filled</p>
-          <input type="number" placeholder="Volume (m³)" style="width:100%;padding:0.5rem;border-radius:8px;border:1px solid #ccc;">
-          <select style="width:100%;padding:0.5rem;border-radius:8px;border:1px solid #ccc;margin-top:0.5rem;">
-            <option>Select Time Window</option>
-            <option>9:00–11:00</option>
-            <option>11:00–13:00</option>
-            <option>13:00–15:00</option>
-          </select>
-          <textarea placeholder="Additional Notes" rows="3" style="width:100%;margin-top:0.5rem;padding:0.5rem;border-radius:8px;border:1px solid #ccc;"></textarea>
-          <button class="button">Submit Request</button>
-        </div>
-      </section>
+        <section id="request" class="section">
+          <div class="card">
+            <h2>Request Collection</h2>
+            <p><strong>Location:</strong> Auto-filled</p>
+            <p><strong>Bin Type:</strong> Auto-filled</p>
+            <input type="number" placeholder="Volume (m³)" style="width:100%;padding:0.5rem;border-radius:8px;border:1px solid #ccc;">
+            <select style="width:100%;padding:0.5rem;border-radius:8px;border:1px solid #ccc;margin-top:0.5rem;">
+              <option>Select Time Window</option>
+              <option>9:00–11:00</option>
+              <option>11:00–13:00</option>
+              <option>13:00–15:00</option>
+            </select>
+            <textarea placeholder="Additional Notes" rows="3" style="width:100%;margin-top:0.5rem;padding:0.5rem;border-radius:8px;border:1px solid #ccc;"></textarea>
+            <button class="button" onclick="showSection('track')">Submit Request</button>
+          </div>
+        </section>
 
-      <section id="track" class="section">
-        <div class="card">
-          <h2>Track Collection</h2>
-          <p>Status: <strong>In Transit 🚚</strong></p>
-          <ul>
-            <li>Requested</li>
-            <li>Accepted</li>
-            <li><strong>In Transit</strong></li>
-            <li>Collected</li>
-          </ul>
-        </div>
-      </section>
+        <section id="track" class="section">
+          <div class="card">
+            <h2>Track Collection</h2>
+            <ul>
+              <li>Requested ✅</li>
+              <li>Accepted ✅</li>
+              <li><strong>In Transit 🚚</strong></li>
+              <li>Collected ⏳</li>
+            </ul>
+          </div>
+        </section>
 
-      <section id="history" class="section">
-        <div class="card">
-          <h2>History</h2>
-          <select style="width:100%;padding:0.5rem;border-radius:8px;border:1px solid #ccc;margin-bottom:0.5rem;">
-            <option>Filter by Type</option>
-            <option>Food Waste</option>
-            <option>Recycling</option>
-          </select>
-          <p>📅 20 May - Food Waste - Collected</p>
-          <p>📅 18 May - Recycling - Collected</p>
-        </div>
-      </section>
+        <section id="history" class="section">
+          <div class="card">
+            <h2>History</h2>
+            <p>📅 20 May - Food Waste - Collected</p>
+            <p>📅 18 May - Recycling - Collected</p>
+            <p>📅 16 May - Glass - Collected</p>
+            <p>📅 14 May - Cardboard - Missed</p>
+          </div>
+        </section>
 
-      <section id="help" class="section">
-        <div class="card">
-          <h2>Settings & Help</h2>
-          <p><strong>Support Chat:</strong> Coming soon</p>
-          <p><strong>FAQ:</strong> How to request, track, and update your profile</p>
-          <p><strong>Profile:</strong> Edit and update your store info (coming soon)</p>
-        </div>
-      </section>
-    </main>
-    <nav>
-      <button onclick="showSection('login')">🏠 Home</button>
-      <button onclick="showSection('request')">🗑️ Request</button>
-      <button onclick="showSection('track')">📦 Track</button>
-      <button onclick="showSection('history')">📜 History</button>
-      <button onclick="showSection('help')">❓ Help</button>
-    </nav>
+        <section id="help" class="section">
+          <div class="card">
+            <h2>Settings & Help</h2>
+            <p><strong>Support Chat:</strong> Coming soon</p>
+            <p><strong>FAQ:</strong> How to request, track, and update your profile</p>
+            <p><strong>Profile:</strong> Edit and update your store info (coming soon)</p>
+          </div>
+        </section>
+      </main>
+      <nav>
+        <button onclick="showSection('login')">🏠</button>
+        <button onclick="showSection('request')">🗑️</button>
+        <button onclick="showSection('track')">📦</button>
+        <button onclick="showSection('history')">📜</button>
+        <button onclick="showSection('help')">❓</button>
+      </nav>
+    </div>
   </div>
 </body>
 </html>
