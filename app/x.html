@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,6 +47,14 @@
       flex: 1;
       padding: 1rem 1rem 0.5rem;
       overflow-y: auto;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
     }
 
     .card {
@@ -102,75 +109,88 @@
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
   </style>
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(id).classList.add('active');
+    }
+  </script>
 </head>
 <body>
   <div class="app-container">
     <header>EvoSustain</header>
     <div class="hero-image" aria-hidden="true"></div>
     <main>
-      <div class="card">
-        <h2>Login / Sign-Up</h2>
-        <p>Enter your store ID or scan QR code to login quickly.</p>
-        <input type="text" placeholder="Store ID" style="width:100%;padding:0.5rem;margin-top:0.5rem;border-radius:8px;border:1px solid #ccc;">
-        <button class="button">Login</button>
-        <button class="button" style="background:#64b5f6;margin-top:0.5rem;">Scan QR Code</button>
-      </div>
+      <section id="login" class="section active">
+        <div class="card">
+          <h2>Login / Sign-Up</h2>
+          <p>Enter your store ID or scan QR code to login quickly.</p>
+          <input type="text" placeholder="Store ID" style="width:100%;padding:0.5rem;margin-top:0.5rem;border-radius:8px;border:1px solid #ccc;">
+          <button class="button">Login</button>
+          <button class="button" style="background:#64b5f6;margin-top:0.5rem;">Scan QR Code</button>
+        </div>
+      </section>
 
-      <div class="card">
-        <h2>Request Collection</h2>
-        <p><strong>Location:</strong> Auto-filled</p>
-        <p><strong>Bin Type:</strong> Auto-filled</p>
-        <input type="number" placeholder="Volume (m³)" style="width:100%;padding:0.5rem;border-radius:8px;border:1px solid #ccc;">
-        <select style="width:100%;padding:0.5rem;border-radius:8px;border:1px solid #ccc;margin-top:0.5rem;">
-          <option>Select Time Window</option>
-          <option>9:00–11:00</option>
-          <option>11:00–13:00</option>
-          <option>13:00–15:00</option>
-        </select>
-        <textarea placeholder="Additional Notes" rows="3" style="width:100%;margin-top:0.5rem;padding:0.5rem;border-radius:8px;border:1px solid #ccc;"></textarea>
-        <button class="button">Submit Request</button>
-      </div>
+      <section id="request" class="section">
+        <div class="card">
+          <h2>Request Collection</h2>
+          <p><strong>Location:</strong> Auto-filled</p>
+          <p><strong>Bin Type:</strong> Auto-filled</p>
+          <input type="number" placeholder="Volume (m³)" style="width:100%;padding:0.5rem;border-radius:8px;border:1px solid #ccc;">
+          <select style="width:100%;padding:0.5rem;border-radius:8px;border:1px solid #ccc;margin-top:0.5rem;">
+            <option>Select Time Window</option>
+            <option>9:00–11:00</option>
+            <option>11:00–13:00</option>
+            <option>13:00–15:00</option>
+          </select>
+          <textarea placeholder="Additional Notes" rows="3" style="width:100%;margin-top:0.5rem;padding:0.5rem;border-radius:8px;border:1px solid #ccc;"></textarea>
+          <button class="button">Submit Request</button>
+        </div>
+      </section>
 
-      <div class="card">
-        <h2>Request Confirmation</h2>
-        <p>Status: <strong>Scheduled</strong></p>
-        <p>ETA: <strong>12:42 PM</strong></p>
-      </div>
+      <section id="track" class="section">
+        <div class="card">
+          <h2>Track Collection</h2>
+          <p>Status: <strong>In Transit 🚚</strong></p>
+          <ul>
+            <li>Requested</li>
+            <li>Accepted</li>
+            <li><strong>In Transit</strong></li>
+            <li>Collected</li>
+          </ul>
+        </div>
+      </section>
 
-      <div class="card">
-        <h2>Track Collection</h2>
-        <p>Status: <strong>In Transit 🚚</strong></p>
-        <ul>
-          <li>Requested</li>
-          <li>Accepted</li>
-          <li><strong>In Transit</strong></li>
-          <li>Collected</li>
-        </ul>
-      </div>
+      <section id="history" class="section">
+        <div class="card">
+          <h2>History</h2>
+          <select style="width:100%;padding:0.5rem;border-radius:8px;border:1px solid #ccc;margin-bottom:0.5rem;">
+            <option>Filter by Type</option>
+            <option>Food Waste</option>
+            <option>Recycling</option>
+          </select>
+          <p>📅 20 May - Food Waste - Collected</p>
+          <p>📅 18 May - Recycling - Collected</p>
+        </div>
+      </section>
 
-      <div class="card">
-        <h2>History</h2>
-        <select style="width:100%;padding:0.5rem;border-radius:8px;border:1px solid #ccc;margin-bottom:0.5rem;">
-          <option>Filter by Type</option>
-          <option>Food Waste</option>
-          <option>Recycling</option>
-        </select>
-        <p>📅 20 May - Food Waste - Collected</p>
-        <p>📅 18 May - Recycling - Collected</p>
-      </div>
-
-      <div class="card">
-        <h2>Settings & Help</h2>
-        <p><strong>Support Chat:</strong> Coming soon</p>
-        <p><strong>FAQ:</strong> How to request, track, and update your profile</p>
-        <p><strong>Profile:</strong> Edit and update your store info (coming soon)</p>
-      </div>
+      <section id="help" class="section">
+        <div class="card">
+          <h2>Settings & Help</h2>
+          <p><strong>Support Chat:</strong> Coming soon</p>
+          <p><strong>FAQ:</strong> How to request, track, and update your profile</p>
+          <p><strong>Profile:</strong> Edit and update your store info (coming soon)</p>
+        </div>
+      </section>
     </main>
     <nav>
-      <button>🏠 Home</button>
-      <button>📦 Track</button>
-      <button>📜 History</button>
-      <button>❓ Help</button>
+      <button onclick="showSection('login')">🏠 Home</button>
+      <button onclick="showSection('request')">🗑️ Request</button>
+      <button onclick="showSection('track')">📦 Track</button>
+      <button onclick="showSection('history')">📜 History</button>
+      <button onclick="showSection('help')">❓ Help</button>
     </nav>
   </div>
 </body>
