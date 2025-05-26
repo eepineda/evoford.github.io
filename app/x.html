@@ -18,11 +18,11 @@
     }
 
     .device-frame {
-      width: 390px;
-      height: 844px;
-      border: 12px solid #333;
-      border-radius: 40px;
-      box-shadow: 0 0 30px rgba(0,0,0,0.2);
+      width: 360px;
+      height: 740px;
+      border: 8px solid #333;
+      border-radius: 32px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.15);
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -55,25 +55,36 @@
     header {
       background-color: #2196f3;
       color: white;
-      padding: 0.75rem;
+      padding: 0.6rem;
       text-align: center;
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       font-weight: bold;
     }
 
     main {
       flex: 1;
-      padding: 0.75rem;
+      padding: 0.6rem;
       overflow-y: auto;
       background: #f9fcff;
+      position: relative;
     }
 
     .section {
       display: none;
+      position: absolute;
+      width: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transform: translateX(100%);
+      transition: all 0.4s ease-in-out;
     }
 
     .section.active {
       display: block;
+      opacity: 1;
+      transform: translateX(0);
+      z-index: 1;
     }
 
     .card {
@@ -87,15 +98,15 @@
     .button {
       display: block;
       width: 100%;
-      padding: 0.75rem;
+      padding: 0.65rem;
       background: linear-gradient(to right, #42a5f5, #1e88e5);
       color: white;
       border: none;
       border-radius: 12px;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
       cursor: pointer;
-      margin-top: 0.75rem;
+      margin-top: 0.65rem;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       box-shadow: 0 2px 5px rgba(33, 150, 243, 0.3);
     }
@@ -110,9 +121,9 @@
       justify-content: space-around;
       align-items: center;
       background-color: #e3f2fd;
-      padding: 0.5rem 0;
+      padding: 0.4rem 0;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
 
     nav button {
@@ -120,7 +131,7 @@
       border: none;
       font-weight: 600;
       color: #1976d2;
-      padding: 0.4rem 0.6rem;
+      padding: 0.3rem 0.5rem;
       border-radius: 10px;
       cursor: pointer;
       transition: background 0.2s;
@@ -132,10 +143,14 @@
   </style>
   <script>
     function showSection(id) {
-      document.querySelectorAll('.section').forEach(section => {
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(section => {
         section.classList.remove('active');
       });
-      document.getElementById(id).classList.add('active');
+      const target = document.getElementById(id);
+      if (target) {
+        target.classList.add('active');
+      }
     }
   </script>
 </head>
