@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mobile App UI - EvoSustain</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', 'Roboto', sans-serif;
+      background: linear-gradient(to bottom, #e3f2fd, #ffffff);
+      color: #0d47a1;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .app-container {
+      max-width: 430px;
+      margin: auto;
+      background: white;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    header {
+      background-color: #2196f3;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+    }
+
+    main {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+
+    .card {
+      background-color: #f0f8ff;
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .button {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #2196f3;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #1976d2;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      background-color: #e3f2fd;
+      border-top: 1px solid #bbdefb;
+      padding: 0.75rem 0;
+    }
+
+    nav button {
+      background: none;
+      border: none;
+      font-weight: 600;
+      color: #1976d2;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header>EvoSustain</header>
+    <main>
+      <div class="card">
+        <h2 style="margin-top:0;">Request Pickup</h2>
+        <p><strong>Location:</strong> Oxford Street, London</p>
+        <p><strong>Bin Type:</strong> Recycling</p>
+        <p><strong>Volume:</strong> 2.5 m³</p>
+        <p><strong>Time:</strong> 11:00 AM – 1:00 PM</p>
+        <button class="button">Submit Request</button>
+      </div>
+
+      <div class="card">
+        <h2 style="margin-top:0;">Track Collection</h2>
+        <p>Status: <strong>In Transit 🚚</strong></p>
+        <p>ETA: 12:42 PM</p>
+      </div>
+
+      <div class="card">
+        <h2 style="margin-top:0;">History</h2>
+        <p>📅 20 May - Food Waste - Collected</p>
+        <p>📅 18 May - Recycling - Collected</p>
+      </div>
+    </main>
+    <nav>
+      <button>Home</button>
+      <button>Track</button>
+      <button>History</button>
+      <button>Help</button>
+    </nav>
+  </div>
+</body>
+</html>
