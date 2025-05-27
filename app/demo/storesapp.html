@@ -177,6 +177,7 @@
         <section id="request" class="section">
           <div class="card">
             <h2>Request Collection</h2>
+            <button class="button" onclick="showSection('login')">← Back</button>
             <p><strong>Location:</strong> Auto-filled</p>
             <p><strong>Bin Type:</strong> Auto-filled</p>
             <input type="number" placeholder="Volume (m³)" style="width:100%;padding:0.5rem;border-radius:8px;border:1px solid #ccc;">
@@ -194,6 +195,7 @@
         <section id="track" class="section">
           <div class="card">
             <h2>Track Collection</h2>
+            <button class="button" onclick="showSection('request')">← Back</button>
             <ul>
               <li>Requested ✅</li>
               <li>Accepted ✅</li>
@@ -205,23 +207,59 @@
 
         <section id="history" class="section">
           <div class="card">
-            <h2>History</h2>
-            <p>📅 20 May - Food Waste - Collected</p>
-            <p>📅 18 May - Recycling - Collected</p>
-            <p>📅 16 May - Glass - Collected</p>
-            <p>📅 14 May - Cardboard - Missed</p>
+        <h2>Pickup History</h2>
+        <button class="button" onclick="showSection('track')">← Back</button>
+        <p>📅 20 May - Food Waste - <strong>Collected</strong></p>
+        <p>📅 18 May - Recycling - <strong>Collected</strong></p>
+        <p>📅 16 May - Glass - <strong>Collected</strong></p>
+        <p>📅 14 May - Cardboard - <strong>Missed</strong></p>
+        <p>📅 12 May - Plastic - <strong>Collected</strong></p>
+        <p>📅 10 May - General Waste - <strong>Collected</strong></p>
           </div>
         </section>
 
         <section id="help" class="section">
           <div class="card">
             <h2>Settings & Help</h2>
+            <button class="button" onclick="showSection('history')">← Back</button>
             <p><strong>Support Chat:</strong> Coming soon</p>
             <p><strong>FAQ:</strong> How to request, track, and update your profile</p>
             <p><strong>Profile:</strong> Edit and update your store info (coming soon)</p>
           </div>
         </section>
-      </main>
+
+              <section id="notifications" class="section">
+    <div class="card">
+      <h2>Notifications</h2>
+      <button class="button" onclick="showSection('help')">← Back</button>
+      <ul>
+        <li>📢 New collection slot available for weekends.</li>
+        <li>✅ Your last pickup on 20 May was successful.</li>
+        <li>📦 New bins will be delivered next week.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="orders" class="section">
+    <div class="card">
+      <h2>Order Supplies</h2>
+      <button class="button" onclick="showSection('notifications')">← Back</button>
+      <select style="width:100%;padding:0.5rem;margin-bottom:0.5rem;">
+        <option>Select Item</option>
+        <option>New Bin</option>
+        <option>Bin Liners</option>
+        <option>QR Code Stickers</option>
+        <option>Trash Bags</option>
+      <option>Cleaning Products</option>
+      <option>Other</option>
+      </select>
+    <input type="number" placeholder="Quantity" style="width:100%;padding:0.5rem;margin-bottom:0.5rem;">
+    <textarea placeholder="Additional Notes (optional)" rows="3" style="width:100%;padding:0.5rem;border-radius:8px;border:1px solid #ccc;"></textarea>
+    <button class="button" onclick="alert('Order request submitted!')">Submit Order</button>
+    </div>
+    </section>
+      
+     </main>
       <nav>
         <button onclick="showSection('login')">🏠</button>
         <button onclick="showSection('request')">🗑️</button>
@@ -230,8 +268,7 @@
         <button onclick="showSection('help')">❓</button>
         <button onclick="showSection('notifications')">🔔</button>
         <button onclick="showSection('orders')">➕</button>
-
-      </nav>
+        </nav>
     </div>
   </div>
 </body>
