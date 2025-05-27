@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Driver App - EvoSustain</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', 'Roboto', sans-serif;
+      background: #f0f8ff;
+      color: #0d47a1;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .device-frame {
+      width: 360px;
+      height: 740px;
+      border: 8px solid #333;
+      border-radius: 32px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.15);
+      background: white;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .status-bar {
+      height: 24px;
+      background: #e3f2fd;
+      padding: 0 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+    }
+    header {
+      background-color: #2196f3;
+      color: white;
+      padding: 0.6rem;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+    main {
+      flex: 1;
+      padding: 0.6rem;
+      overflow-y: auto;
+    }
+    .section { display: none; }
+    .section.active { display: block; }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 1rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 1rem;
+    }
+    .button {
+      background: #42a5f5;
+      color: white;
+      padding: 0.65rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      margin-top: 0.5rem;
+      width: 100%;
+    }
+    nav {
+      display: flex;
+      justify-content: space-around;
+      background: #e3f2fd;
+      padding: 0.5rem 0;
+    }
+    nav button {
+      background: none;
+      border: none;
+      font-size: 1rem;
+      color: #1976d2;
+    }
+    .message {
+      background: #bbdefb;
+      color: #0d47a1;
+      padding: 0.5rem;
+      border-radius: 8px;
+      margin-top: 0.5rem;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function showMessage(msgId, text) {
+      const msgBox = document.getElementById(msgId);
+      msgBox.innerText = text;
+      msgBox.style.display = 'block';
+    }
+  </script>
+</head>
+<body>
+  <div class="device-frame">
+    <div class="status-bar">
+      <span>9:41 AM</span>
+      <span>📶 🔋</span>
+    </div>
+    <header>Driver App</header>
+    <main>
+      <section id="login" class="section active">
+        <div class="card">
+          <h3>Login</h3>
+          <input type="text" placeholder="Driver ID" style="width:100%;padding:0.5rem;">
+          <button class="button" onclick="showSection('route')">Start Shift</button>
+        </div>
+      </section>
+
+      <section id="route" class="section">
+        <div class="card">
+          <h3>Today's Route</h3>
+          <p>Stop 1: Main St, Organic Waste</p>
+          <p>Stop 2: 5th Ave, Recycling</p>
+          <button class="button" onclick="showSection('map')">Start Route</button>
+        </div>
+      </section>
+
+      <section id="map" class="section">
+        <div class="card">
+          <h3>Map View</h3>
+          <p>Map + List (Route Order)</p>
+          <button class="button" onclick="showSection('detail')">View Task</button>
+        </div>
+      </section>
+
+      <section id="detail" class="section">
+        <div class="card">
+          <h3>Collection Detail</h3>
+          <p><strong>Address:</strong> 123 Main St</p>
+          <p><strong>Type:</strong> Organic Waste</p>
+          <p><strong>Notes:</strong> Watch for locked gate</p>
+          <button class="button" onclick="showMessage('taskMessage', 'Status: Arrived ✅')">Arrived</button>
+          <button class="button" onclick="showMessage('taskMessage', 'Status: Collected ✅')">Collected</button>
+          <button class="button" onclick="showMessage('taskMessage', 'Status: Issue Reported ⚠️')">Issue Reported</button>
+          <div id="taskMessage" class="message" style="display:none;"></div>
+        </div>
+      </section>
+
+      <section id="summary" class="section">
+        <div class="card">
+          <h3>End of Day</h3>
+          <p>Completed: 12 / 12</p>
+          <p>Missed: 0</p>
+          <p>Issues Reported: 1</p>
+          <button class="button" onclick="showMessage('summaryMessage', 'Report Submitted ✅')">Submit Report</button>
+          <div id="summaryMessage" class="message" style="display:none;"></div>
+        </div>
+      </section>
+    </main>
+    <nav>
+      <button onclick="showSection('login')">🏠</button>
+      <button onclick="showSection('route')">🧭</button>
+      <button onclick="showSection('map')">🗺️</button>
+      <button onclick="showSection('detail')">📋</button>
+      <button onclick="showSection('summary')">📊</button>
+    </nav>
+  </div>
+</body>
+</html>
