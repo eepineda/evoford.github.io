@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SaaS Business Portal App</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      color: #0d47a1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .app-frame {
+      width: 380px;
+      height: 740px;
+      border: 8px solid #1976d2;
+      border-radius: 24px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: white;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    .header {
+      background: #1976d2;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+      position: relative;
+    }
+    .screen {
+      flex: 1;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+    .section {
+      display: none;
+    }
+    .section.active {
+      display: block;
+    }
+    .card {
+      background: #ffffff;
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .card h3 {
+      margin-top: 0;
+      font-size: 1rem;
+      color: #1976d2;
+    }
+    .button {
+      display: block;
+      width: 100%;
+      padding: 0.7rem;
+      margin-top: 0.6rem;
+      background: linear-gradient(to right, #42a5f5, #1e88e5);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    nav {
+      display: flex;
+      justify-content: space-around;
+      padding: 0.5rem;
+      background: #e3f2fd;
+      border-top: 1px solid #ccc;
+      box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+    }
+    nav button {
+  flex: 1;
+  margin: 0 4px;
+  background: linear-gradient(to right, #42a5f5, #1e88e5);
+  border: none;
+  color: white;
+  padding: 0.6rem 0.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+nav button:hover {
+  transform: scale(1.05);
+  background: #1565c0;
+}
+nav button.active {
+  background: #0d47a1;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+}
+    nav button:hover {
+      transform: scale(1.05);
+      background: #1565c0;
+    }
+    #map {
+      width: 100%;
+      height: 300px;
+      border-radius: 10px;
+      margin-top: 1rem;
+    }
+  @keyframes fadeIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.nav-wrapper {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: #e3f2fd;
+  border-top: 1px solid #ccc;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+}
+.nav-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+.nav-grid button {
+  flex: 1;
+  min-width: 80px;
+}
+</style>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+  <div class="app-frame">
+    <div class="header">SaaS Admin App</div>
+    <section id="dashboard" class="section">
+  <div class="card">
+    <h3>Admin Dashboard</h3>
+    <p>📊 KPIs overview</p>
+    <p>📥 Pending Requests: 8</p>
+    <p>⚠ System Alerts: 2</p>
+  </div>
+</section>
+<section id="requests" class="section">
+  <div class="card">
+    <h3>Collection Requests</h3>
+    <p>Request A - <button class="button">✅ Approve</button> <button class="button">❌ Decline</button> <button class="button">📅 Reschedule</button></p>
+    <p>Request B - <button class="button">✅ Approve</button> <button class="button">❌ Decline</button> <button class="button">📅 Reschedule</button></p>
+  </div>
+</section>
+<section id="planning" class="section">
+  <div class="card">
+    <h3>Schedule Planning</h3>
+    <p>📆 Calendar integration</p>
+    <p>🚛 Route optimization active</p>
+  </div>
+</section>
+<section id="assignment" class="section">
+  <div class="card">
+    <h3>Driver Assignment</h3>
+    <p>Select driver from dropdown or drag to assign</p>
+    <select><option>Driver 1</option><option>Driver 2</option></select>
+  </div>
+</section>
+<section id="driver-performance" class="section">
+  <div class="card">
+    <h3>Driver Performance</h3>
+    <p>⏱️ Time Efficiency: 91%</p>
+    <p>✅ Completed Pickups: 980</p>
+  </div>
+</section>
+      <section id="home" class="section active" style="animation: fadeIn 0.4s ease-in-out">
+        <div class="card">
+          <h3>Welcome to SaaS Portal</h3>
+          <p>📊 Monitor activity and manage your business easily.</p>
+        </div>
+        <div class="card">
+          <h3>Quick Metrics</h3>
+          <p>🛒 Stores: 500</p>
+          <p>🚚 Drivers: 10</p>
+          <p>📦 Requests Today: 132</p>
+        </div>
+      </section>
+
+      <section id="clients" class="section">
+        <div class="card">
+          <h3>Clients</h3>
+          <ul>
+            <li>Store A – 120 pickups</li>
+            <li>Store B – 87 pickups</li>
+            <li>Store C – 145 pickups</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="mapview" class="section">
+        <div class="card">
+          <h3>Map</h3>
+          <div id="map"></div>
+        </div>
+      </section>
+
+      <section id="performance" class="section">
+        <div class="card">
+          <h3>Performance</h3>
+          <p>Time Efficiency: 92%</p>
+          <p>Fuel Savings: 278L</p>
+          <p>No Accidents: 97%</p>
+        </div>
+      </section>
+
+      <section id="settings" class="section">
+        <div class="card">
+          <h3>Settings</h3>
+          <p>🔐 Change password<br>📧 Notification Preferences<br>🌐 Language</p>
+        </div>
+      </section>
+    </div>
+    <div class="nav-wrapper">
+  <nav>
+    <div class="nav-grid">
+      <button onclick="showSection('home')">🏠<br>Home</button>
+      <button onclick="showSection('dashboard')">📋<br>Dashboard</button>
+      <button onclick="showSection('clients')">👥<br>Clients</button>
+      <button onclick="showSection('requests')">🧾<br>Requests</button>
+      <button onclick="showSection('planning')">🗓<br>Planning</button>
+      <button onclick="showSection('assignment')">🚚<br>Assign</button>
+      <button onclick="showSection('mapview')">🗺<br>Map</button>
+      <button onclick="showSection('performance')">📊<br>Performance</button>
+      <button onclick="showSection('driver-performance')">📈<br>Drivers</button>
+      <button onclick="showSection('settings')">⚙<br>Settings</button>
+    </div>
+  </nav>
+</div>
+</div>
+
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      let mapInitialized = false;
+      window.showSection = function(id) {
+        const sections = document.querySelectorAll('.section');
+        const buttons = document.querySelectorAll('nav button');
+        sections.forEach(section => section.classList.remove('active'));
+        buttons.forEach(button => button.classList.remove('active'));
+        const activeButton = Array.from(buttons).find(b => b.getAttribute('onclick').includes(`'${id}'`));
+        if (activeButton) activeButton.classList.add('active');
+        const activeSection = document.getElementById(id);
+        if (activeSection) activeSection.classList.add('active');
+
+        if (id === 'mapview' && !mapInitialized) {
+          setTimeout(() => {
+            const map = L.map('map').setView([51.505, -0.09], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              maxZoom: 19,
+            }).addTo(map);
+            mapInitialized = true;
+          }, 150);
+        }
+      };
+    });
+  </script>
+</body>
+</html>
