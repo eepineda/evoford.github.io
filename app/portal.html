@@ -279,6 +279,14 @@
 </div>
 <h2>Collection Requests Overview</h2>
 <p>Manage incoming collection requests. Filter by status and use the buttons to update each request.</p>
+<label for="statusFilter"><strong>Filter by status:</strong></label>
+<select id="statusFilter" style="margin-bottom: 1rem;">
+<option value="All">All</option>
+<option value="Pending">Pending</option>
+<option value="Approved">Approved</option>
+<option value="Declined">Declined</option>
+<option value="Rescheduled">Rescheduled</option>
+</select>
 <table class="data-table" id="requests-table" style="width:100%">
 <thead>
 <tr>
@@ -1513,7 +1521,6 @@
 </div>
 <table class="data-table" id="schedule-table" style="text-align:center">
 <thead><tr><th>Driver \ Date</th><th>2025-05-23</th><th>2025-05-24</th><th>2025-05-25</th><th>2025-05-26</th><th>2025-05-27</th><th>2025-05-28</th></tr></thead><tbody><tr><td><strong>Deborah Austin</strong></td><td>-</td><td><div class="route-block" data-load="68">RR110<br/>68%</div></td><td>-</td><td>-</td><td>-</td><td><div class="route-block" data-load="82">RR162<br/>82%</div></td></tr><tr><td><strong>Dominic Solomon</strong></td><td><div class="route-block" data-load="80">RR152<br/>80%</div></td><td><div class="route-block" data-load="57">RR168<br/>57%</div></td><td><div class="route-block" data-load="66">RR183<br/>66%</div></td><td><div class="route-block" data-load="74">RR102<br/>74%</div></td><td><div class="route-block" data-load="83">RR113<br/>83%</div></td><td><div class="route-block" data-load="84">RR164<br/>84%</div></td></tr><tr><td><strong>Dr. Tracy Reid MD</strong></td><td><div class="route-block" data-load="82">RR102<br/>82%</div></td><td><div class="route-block" data-load="64">RR153<br/>64%</div></td><td><div class="route-block" data-load="67">RR115<br/>67%</div></td><td><div class="route-block" data-load="73">RR102<br/>73%</div></td><td><div class="route-block" data-load="84">RR120<br/>84%</div></td><td>-</td></tr><tr><td><strong>Jasmine Robinson</strong></td><td><div class="route-block" data-load="93">RR187<br/>93%</div></td><td><div class="route-block" data-load="57">RR156<br/>57%</div></td><td><div class="route-block" data-load="90">RR115<br/>90%</div></td><td>-</td><td>-</td><td><div class="route-block" data-load="78">RR188<br/>78%</div></td></tr><tr><td><strong>Jennifer Young</strong></td><td><div class="route-block" data-load="80">RR184<br/>80%</div></td><td><div class="route-block" data-load="67">RR119<br/>67%</div></td><td><div class="route-block" data-load="60">RR191<br/>60%</div></td><td>-</td><td><div class="route-block" data-load="87">RR198<br/>87%</div></td><td><div class="route-block" data-load="69">RR189<br/>69%</div></td></tr><tr><td><strong>Olivia Snyder</strong></td><td><div class="route-block" data-load="84">RR168<br/>84%</div></td><td><div class="route-block" data-load="80">RR105<br/>80%</div></td><td>-</td><td>-</td><td><div class="route-block" data-load="92">RR178<br/>92%</div></td><td><div class="route-block" data-load="58">RR178<br/>58%</div></td></tr><tr><td><strong>Regina Wilkins</strong></td><td><div class="route-block" data-load="64">RR179<br/>64%</div></td><td><div class="route-block" data-load="68">RR159<br/>68%</div></td><td><div class="route-block" data-load="54">RR144<br/>54%</div></td><td><div class="route-block" data-load="77">RR142<br/>77%</div></td><td><div class="route-block" data-load="90">RR116<br/>90%</div></td><td><div class="route-block" data-load="74">RR127<br/>74%</div></td></tr><tr><td><strong>Sandra Ward</strong></td><td><div class="route-block" data-load="72">RR148<br/>72%</div></td><td><div class="route-block" data-load="60">RR182<br/>60%</div></td><td><div class="route-block" data-load="91">RR161<br/>91%</div></td><td><div class="route-block" data-load="60">RR102<br/>60%</div></td><td><div class="route-block" data-load="98">RR127<br/>98%</div></td><td><div class="route-block" data-load="59">RR109<br/>59%</div></td></tr><tr><td><strong>Stephanie Gonzalez</strong></td><td><div class="route-block" data-load="87">RR159<br/>87%</div></td><td><div class="route-block" data-load="61">RR116<br/>61%</div></td><td><div class="route-block" data-load="76">RR169<br/>76%</div></td><td><div class="route-block" data-load="68">RR194<br/>68%</div></td><td><div class="route-block" data-load="92">RR198<br/>92%</div></td><td><div class="route-block" data-load="73">RR113<br/>73%</div></td></tr><tr><td><strong>Troy Nguyen</strong></td><td><div class="route-block" data-load="79">RR185<br/>79%</div></td><td>-</td><td><div class="route-block" data-load="67">RR138<br/>67%</div></td><td><div class="route-block" data-load="83">RR147<br/>83%</div></td><td>-</td><td><div class="route-block" data-load="75">RR125<br/>75%</div></td></tr></tbody></table></div></section>
-
 <section class="section active" id="assignment">
 <div class="card">
 <h2>Driver Assignment Panel</h2>
@@ -1747,7 +1754,6 @@
 </table>
 </div>
 </section>
-
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll(".route-dropdown").forEach(dropdown => {
@@ -1762,6 +1768,74 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+</script>
+
+<section class="section active" id="map">
+<div class="card" style="height: 650px; padding: 0;">
+<h2 style="padding: 10px;">Live Map View - London Drivers &amp; Active Collections</h2>
+<div id="map" style="height: 590px;"></div>
+</div>
+</section>
+<link href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" rel="stylesheet"/>
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+<script>
+  var map = L.map('map').setView([51.5074, -0.1278], 12);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {{
+    maxZoom: 19,
+    attribution: '© OpenStreetMap contributors',
+  }}).addTo(map);
+
+  var drivers = [
+    {{ id: 1, name: 'Driver 1', lat: 51.515, lng: -0.12 }},
+    {{ id: 2, name: 'Driver 2', lat: 51.503, lng: -0.09 }},
+    {{ id: 3, name: 'Driver 3', lat: 51.51, lng: -0.13 }},
+    {{ id: 4, name: 'Driver 4', lat: 51.52, lng: -0.15 }},
+    {{ id: 5, name: 'Driver 5', lat: 51.50, lng: -0.14 }},
+    {{ id: 6, name: 'Driver 6', lat: 51.49, lng: -0.10 }},
+    {{ id: 7, name: 'Driver 7', lat: 51.52, lng: -0.11 }},
+    {{ id: 8, name: 'Driver 8', lat: 51.53, lng: -0.12 }},
+    {{ id: 9, name: 'Driver 9', lat: 51.51, lng: -0.14 }},
+    {{ id: 10, name: 'Driver 10', lat: 51.50, lng: -0.12 }},
+  ];
+
+  var markers = {{}};
+  drivers.forEach(function(driver) {{
+    var marker = L.marker([driver.lat, driver.lng]).addTo(map);
+    marker.bindPopup(driver.name);
+    markers[driver.id] = marker;
+  }});
+
+  var collectionIcon = L.icon({{
+    iconUrl: 'https://cdn-icons-png.flaticon.com/512/565/565547.png',
+    iconSize: [25, 25],
+    iconAnchor: [12, 25],
+    popupAnchor: [0, -25]
+  }});
+
+  var collectionPoints = [];
+  for (var i = 1; i <= 20; i++) {{
+    var lat = 51.5 + (Math.random() - 0.5) * 0.05;
+    var lng = -0.12 + (Math.random() - 0.5) * 0.05;
+    collectionPoints.push({{id: i, name: 'Collection ' + i, lat: lat, lng: lng}});
+  }}
+
+  var collectionMarkers = [];
+  collectionPoints.forEach(function(point) {{
+    var marker = L.marker([point.lat, point.lng], {{icon: collectionIcon}}).addTo(map);
+    marker.bindPopup(point.name);
+    collectionMarkers.push(marker);
+  }});
+
+  function moveDrivers() {{
+    drivers.forEach(function(driver) {{
+      driver.lat += (Math.random() - 0.5) * 0.001;
+      driver.lng += (Math.random() - 0.5) * 0.001;
+      markers[driver.id].setLatLng([driver.lat, driver.lng]);
+    }});
+  }}
+
+  setInterval(moveDrivers, 3000);
 </script>
 </div>
 </div>
@@ -1968,7 +2042,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 </script>
-
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const totalRoutes = 10;
