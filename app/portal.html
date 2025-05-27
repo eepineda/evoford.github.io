@@ -1,0 +1,2023 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>EvoSustain Admin Portal - Complete</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f4f8;
+      color: #0d47a1;
+      display: flex;
+      height: 100vh;
+    }
+    header {
+      background-color: #1976d2;
+      color: white;
+      padding: 1rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sidebar {
+      width: 240px;
+      background-color: #e3f2fd;
+      height: 100%;
+      transition: width 0.3s;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar.collapsed { width: 64px; }
+    .sidebar button.toggle {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      padding: 1rem;
+      cursor: pointer;
+      text-align: left;
+      color: #1976d2;
+      font-weight: bold;
+      border-bottom: 1px solid #bbdefb;
+    }
+    .nav-button {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      background: none;
+      border: none;
+      font-size: 1rem;
+      color: #1976d2;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .nav-button:hover { background-color: #bbdefb; }
+    .nav-icon {
+      margin-right: 1rem;
+      font-size: 1.2rem;
+      display: inline-block;
+      width: 24px;
+      text-align: center;
+    }
+    .sidebar.collapsed .nav-label { display: none; }
+    .main-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .main-content {
+      padding: 1rem 2rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .section { display: none; }
+    .section.active { display: block; }
+    .card {
+      background: white;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table.data-table th, table.data-table td {
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      text-align: left;
+    }
+    table.data-table th {
+      background-color: #e3f2fd;
+    }
+  </style>
+<style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f4f8;
+      color: #0d47a1;
+      display: flex;
+      height: 100vh;
+    }
+    header {
+      background-color: #1976d2;
+      color: white;
+      padding: 1rem;
+      font-size: 1.5rem;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .sidebar {
+      width: 240px;
+      background-color: #e3f2fd;
+      height: 100%;
+      transition: width 0.3s;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar.collapsed { width: 64px; }
+    .sidebar button.toggle {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      padding: 1rem;
+      cursor: pointer;
+      text-align: left;
+      color: #1976d2;
+      font-weight: bold;
+      border-bottom: 1px solid #bbdefb;
+    }
+    .nav-button {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      background: none;
+      border: none;
+      font-size: 1rem;
+      color: #1976d2;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .nav-button:hover { background-color: #bbdefb; }
+    .nav-icon {
+      margin-right: 1rem;
+      font-size: 1.2rem;
+      display: inline-block;
+      width: 24px;
+      text-align: center;
+    }
+    .sidebar.collapsed .nav-label { display: none; }
+    .main-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .main-content {
+      padding: 1rem 2rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .section { display: none; }
+    .section.active { display: block; }
+    .card {
+      background: white;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table.data-table th, table.data-table td {
+      border: 1px solid #ccc;
+      padding: 0.5rem;
+      text-align: left;
+    }
+    table.data-table th {
+      background-color: #e3f2fd;
+    }
+  </style>
+<style>
+  .route-block.optimal {
+    background-color: #4caf50 !important;
+    color: white;
+  }
+  .route-block.moderate {
+    background-color: #ff9800 !important;
+    color: white;
+  }
+  .route-block.overloaded {
+    background-color: #f44336 !important;
+    color: white;
+  }
+</style>
+<style>
+  td.status-cell::before {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 6px;
+    border-radius: 50%;
+  }
+  td.status-cell.Pending::before { background-color: #ffc107; }
+  td.status-cell.Approved::before { background-color: #4caf50; }
+  td.status-cell.Declined::before { background-color: #f44336; }
+  td.status-cell.Rescheduled::before { background-color: #03a9f4; }
+</style></head>
+<body>
+<div class="sidebar">
+<button class="toggle" onclick="toggleSidebar()">☰</button>
+<button class="nav-button" onclick="showSection('dashboard')"><span class="nav-icon">📊</span><span class="nav-label">Dashboard</span></button>
+<button class="nav-button" onclick="showSection('requests')"><span class="nav-icon">📥</span><span class="nav-label">Requests</span></button>
+<button class="nav-button" onclick="showSection('schedule')"><span class="nav-icon">🗓️</span><span class="nav-label">Schedule</span></button>
+<button class="nav-button" onclick="showSection('assignment')"><span class="nav-icon">👷</span><span class="nav-label">Assignment</span></button>
+<button class="nav-button" onclick="showSection('map')"><span class="nav-icon">🗺️</span><span class="nav-label">Live Map</span></button>
+<button class="nav-button" onclick="showSection('performance')"><span class="nav-icon">📈</span><span class="nav-label">Performance</span></button>
+<button class="nav-button" onclick="showSection('clients')"><span class="nav-icon">🏪</span><span class="nav-label">Clients</span></button>
+<button class="nav-button" onclick="showSection('settings')"><span class="nav-icon">⚙️</span><span class="nav-label">Settings</span></button>
+</div>
+<div class="main-container">
+<header>EvoSustain Admin Portal</header>
+<div class="main-content">
+<section class="section active" id="dashboard">
+<div class="card">
+<h2>Key Performance Indicators (KPIs)</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 2rem;">
+<div style="flex: 1; min-width: 200px;"><h3>Total Pickups Today</h3><p style="font-size: 1.8rem; color: #1976d2;">412</p></div>
+<div style="flex: 1; min-width: 200px;"><h3>Active Drivers</h3><p style="font-size: 1.8rem; color: #1976d2;">10</p></div>
+<div style="flex: 1; min-width: 200px;"><h3>Pending Requests</h3><p style="font-size: 1.8rem; color: #1976d2;">18</p></div>
+<div style="flex: 1; min-width: 200px;"><h3>System Alerts</h3><p style="font-size: 1.8rem; color: #d32f2f;">3</p></div>
+</div>
+</div>
+<div class="card">
+<h2>System Alerts</h2>
+<ul>
+<li>⚠️ 2025-05-25 08:22 - GPS Signal Lost</li>
+<li>⚠️ 2025-05-26 10:44 - Driver Delay</li>
+<li>⚠️ 2025-05-26 12:15 - Missed Pickup</li>
+</ul>
+</div>
+<div class="card"><h2>Store Pickup History</h2><canvas height="100" id="histogramChart"></canvas></div>
+<div class="card"><h2>Driver Efficiency</h2><canvas height="100" id="efficiencyChart"></canvas></div>
+<div class="card"><h2>Pickup Distribution</h2><canvas height="100" id="pickupChart"></canvas></div>
+</section>
+<section class="section active" id="requests">
+<div class="card">
+<div style="margin-bottom: 1rem;">
+<label for="statusDropdown"><strong>Filter by status:</strong></label>
+<select id="statusDropdown">
+<option value="All">All</option>
+<option value="Pending">Pending</option>
+<option value="Approved">Approved</option>
+<option value="Declined">Declined</option>
+<option value="Rescheduled">Rescheduled</option>
+</select>
+</div>
+<h2>Collection Requests Overview</h2>
+<p>Manage incoming collection requests. Filter by status and use the buttons to update each request.</p>
+<table class="data-table" id="requests-table" style="width:100%">
+<thead>
+<tr>
+<th>Store ID</th>
+<th>Request Time</th>
+<th>Bin Type</th>
+<th>Volume (m³)</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>S1106</td>
+<td>2025-05-24 10:40</td>
+<td>General</td>
+<td>2.03</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1490</td>
+<td>2025-05-04 00:49</td>
+<td>Cardboard</td>
+<td>2.84</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1210</td>
+<td>2025-05-08 05:00</td>
+<td>Plastic</td>
+<td>1.84</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1021</td>
+<td>2025-05-22 05:42</td>
+<td>Food</td>
+<td>1.71</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1418</td>
+<td>2025-05-11 13:04</td>
+<td>Plastic</td>
+<td>0.42</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1325</td>
+<td>2025-05-16 08:27</td>
+<td>General</td>
+<td>0.75</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1320</td>
+<td>2025-05-22 03:42</td>
+<td>Plastic</td>
+<td>1.49</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1387</td>
+<td>2025-05-17 05:05</td>
+<td>Food</td>
+<td>2.22</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1343</td>
+<td>2025-05-16 22:27</td>
+<td>Plastic</td>
+<td>1.8</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1337</td>
+<td>2025-05-21 13:55</td>
+<td>Food</td>
+<td>0.83</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1242</td>
+<td>2025-05-18 15:25</td>
+<td>Plastic</td>
+<td>2.45</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1065</td>
+<td>2025-05-15 14:24</td>
+<td>Plastic</td>
+<td>0.72</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1157</td>
+<td>2025-05-10 10:42</td>
+<td>Food</td>
+<td>0.87</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1007</td>
+<td>2025-05-04 09:26</td>
+<td>General</td>
+<td>0.85</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1102</td>
+<td>2025-05-26 12:54</td>
+<td>Food</td>
+<td>1.82</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1239</td>
+<td>2025-05-11 23:02</td>
+<td>Food</td>
+<td>1.21</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1382</td>
+<td>2025-05-01 15:56</td>
+<td>Food</td>
+<td>0.34</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1273</td>
+<td>2025-05-21 18:00</td>
+<td>Glass</td>
+<td>2.76</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1029</td>
+<td>2025-05-07 14:06</td>
+<td>Cardboard</td>
+<td>1.41</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1374</td>
+<td>2025-05-18 02:48</td>
+<td>Food</td>
+<td>1.5</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1194</td>
+<td>2025-05-10 17:22</td>
+<td>General</td>
+<td>0.83</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1318</td>
+<td>2025-05-23 16:28</td>
+<td>Plastic</td>
+<td>1.09</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1031</td>
+<td>2025-05-21 23:19</td>
+<td>Food</td>
+<td>2.99</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1375</td>
+<td>2025-05-07 16:31</td>
+<td>Plastic</td>
+<td>1.59</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1458</td>
+<td>2025-05-12 09:56</td>
+<td>Food</td>
+<td>1.93</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1250</td>
+<td>2025-05-25 02:56</td>
+<td>Food</td>
+<td>2.36</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1095</td>
+<td>2025-05-08 12:03</td>
+<td>Glass</td>
+<td>2.42</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1205</td>
+<td>2025-05-22 08:16</td>
+<td>Food</td>
+<td>1.79</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1182</td>
+<td>2025-05-22 16:27</td>
+<td>Food</td>
+<td>0.35</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1439</td>
+<td>2025-05-09 06:41</td>
+<td>General</td>
+<td>0.36</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1398</td>
+<td>2025-05-04 23:54</td>
+<td>Food</td>
+<td>2.0</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1335</td>
+<td>2025-05-04 11:50</td>
+<td>General</td>
+<td>0.75</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1294</td>
+<td>2025-05-16 20:05</td>
+<td>Food</td>
+<td>1.56</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1469</td>
+<td>2025-05-25 06:48</td>
+<td>General</td>
+<td>2.78</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1102</td>
+<td>2025-05-22 19:50</td>
+<td>General</td>
+<td>0.7</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1067</td>
+<td>2025-05-15 20:25</td>
+<td>Glass</td>
+<td>0.94</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1150</td>
+<td>2025-05-24 14:33</td>
+<td>Cardboard</td>
+<td>0.78</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1335</td>
+<td>2025-05-16 13:21</td>
+<td>Glass</td>
+<td>2.41</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1094</td>
+<td>2025-05-26 08:00</td>
+<td>Food</td>
+<td>1.83</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1390</td>
+<td>2025-05-23 10:01</td>
+<td>Plastic</td>
+<td>0.3</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1436</td>
+<td>2025-05-08 03:58</td>
+<td>Cardboard</td>
+<td>1.73</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1231</td>
+<td>2025-05-19 00:33</td>
+<td>Cardboard</td>
+<td>0.39</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1259</td>
+<td>2025-05-03 19:50</td>
+<td>Plastic</td>
+<td>1.34</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1000</td>
+<td>2025-05-14 21:20</td>
+<td>Cardboard</td>
+<td>2.96</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1205</td>
+<td>2025-05-02 20:47</td>
+<td>Food</td>
+<td>0.62</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1020</td>
+<td>2025-05-17 01:12</td>
+<td>General</td>
+<td>2.06</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1432</td>
+<td>2025-05-15 20:43</td>
+<td>Plastic</td>
+<td>0.51</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1425</td>
+<td>2025-05-02 21:42</td>
+<td>Cardboard</td>
+<td>2.13</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1212</td>
+<td>2025-05-14 14:18</td>
+<td>General</td>
+<td>0.86</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1265</td>
+<td>2025-05-08 06:31</td>
+<td>Glass</td>
+<td>0.33</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1409</td>
+<td>2025-05-13 13:59</td>
+<td>General</td>
+<td>2.95</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1293</td>
+<td>2025-05-08 23:50</td>
+<td>Glass</td>
+<td>2.45</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1380</td>
+<td>2025-05-26 01:13</td>
+<td>Cardboard</td>
+<td>1.08</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1094</td>
+<td>2025-05-06 12:44</td>
+<td>General</td>
+<td>2.07</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1002</td>
+<td>2025-05-18 16:17</td>
+<td>General</td>
+<td>2.73</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1433</td>
+<td>2025-05-17 06:16</td>
+<td>Food</td>
+<td>1.56</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1106</td>
+<td>2025-05-02 17:24</td>
+<td>Food</td>
+<td>2.88</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1138</td>
+<td>2025-05-07 02:54</td>
+<td>Cardboard</td>
+<td>0.38</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1269</td>
+<td>2025-05-15 00:40</td>
+<td>Glass</td>
+<td>1.25</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1123</td>
+<td>2025-05-24 19:54</td>
+<td>Plastic</td>
+<td>0.89</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1038</td>
+<td>2025-05-22 03:40</td>
+<td>Cardboard</td>
+<td>1.3</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1084</td>
+<td>2025-05-23 23:31</td>
+<td>Plastic</td>
+<td>2.85</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1304</td>
+<td>2025-05-12 05:33</td>
+<td>Glass</td>
+<td>0.32</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1373</td>
+<td>2025-05-12 05:16</td>
+<td>Cardboard</td>
+<td>2.21</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1339</td>
+<td>2025-05-02 13:45</td>
+<td>Food</td>
+<td>2.82</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1498</td>
+<td>2025-05-15 16:49</td>
+<td>Plastic</td>
+<td>1.79</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1499</td>
+<td>2025-05-17 00:20</td>
+<td>Food</td>
+<td>2.16</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1063</td>
+<td>2025-05-03 14:24</td>
+<td>Plastic</td>
+<td>2.26</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1051</td>
+<td>2025-05-21 02:18</td>
+<td>Plastic</td>
+<td>0.69</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1240</td>
+<td>2025-05-15 00:10</td>
+<td>General</td>
+<td>1.08</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1451</td>
+<td>2025-05-09 22:08</td>
+<td>Plastic</td>
+<td>1.08</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1372</td>
+<td>2025-05-11 10:30</td>
+<td>Food</td>
+<td>2.86</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1268</td>
+<td>2025-05-21 07:35</td>
+<td>Plastic</td>
+<td>0.94</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1035</td>
+<td>2025-05-06 15:53</td>
+<td>Food</td>
+<td>0.69</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1378</td>
+<td>2025-05-01 04:40</td>
+<td>Glass</td>
+<td>0.26</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1488</td>
+<td>2025-05-15 11:24</td>
+<td>Plastic</td>
+<td>1.35</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1287</td>
+<td>2025-05-13 00:19</td>
+<td>General</td>
+<td>2.79</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1422</td>
+<td>2025-05-01 08:47</td>
+<td>Plastic</td>
+<td>0.55</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1154</td>
+<td>2025-05-08 23:54</td>
+<td>Glass</td>
+<td>1.6</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1499</td>
+<td>2025-05-12 08:58</td>
+<td>Plastic</td>
+<td>1.31</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1353</td>
+<td>2025-05-22 04:17</td>
+<td>Plastic</td>
+<td>0.79</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1317</td>
+<td>2025-05-01 14:35</td>
+<td>Cardboard</td>
+<td>1.85</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1349</td>
+<td>2025-05-04 15:47</td>
+<td>Glass</td>
+<td>2.68</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1486</td>
+<td>2025-05-24 07:19</td>
+<td>Food</td>
+<td>1.06</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1311</td>
+<td>2025-05-11 21:36</td>
+<td>Food</td>
+<td>2.21</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1160</td>
+<td>2025-05-16 19:51</td>
+<td>Food</td>
+<td>2.48</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1085</td>
+<td>2025-05-12 03:59</td>
+<td>Cardboard</td>
+<td>0.87</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1086</td>
+<td>2025-05-10 22:42</td>
+<td>Cardboard</td>
+<td>2.93</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1181</td>
+<td>2025-05-06 21:47</td>
+<td>Glass</td>
+<td>2.44</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1204</td>
+<td>2025-05-18 03:15</td>
+<td>Cardboard</td>
+<td>2.05</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1296</td>
+<td>2025-05-18 18:25</td>
+<td>General</td>
+<td>2.15</td>
+<td class="status-cell Pending">Pending</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1045</td>
+<td>2025-05-03 21:55</td>
+<td>Glass</td>
+<td>1.85</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1280</td>
+<td>2025-05-13 06:14</td>
+<td>Food</td>
+<td>0.71</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1162</td>
+<td>2025-05-02 19:32</td>
+<td>Plastic</td>
+<td>2.94</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1468</td>
+<td>2025-05-07 14:50</td>
+<td>General</td>
+<td>1.64</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1094</td>
+<td>2025-05-06 09:06</td>
+<td>Plastic</td>
+<td>0.92</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1322</td>
+<td>2025-05-23 11:19</td>
+<td>Cardboard</td>
+<td>2.08</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1336</td>
+<td>2025-05-20 23:37</td>
+<td>Plastic</td>
+<td>1.87</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1402</td>
+<td>2025-05-22 13:49</td>
+<td>Plastic</td>
+<td>2.63</td>
+<td class="status-cell Approved">Approved</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+<tr>
+<td>S1058</td>
+<td>2025-05-11 22:15</td>
+<td>Food</td>
+<td>2.58</td>
+<td class="status-cell Declined">Declined</td>
+<td>
+<button class="action-btn approve">Approve</button>
+<button class="action-btn decline">Decline</button>
+<button class="action-btn reschedule">Reschedule</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section><section class="section active" id="schedule">
+<div class="card">
+<h2>Schedule Planning</h2>
+<p>Weekly calendar view with simulated route optimization. Click 'Optimize' to highlight overloaded routes.</p>
+<button id="optimizeButton" onclick="optimizeRoutes()" style="margin-bottom: 10px; padding: 6px 12px; background:#1976d2; color:white; border:none; border-radius:5px;">Optimize</button>
+<div style="margin-bottom: 1rem;">
+<strong>Legend (click to highlight):</strong>
+<button class="legend-button" data-target="optimal" style="background-color:#4caf50;color:white;padding:4px 8px;border:none;border-radius:5px;margin-left:10px;cursor:pointer;">Optimal (&lt;70%)</button>
+<button class="legend-button" data-target="moderate" style="background-color:#ff9800;color:white;padding:4px 8px;border:none;border-radius:5px;margin-left:10px;cursor:pointer;">Moderate (70–89%)</button>
+<button class="legend-button" data-target="overloaded" style="background-color:#f44336;color:white;padding:4px 8px;border:none;border-radius:5px;margin-left:10px;cursor:pointer;">Overloaded (≥90%)</button>
+</div>
+<div style="margin-bottom: 1rem;">
+<strong>Legend:</strong>
+<span style="background-color:#4caf50;color:white;padding:4px 8px;border-radius:5px;margin-left:10px;">Optimal (&lt;70%)</span>
+<span style="background-color:#ff9800;color:white;padding:4px 8px;border-radius:5px;margin-left:10px;">Moderate (70–89%)</span>
+<span style="background-color:#f44336;color:white;padding:4px 8px;border-radius:5px;margin-left:10px;">Overloaded (≥90%)</span>
+</div>
+<table class="data-table" id="schedule-table" style="text-align:center">
+<thead><tr><th>Driver \ Date</th><th>2025-05-23</th><th>2025-05-24</th><th>2025-05-25</th><th>2025-05-26</th><th>2025-05-27</th><th>2025-05-28</th></tr></thead><tbody><tr><td><strong>Deborah Austin</strong></td><td>-</td><td><div class="route-block" data-load="68">RR110<br/>68%</div></td><td>-</td><td>-</td><td>-</td><td><div class="route-block" data-load="82">RR162<br/>82%</div></td></tr><tr><td><strong>Dominic Solomon</strong></td><td><div class="route-block" data-load="80">RR152<br/>80%</div></td><td><div class="route-block" data-load="57">RR168<br/>57%</div></td><td><div class="route-block" data-load="66">RR183<br/>66%</div></td><td><div class="route-block" data-load="74">RR102<br/>74%</div></td><td><div class="route-block" data-load="83">RR113<br/>83%</div></td><td><div class="route-block" data-load="84">RR164<br/>84%</div></td></tr><tr><td><strong>Dr. Tracy Reid MD</strong></td><td><div class="route-block" data-load="82">RR102<br/>82%</div></td><td><div class="route-block" data-load="64">RR153<br/>64%</div></td><td><div class="route-block" data-load="67">RR115<br/>67%</div></td><td><div class="route-block" data-load="73">RR102<br/>73%</div></td><td><div class="route-block" data-load="84">RR120<br/>84%</div></td><td>-</td></tr><tr><td><strong>Jasmine Robinson</strong></td><td><div class="route-block" data-load="93">RR187<br/>93%</div></td><td><div class="route-block" data-load="57">RR156<br/>57%</div></td><td><div class="route-block" data-load="90">RR115<br/>90%</div></td><td>-</td><td>-</td><td><div class="route-block" data-load="78">RR188<br/>78%</div></td></tr><tr><td><strong>Jennifer Young</strong></td><td><div class="route-block" data-load="80">RR184<br/>80%</div></td><td><div class="route-block" data-load="67">RR119<br/>67%</div></td><td><div class="route-block" data-load="60">RR191<br/>60%</div></td><td>-</td><td><div class="route-block" data-load="87">RR198<br/>87%</div></td><td><div class="route-block" data-load="69">RR189<br/>69%</div></td></tr><tr><td><strong>Olivia Snyder</strong></td><td><div class="route-block" data-load="84">RR168<br/>84%</div></td><td><div class="route-block" data-load="80">RR105<br/>80%</div></td><td>-</td><td>-</td><td><div class="route-block" data-load="92">RR178<br/>92%</div></td><td><div class="route-block" data-load="58">RR178<br/>58%</div></td></tr><tr><td><strong>Regina Wilkins</strong></td><td><div class="route-block" data-load="64">RR179<br/>64%</div></td><td><div class="route-block" data-load="68">RR159<br/>68%</div></td><td><div class="route-block" data-load="54">RR144<br/>54%</div></td><td><div class="route-block" data-load="77">RR142<br/>77%</div></td><td><div class="route-block" data-load="90">RR116<br/>90%</div></td><td><div class="route-block" data-load="74">RR127<br/>74%</div></td></tr><tr><td><strong>Sandra Ward</strong></td><td><div class="route-block" data-load="72">RR148<br/>72%</div></td><td><div class="route-block" data-load="60">RR182<br/>60%</div></td><td><div class="route-block" data-load="91">RR161<br/>91%</div></td><td><div class="route-block" data-load="60">RR102<br/>60%</div></td><td><div class="route-block" data-load="98">RR127<br/>98%</div></td><td><div class="route-block" data-load="59">RR109<br/>59%</div></td></tr><tr><td><strong>Stephanie Gonzalez</strong></td><td><div class="route-block" data-load="87">RR159<br/>87%</div></td><td><div class="route-block" data-load="61">RR116<br/>61%</div></td><td><div class="route-block" data-load="76">RR169<br/>76%</div></td><td><div class="route-block" data-load="68">RR194<br/>68%</div></td><td><div class="route-block" data-load="92">RR198<br/>92%</div></td><td><div class="route-block" data-load="73">RR113<br/>73%</div></td></tr><tr><td><strong>Troy Nguyen</strong></td><td><div class="route-block" data-load="79">RR185<br/>79%</div></td><td>-</td><td><div class="route-block" data-load="67">RR138<br/>67%</div></td><td><div class="route-block" data-load="83">RR147<br/>83%</div></td><td>-</td><td><div class="route-block" data-load="75">RR125<br/>75%</div></td></tr></tbody></table></div></section>
+
+<section class="section active" id="assignment">
+<div class="card">
+<h2>Driver Assignment Panel</h2>
+<p>Toggle driver active status and assign routes. Only active drivers can be assigned routes.</p>
+<table class="data-table" id="assignment-table" style="width: 100%;">
+<thead>
+<tr>
+<th>Driver</th>
+<th>Active</th>
+<th>Routes Today</th>
+<th>Assign Routes</th>
+<th>Total Assigned Routes</th>
+</tr>
+</thead>
+<tbody>
+<tr data-active="true">
+<td>Jasmine Robinson</td>
+<td><input checked="" class="active-toggle" type="checkbox"/></td>
+<td>5</td>
+<td>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option selected="" value="R101">R101</option><option value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option value="R101">R101</option><option selected="" value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option value="R101">R101</option><option value="R102">R102</option><option selected="" value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option value="R101">R101</option><option value="R102">R102</option><option value="R103">R103</option><option selected="" value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option value="R101">R101</option><option value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option selected="" value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option value="R101">R101</option><option value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+</td>
+<td class="total-assigned">5</td>
+</tr>
+<tr data-active="true">
+<td>Sandra Ward</td>
+<td><input checked="" class="active-toggle" type="checkbox"/></td>
+<td>4</td>
+<td>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option selected="" value="R101">R101</option><option value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option value="R101">R101</option><option selected="" value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option value="R101">R101</option><option value="R102">R102</option><option selected="" value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option value="R101">R101</option><option value="R102">R102</option><option value="R103">R103</option><option selected="" value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option value="R101">R101</option><option value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+</td>
+<td class="total-assigned">4</td>
+</tr>
+<tr data-active="true">
+<td>Dr. Tracy Reid MD</td>
+<td><input checked="" class="active-toggle" type="checkbox"/></td>
+<td>3</td>
+<td>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option selected="" value="R101">R101</option><option value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option value="R101">R101</option><option selected="" value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option value="R101">R101</option><option value="R102">R102</option><option selected="" value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option value="R101">R101</option><option value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+</td>
+<td class="total-assigned">3</td>
+</tr>
+<tr data-active="true">
+<td>Troy Nguyen</td>
+<td><input checked="" class="active-toggle" type="checkbox"/></td>
+<td>2</td>
+<td>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option selected="" value="R101">R101</option><option value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option value="R101">R101</option><option selected="" value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option value="R101">R101</option><option value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+</td>
+<td class="total-assigned">2</td>
+</tr>
+<tr data-active="true">
+<td>Olivia Snyder</td>
+<td><input checked="" class="active-toggle" type="checkbox"/></td>
+<td>2</td>
+<td>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option selected="" value="R101">R101</option><option value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option value="R101">R101</option><option selected="" value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option value="R101">R101</option><option value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+</td>
+<td class="total-assigned">2</td>
+</tr>
+<tr data-active="true">
+<td>Stephanie Gonzalez</td>
+<td><input checked="" class="active-toggle" type="checkbox"/></td>
+<td>2</td>
+<td>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option selected="" value="R101">R101</option><option value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option value="R101">R101</option><option selected="" value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option value="R101">R101</option><option value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+</td>
+<td class="total-assigned">2</td>
+</tr>
+<tr data-active="true">
+<td>Deborah Austin</td>
+<td><input checked="" class="active-toggle" type="checkbox"/></td>
+<td>2</td>
+<td>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option selected="" value="R101">R101</option><option value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option value="R101">R101</option><option selected="" value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+<select class="route-dropdown">
+<option value="">Select...</option>
+<option value="R101">R101</option><option value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+</td>
+<td class="total-assigned">2</td>
+</tr>
+<tr data-active="false">
+<td>Regina Wilkins</td>
+<td><input class="active-toggle" type="checkbox"/></td>
+<td>3</td>
+<td>
+<select class="route-dropdown" disabled="">
+<option value="">Select...</option>
+<option value="R101">R101</option><option value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+</td>
+<td class="total-assigned">0</td>
+</tr>
+<tr data-active="false">
+<td>Dominic Solomon</td>
+<td><input class="active-toggle" type="checkbox"/></td>
+<td>3</td>
+<td>
+<select class="route-dropdown" disabled="">
+<option value="">Select...</option>
+<option value="R101">R101</option><option value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+</td>
+<td class="total-assigned">0</td>
+</tr>
+<tr data-active="false">
+<td>Jennifer Young</td>
+<td><input class="active-toggle" type="checkbox"/></td>
+<td>1</td>
+<td>
+<select class="route-dropdown" disabled="">
+<option value="">Select...</option>
+<option value="R101">R101</option><option value="R102">R102</option><option value="R103">R103</option><option value="R104">R104</option><option value="R105">R105</option><option value="R106">R106</option><option value="R107">R107</option><option value="R108">R108</option><option value="R109">R109</option><option value="R110">R110</option>
+</select>
+</td>
+<td class="total-assigned">0</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<td colspan="4" style="text-align:right;font-weight:bold;">Total Unique Routes Assigned:</td>
+<td id="totalRoutesSummary" style="font-weight:bold;">0</td>
+</tr>
+<tr>
+<td colspan="4" style="text-align:right;font-weight:bold;">Total Active Drivers:</td>
+<td id="totalActiveDrivers" style="font-weight:bold;">0</td>
+</tr>
+<tr>
+<td colspan="4" style="text-align:right;font-weight:bold;">Route Coverage (%):</td>
+<td id="routeCoverage" style="font-weight:bold;">0%</td>
+</tr>
+</tfoot>
+</table>
+</div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".route-dropdown").forEach(dropdown => {
+    dropdown.addEventListener("change", function () {
+      const label = this.parentElement.querySelector(".assigned-label");
+      if (this.value) {
+        label.textContent = `→ ${this.value} assigned`;
+        label.style.color = "#1976d2";
+      } else {
+        label.textContent = "";
+      }
+    });
+  });
+});
+</script>
+</div>
+</div>
+<script>
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+    function toggleSidebar() {
+      document.querySelector('.sidebar').classList.toggle('collapsed');
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+      const driverNames = ["Michael", "Samantha", "Suzanne", "Melissa", "Nicholas", "Anna", "David", "Laura", "James", "Olivia"];
+      const efficiencies = [83.4, 97.7, 93.0, 88.3, 85.8, 91.2, 89.4, 92.6, 87.1, 94.3];
+      const pickups = [682, 405, 957, 669, 987, 721, 835, 634, 798, 888];
+      const storeBuckets = [30, 45, 67, 80, 100, 70, 60, 48, 40, 60];
+
+      new Chart(document.getElementById('histogramChart'), {
+        type: 'bar',
+        data: {
+          labels: ["S1–50", "S51–100", "S101–150", "S151–200", "S201–250", "S251–300", "S301–350", "S351–400", "S401–450", "S451–500"],
+          datasets: [{
+            label: 'Collections by Store Range',
+            backgroundColor: '#42a5f5',
+            data: storeBuckets
+          }]
+        },
+        options: { responsive: true }
+      });
+
+      new Chart(document.getElementById('efficiencyChart'), {
+        type: 'bar',
+        data: {
+          labels: driverNames,
+          datasets: [{
+            label: 'Efficiency (%)',
+            backgroundColor: '#66bb6a',
+            data: efficiencies
+          }]
+        },
+        options: { responsive: true, scales: { y: { max: 100 } } }
+      });
+
+      new Chart(document.getElementById('pickupChart'), {
+        type: 'doughnut',
+        data: {
+          labels: driverNames,
+          datasets: [{
+            label: 'Completed Pickups',
+            data: pickups,
+            backgroundColor: [
+              '#42a5f5', '#66bb6a', '#ffa726', '#ab47bc', '#26c6da',
+              '#ef5350', '#8d6e63', '#ffca28', '#7e57c2', '#26a69a'
+            ]
+          }]
+        },
+        options: { responsive: true }
+      });
+    });
+  </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // Requests: Top 10 stores with pending requests
+  new Chart(document.getElementById("requestsChart"), {
+    type: "bar",
+    data: {
+      labels: ['S1499', 'S1038', 'S1498', 'S1436', 'S1433', 'S1425', 'S1374', 'S1335', 'S1317', 'S1311'],
+      datasets: [{
+        label: "Pending Requests",
+        backgroundColor: "#42a5f5",
+        data: [2, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+      }]
+    },
+    options: { responsive: true }
+  });
+
+  // Schedule: Driver workload
+  new Chart(document.getElementById("scheduleChart"), {
+    type: "bar",
+    data: {
+      labels: ['Deborah Austin', 'Dominic Solomon', 'Dr. Tracy Reid MD', 'Jasmine Robinson', 'Jennifer Young', 'Olivia Snyder', 'Regina Wilkins', 'Sandra Ward', 'Stephanie Gonzalez', 'Troy Nguyen'],
+      datasets: [{
+        label: "Scheduled Tasks",
+        backgroundColor: "#66bb6a",
+        data: [2, 13, 14, 6, 10, 6, 9, 14, 17, 9]
+      }]
+    },
+    options: { responsive: true }
+  });
+
+  // Assignment: Feedback Score per driver
+  new Chart(document.getElementById("assignmentChart"), {
+    type: "bar",
+    data: {
+      labels: ['Jasmine Robinson', 'Regina Wilkins', 'Troy Nguyen', 'Sandra Ward', 'Olivia Snyder', 'Jennifer Young', 'Stephanie Gonzalez', 'Dr. Tracy Reid MD', 'Deborah Austin', 'Dominic Solomon'],
+      datasets: [{
+        label: "Feedback Score",
+        backgroundColor: "#ffa726",
+        data: [4.51, 4.36, 4.26, 3.61, 4.68, 4.25, 4.12, 4.03, 4.17, 3.72]
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: { y: { max: 5 } }
+    }
+  });
+
+  // Clients: Top 10 most active
+  new Chart(document.getElementById("clientsChart"), {
+    type: "bar",
+    data: {
+      labels: ['Gonzalez-Mitchell', 'Reynolds-Mason', 'Robertson Ltd', 'Castaneda Ltd', 'Parker LLC', 'Morris-Hudson', 'Roberts PLC', 'James-Edwards', 'Johnson, Hudson and Watkins', 'Foster, Lynn and Huffman'],
+      datasets: [{
+        label: "Total Collections",
+        backgroundColor: "#ab47bc",
+        data: [98, 96, 95, 95, 94, 90, 89, 89, 88, 87]
+      }]
+    },
+    options: { responsive: true }
+  });
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  function optimizeRoutes() {
+    document.querySelectorAll('.route-block').forEach(el => {
+      const load = parseInt(el.dataset.load);
+      el.classList.remove("optimal", "moderate", "overloaded");
+      if (load >= 90) {
+        el.classList.add("overloaded");
+      } else if (load >= 70) {
+        el.classList.add("moderate");
+      } else {
+        el.classList.add("optimal");
+      }
+    });
+  }
+  document.getElementById("optimizeButton").addEventListener("click", optimizeRoutes);
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const dropdown = document.getElementById("statusDropdown");
+  if (dropdown) {
+    dropdown.addEventListener("change", function () {
+      const selected = this.value;
+      document.querySelectorAll("#requests-table tbody tr").forEach(row => {
+        const status = row.querySelector(".status-cell").textContent.trim();
+        row.style.display = (selected === "All" || status === selected) ? "" : "none";
+      });
+    });
+  }
+});
+</script>
+<script>
+const routeStoresMap = {"R101": ["S1106", "S1210", "S1325", "S1157", "S1007", "S1375", "S1469", "S1231", "S1000", "S1212", "S1293", "S1304", "S1311", "S1045"], "R102": ["S1182", "S1439", "S1436", "S1432", "S1094", "S1339", "S1488", "S1353", "S1402"], "R103": ["S1337", "S1374", "S1067", "S1390", "S1373", "S1063", "S1268"], "R104": ["S1239", "S1205", "S1123", "S1499", "S1051", "S1035", "S1204", "S1336"], "R105": ["S1490", "S1242", "S1102", "S1031", "S1094", "S1265", "S1380", "S1002", "S1038", "S1287", "S1154", "S1094"], "R106": ["S1343", "S1194", "S1458", "S1398", "S1102", "S1335", "S1269", "S1422", "S1181", "S1296", "S1058"], "R107": ["S1318", "S1259", "S1106", "S1451", "S1378", "S1349"], "R108": ["S1021", "S1065", "S1029", "S1150", "S1425", "S1138", "S1240", "S1372", "S1317", "S1085", "S1280", "S1162"], "R109": ["S1418", "S1320", "S1387", "S1273", "S1335", "S1205", "S1409", "S1433", "S1498", "S1160", "S1086", "S1468", "S1322"], "R110": ["S1382", "S1250", "S1095", "S1294", "S1020", "S1084", "S1499", "S1486"]};
+
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".route-dropdown").forEach(dropdown => {
+    dropdown.addEventListener("change", function () {
+      const selectedRoute = this.value;
+      const label = this.parentElement.querySelector(".assigned-label");
+      if (selectedRoute && routeStoresMap[selectedRoute]) {
+        const stores = routeStoresMap[selectedRoute].slice(0, 10).join(", ");
+        label.innerHTML = "→ " + selectedRoute + " assigned<br><small>Stores: " + stores + "...</small>";
+        label.style.color = "#1976d2";
+      } else {
+        label.innerHTML = "";
+      }
+    });
+  });
+});
+</script>
+<script>
+const routeStoresMap = {"R101": ["S1106", "S1210", "S1325", "S1157", "S1007", "S1375", "S1469", "S1231", "S1000", "S1212", "S1293", "S1304", "S1311", "S1045"], "R102": ["S1182", "S1439", "S1436", "S1432", "S1094", "S1339", "S1488", "S1353", "S1402"], "R103": ["S1337", "S1374", "S1067", "S1390", "S1373", "S1063", "S1268"], "R104": ["S1239", "S1205", "S1123", "S1499", "S1051", "S1035", "S1204", "S1336"], "R105": ["S1490", "S1242", "S1102", "S1031", "S1094", "S1265", "S1380", "S1002", "S1038", "S1287", "S1154", "S1094"], "R106": ["S1343", "S1194", "S1458", "S1398", "S1102", "S1335", "S1269", "S1422", "S1181", "S1296", "S1058"], "R107": ["S1318", "S1259", "S1106", "S1451", "S1378", "S1349"], "R108": ["S1021", "S1065", "S1029", "S1150", "S1425", "S1138", "S1240", "S1372", "S1317", "S1085", "S1280", "S1162"], "R109": ["S1418", "S1320", "S1387", "S1273", "S1335", "S1205", "S1409", "S1433", "S1498", "S1160", "S1086", "S1468", "S1322"], "R110": ["S1382", "S1250", "S1095", "S1294", "S1020", "S1084", "S1499", "S1486"]};
+
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".route-dropdown").forEach(dropdown => {
+    dropdown.addEventListener("change", function () {
+      const selectedRoute = this.value;
+      const label = this.parentElement.querySelector(".assigned-label");
+      if (selectedRoute && routeStoresMap[selectedRoute]) {
+        const stores = routeStoresMap[selectedRoute].slice(0, 10).join(", ");
+        label.innerHTML = "→ " + selectedRoute + " assigned<br><small>Stores: " + stores + "...</small>";
+        label.style.color = "#1976d2";
+      } else {
+        label.innerHTML = "";
+      }
+    });
+  });
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const searchInput = document.getElementById("zoneSearch");
+  if (searchInput) {
+    searchInput.addEventListener("input", function () {
+      const val = this.value.toLowerCase();
+      document.querySelectorAll("#assignment-table tbody tr").forEach(row => {
+        row.style.outline = val.includes("london") ? "2px solid #03a9f4" : "none";
+      });
+    });
+  }
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const totalRoutes = 10;
+  const rows = document.querySelectorAll("#assignment-table tbody tr");
+
+  function updateAnalysis() {
+    let totalAssignedRoutes = 0;
+    let activeDrivers = 0;
+    let assignedRoutesSet = new Set();
+
+    rows.forEach(row => {
+      const isActive = row.querySelector(".active-toggle").checked;
+      const dropdowns = row.querySelectorAll("select.route-dropdown");
+      let assignedCount = 0;
+
+      dropdowns.forEach(sel => {
+        if (sel.value && isActive) {
+          assignedCount++;
+          assignedRoutesSet.add(sel.value);
+        }
+        sel.disabled = !isActive;
+      });
+
+      row.querySelector(".total-assigned").textContent = assignedCount;
+      if(isActive) activeDrivers++;
+      totalAssignedRoutes += assignedCount;
+    });
+
+    document.getElementById("totalRoutesSummary").textContent = assignedRoutesSet.size;
+    document.getElementById("totalActiveDrivers").textContent = activeDrivers;
+    let coverage = assignedRoutesSet.size / totalRoutes * 100;
+    document.getElementById("routeCoverage").textContent = coverage.toFixed(1) + "%";
+  }
+
+  // Setup event listeners for toggles and dropdowns
+  rows.forEach(row => {
+    row.querySelector(".active-toggle").addEventListener("change", () => {
+      updateAnalysis();
+    });
+    row.querySelectorAll("select.route-dropdown").forEach(sel => {
+      sel.addEventListener("change", () => {
+        updateAnalysis();
+      });
+    });
+  });
+
+  // Initial update
+  updateAnalysis();
+});
+</script>
+</body>
+</html>
