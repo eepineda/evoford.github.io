@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SaaS Business Portal App</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     body {
       margin: 0;
@@ -80,29 +82,25 @@
       box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
     }
     nav button {
-  flex: 1;
-  margin: 0 4px;
-  background: linear-gradient(to right, #42a5f5, #1e88e5);
-  border: none;
-  color: white;
-  padding: 0.6rem 0.5rem;
-  border-radius: 12px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-nav button:hover {
-  transform: scale(1.05);
-  background: #1565c0;
-}
-nav button.active {
-  background: #0d47a1;
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-}
+      flex: 1;
+      margin: 0 4px;
+      background: linear-gradient(to right, #42a5f5, #1e88e5);
+      border: none;
+      color: white;
+      padding: 0.6rem 0.5rem;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
     nav button:hover {
       transform: scale(1.05);
       background: #1565c0;
+    }
+    nav button.active {
+      background: #0d47a1;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
     }
     #map {
       width: 100%;
@@ -110,75 +108,59 @@ nav button.active {
       border-radius: 10px;
       margin-top: 1rem;
     }
-  @keyframes fadeIn {
-  from { opacity: 0; transform: translateX(20px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-.nav-wrapper {
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  background: #e3f2fd;
-  border-top: 1px solid #ccc;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
-  box-sizing: border-box;
-}
-.nav-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.5rem;
-}
-.nav-grid button {
-  flex: 1;
-  min-width: 80px;
-}
-</style>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .nav-wrapper {
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background: #e3f2fd;
+      border-top: 1px solid #ccc;
+      box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+      box-sizing: border-box;
+    }
+    .nav-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.5rem;
+    }
+    .nav-grid button {
+      flex: 1;
+      min-width: 80px;
+    }
+    .nav-group {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: nowrap;
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+    .nav-group button {
+      flex: 1;
+      margin: 0 2px;
+      min-width: 60px;
+      font-size: 0.8rem;
+    }
+  </style>
 </head>
 <body>
   <div class="app-frame">
+    <section id="login" class="section active">
+      <div class="card">
+        <h3>Login</h3>
+        <input type="text" placeholder="Email" style="width:100%;padding:0.5rem;margin-bottom:0.5rem;border-radius:8px;border:1px solid #ccc;">
+        <input type="password" placeholder="Password" style="width:100%;padding:0.5rem;border-radius:8px;border:1px solid #ccc;">
+        <button class="button" onclick="loginUser()">Sign In</button>
+      </div>
+    </section>
     <div class="header">SaaS Admin App</div>
-    <section id="dashboard" class="section">
-  <div class="card">
-    <h3>Admin Dashboard</h3>
-    <p>📊 KPIs overview</p>
-    <p>📥 Pending Requests: 8</p>
-    <p>⚠ System Alerts: 2</p>
-  </div>
-</section>
-<section id="requests" class="section">
-  <div class="card">
-    <h3>Collection Requests</h3>
-    <p>Request A - <button class="button">✅ Approve</button> <button class="button">❌ Decline</button> <button class="button">📅 Reschedule</button></p>
-    <p>Request B - <button class="button">✅ Approve</button> <button class="button">❌ Decline</button> <button class="button">📅 Reschedule</button></p>
-  </div>
-</section>
-<section id="planning" class="section">
-  <div class="card">
-    <h3>Schedule Planning</h3>
-    <p>📆 Calendar integration</p>
-    <p>🚛 Route optimization active</p>
-  </div>
-</section>
-<section id="assignment" class="section">
-  <div class="card">
-    <h3>Driver Assignment</h3>
-    <p>Select driver from dropdown or drag to assign</p>
-    <select><option>Driver 1</option><option>Driver 2</option></select>
-  </div>
-</section>
-<section id="driver-performance" class="section">
-  <div class="card">
-    <h3>Driver Performance</h3>
-    <p>⏱️ Time Efficiency: 91%</p>
-    <p>✅ Completed Pickups: 980</p>
-  </div>
-</section>
-      <section id="home" class="section active" style="animation: fadeIn 0.4s ease-in-out">
+    <div class="screen">
+      <section id="home" class="section" style="animation: fadeIn 0.4s ease-in-out">
         <div class="card">
           <h3>Welcome to SaaS Portal</h3>
           <p>📊 Monitor activity and manage your business easily.</p>
@@ -190,59 +172,112 @@ nav button.active {
           <p>📦 Requests Today: 132</p>
         </div>
       </section>
-
-      <section id="clients" class="section">
+      <section id="dashboard" class="section">
         <div class="card">
-          <h3>Clients</h3>
-          <ul>
-            <li>Store A – 120 pickups</li>
-            <li>Store B – 87 pickups</li>
-            <li>Store C – 145 pickups</li>
-          </ul>
+          <h3>KPIs Overview</h3>
+          <p>⏱ Avg. Route Time: 32 min</p>
+          <p>✅ Completed Tasks: 440</p>
+          <p>⚠ Alerts: 3 system issues</p>
         </div>
       </section>
-
+      <section id="clients" class="section">
+        <div class="card">
+          <h3>Stores</h3>
+          <p>Store A – 📦 120 pickups</p>
+          <p>Store B – 📦 87 pickups</p>
+        </div>
+      </section>
+      <section id="requests" class="section">
+        <div class="card">
+          <h3>Pickup Requests</h3>
+          <p>🧾 Request X – <button class="button">Approve</button> <button class="button">Decline</button></p>
+          <p>🧾 Request Y – <button class="button">Approve</button> <button class="button">Reschedule</button></p>
+        </div>
+      </section>
+      <section id="planning" class="section">
+        <div class="card">
+          <h3>Planning</h3>
+          <p>🗓 Calendar view</p>
+          <p>📍 Optimized route for 6 vehicles</p>
+        </div>
+      </section>
+      <section id="assignment" class="section">
+        <div class="card">
+          <h3>Assign Drivers</h3>
+          <p>Driver 1 ➡ Route A</p>
+          <p>Driver 2 ➡ Route B</p>
+        </div>
+      </section>
       <section id="mapview" class="section">
         <div class="card">
           <h3>Map</h3>
           <div id="map"></div>
         </div>
       </section>
-
       <section id="performance" class="section">
+  <div class="card">
+    <h3>Performance</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;text-align:center;font-size:0.85rem;">
+      <div style="background:#e3f2fd;padding:0.5rem;border-radius:10px;">
+        ⏱<br><strong>92%</strong><br>Efficiency
+      </div>
+      <div style="background:#e3f2fd;padding:0.5rem;border-radius:10px;">
+        ⛽<br><strong>178L</strong><br>Fuel Saved
+      </div>
+      <div style="background:#e3f2fd;padding:0.5rem;border-radius:10px;">
+        ✅<br><strong>1040</strong><br>Pickups
+      </div>
+      <div style="background:#e3f2fd;padding:0.5rem;border-radius:10px;">
+        🛑<br><strong>95%</strong><br>No Accidents
+      </div>
+      <div style="background:#e3f2fd;padding:0.5rem;border-radius:10px;">
+        ⚠️<br><strong>2</strong><br>With Incidents
+      </div>
+      <div style="background:#e3f2fd;padding:0.5rem;border-radius:10px;">
+        🧭<br><strong>88%</strong><br>Smooth Drive
+      </div>
+      <div style="background:#e3f2fd;padding:0.5rem;border-radius:10px;">
+        📉<br><strong>-12%</strong><br>Downtime
+      </div>
+    </div>
+  </div>
+</section>
+      <section id="driver-performance" class="section">
         <div class="card">
-          <h3>Performance</h3>
-          <p>Time Efficiency: 92%</p>
-          <p>Fuel Savings: 278L</p>
-          <p>No Accidents: 97%</p>
+          <h3>Stats</h3>
+          <p>No Incidents: 9/10 drivers</p>
+          <p>Idle Time: -15%</p>
         </div>
       </section>
-
       <section id="settings" class="section">
         <div class="card">
           <h3>Settings</h3>
-          <p>🔐 Change password<br>📧 Notification Preferences<br>🌐 Language</p>
+          <p>🔐 Change Password</p>
+          <p>🌐 Language</p>
+          <p>📧 Notifications</p>
         </div>
       </section>
     </div>
     <div class="nav-wrapper">
-  <nav>
-    <div class="nav-grid">
-      <button onclick="showSection('home')">🏠<br>Home</button>
-      <button onclick="showSection('dashboard')">📋<br>Dashboard</button>
-      <button onclick="showSection('clients')">👥<br>Clients</button>
-      <button onclick="showSection('requests')">🧾<br>Requests</button>
-      <button onclick="showSection('planning')">🗓<br>Planning</button>
-      <button onclick="showSection('assignment')">🚚<br>Assign</button>
-      <button onclick="showSection('mapview')">🗺<br>Map</button>
-      <button onclick="showSection('performance')">📊<br>Performance</button>
-      <button onclick="showSection('driver-performance')">📈<br>Drivers</button>
-      <button onclick="showSection('settings')">⚙<br>Settings</button>
+      <nav>
+        <div class="nav-grid">
+          <div class="nav-group">
+            <button onclick="showSection('home')">🏠<br>Home</button>
+            <button onclick="showSection('dashboard')">📋<br>KPIs</button>
+            <button onclick="showSection('clients')">👥<br>Stores</button>
+            <button onclick="showSection('requests')">🧾<br>Pickup</button>
+            <button onclick="showSection('planning')">🗓<br>Planning</button>
+          </div>
+          <div class="nav-group">
+            <button onclick="showSection('assignment')">🚚<br>Drivers</button>
+            <button onclick="showSection('mapview')">🗺<br>Map</button>
+            <button onclick="showSection('performance')">📊<br>Performa</button>
+            <button onclick="showSection('driver-performance')">📈<br>Stats</button>
+            <button onclick="showSection('settings')">⚙<br>Settings</button>
+          </div>
+        </div>
+      </nav>
     </div>
-  </nav>
-</div>
-</div>
-
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -266,6 +301,11 @@ nav button.active {
             mapInitialized = true;
           }, 150);
         }
+      };
+
+      window.loginUser = function() {
+        document.getElementById('login').classList.remove('active');
+        showSection('home');
       };
     });
   </script>
