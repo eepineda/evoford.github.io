@@ -101,6 +101,32 @@
       msgBox.innerText = text;
       msgBox.style.display = 'block';
     }
+
+    function recordBreak() {
+      alert('Break time recorded. Timer started.');
+    }
+
+    function callSupport() {
+      alert('Calling support...');
+    }
+
+    function reportDelay() {
+      const reason = prompt("Enter delay reason:");
+      if (reason) {
+        alert("Delay reported: " + reason);
+      }
+    }
+
+    function reportMaintenance() {
+      const issue = prompt("Describe vehicle issue:");
+      if (issue) {
+        alert("Maintenance issue reported: " + issue);
+      }
+    }
+
+    function uploadPhoto() {
+      alert('Simulating photo upload... (feature not yet implemented)');
+    }
   </script>
 </head>
 <body>
@@ -125,6 +151,9 @@
           <p>Stop 1: Main St, Organic Waste</p>
           <p>Stop 2: 5th Ave, Recycling</p>
           <button class="button" onclick="showSection('map')">Start Route</button>
+          <button class="button" onclick="recordBreak()">Take Break 🕒</button>
+          <button class="button" onclick="reportDelay()">Report Delay ⏳</button>
+          <button class="button" onclick="reportMaintenance()">Report Vehicle Issue 🚛</button>
         </div>
       </section>
 
@@ -133,6 +162,7 @@
           <h3>Map View</h3>
           <p>Map + List (Route Order)</p>
           <button class="button" onclick="showSection('detail')">View Task</button>
+          <button class="button" onclick="callSupport()">Call Support 📞</button>
         </div>
       </section>
 
@@ -145,6 +175,7 @@
           <button class="button" onclick="showMessage('taskMessage', 'Status: Arrived ✅')">Arrived</button>
           <button class="button" onclick="showMessage('taskMessage', 'Status: Collected ✅')">Collected</button>
           <button class="button" onclick="showMessage('taskMessage', 'Status: Issue Reported ⚠️')">Issue Reported</button>
+          <button class="button" onclick="uploadPhoto()">Upload Photo 📷</button>
           <div id="taskMessage" class="message" style="display:none;"></div>
         </div>
       </section>
