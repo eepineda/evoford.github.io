@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Evosustain Driver App</title>
   <style>
     body, html {
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       font-family: 'Segoe UI', sans-serif;
       background: #f5f5f5;
       display: flex;
@@ -68,14 +67,7 @@
       border: none;
       color: #232f3e;
       font-weight: bold;
-    }
-    .status {
-      background: #dff0d8;
-      color: #3c763d;
-      padding: 0.5rem;
-      text-align: center;
-      border-radius: 8px;
-      margin-top: 0.5rem;
+      cursor: pointer;
     }
     select.route-mode {
       width: 100%;
@@ -92,6 +84,28 @@
       gap: 0.5rem;
       margin-top: 1rem;
     }
+    #progress-bar-container {
+      background: #ddd;
+      border-radius: 8px;
+      height: 20px;
+      margin-bottom: 1rem;
+      overflow: hidden;
+    }
+    #progress-bar {
+      background: #4caf50;
+      height: 100%;
+      width: 0%;
+      transition: width 0.5s;
+      position: relative;
+    }
+    #progress-label {
+      position: absolute;
+      width: 100%;
+      text-align: center;
+      color: #000;
+      font-size: 12px;
+      line-height: 20px;
+    }
   </style>
 </head>
 <body>
@@ -100,166 +114,178 @@
     <main>
       <section id="home" class="card section">
         <h3>Start Shift</h3>
-        <input type="text" placeholder="Driver ID" style="width:100%;padding:0.5rem;">
-        <button class="button" onclick="show('route')">Start</button>
-        <button class="button" onclick="alert('Break started')">Break</button>
-        <button class="button" onclick="show('summary')">End Shift</button>
+        <input type="text" placeholder="Driver ID" style="width:100%;padding:0.5rem;" />
+        <button class="button" id="startBtn">Start</button>
+        <button class="button" id="breakBtn">Break</button>
+        <button class="button" id="endBtn">End Shift</button>
       </section>
-
-      <section id="route" class="card section" style="display:none">
+      <section id="route" class="card section" style="display:none;">
         <h3>Route Stops</h3>
-        <input type="number" id="goto-stop" placeholder="Go to Stop #" style="width:100%;padding:0.5rem;margin:0.5rem 0;">
-        <button class="button" onclick="goToStop()">Go</button>
+        <input type="number" id="goto-stop" placeholder="Go to Stop #" style="width:100%;padding:0.5rem;margin:0.5rem 0;" />
+        <button class="button" id="gotoBtn">Go</button>
         <label for="route-mode">Route Mode:</label>
-        <select id="route-mode" class="route-mode" onchange="renderRoute()">
+        <select id="route-mode" class="route-mode">
           <option value="normal">Normal</option>
           <option value="fast">Smart Fast</option>
         </select>
         <ul id="stop-list"></ul>
         <p style="font-size:0.85rem;color:#444;margin-top:1rem;">100 total stops in London are grouped and listed here. Use the Smart Fast mode for reverse route optimization.</p>
-        <button class="button" onclick="show('map')">Map</button>
+        <button class="button" id="mapBtn">Map</button>
       </section>
-
-      <section id="map" class="card section" style="display:none">
+      <section id="map" class="card section" style="display:none;">
         <h3>Map</h3>
-        <p>View simulated route in London.</p>
-        <div id="map-canvas" style="width:100%;height:300px;border:1px solid #ccc;margin-bottom:1rem;"></div>
-        <button class="button" onclick="window.open('https://www.google.com/maps/dir/?api=1&destination=51.5074,-0.1278')">Open in Maps</button>
+        <p>Simulated route in London.</p>
+        <div id="map-canvas">Simulated Map of London Route</div>
+        <button class="button" id="drawRouteBtn">Go Route</button>
       </section>
-
-      <section id="summary" class="card section" style="display:none">
+      <section id="summary" class="card section" style="display:none;">
+        <div id="progress-bar-container">
+          <div id="progress-bar"><span id="progress-label">0%</span></div>
+        </div>
         <h3>Summary</h3>
         <p id="summary-data">Loading...</p>
-        <button class="button" onclick="alert('Report submitted ✅')">Submit</button>
+        <button class="button" id="submitReportBtn">Submit</button>
       </section>
     </main>
     <nav>
-      <button onclick="show('home')">🏠 Home</button>
-      <button onclick="show('route')">📋 Route</button>
-      <button onclick="show('map')">🗺️ Map</button>
-      <button onclick="show('summary')">📊 Summary</button>
+      <button id="navHome">🏠 Home</button>
+      <button id="navRoute">📋 Route</button>
+      <button id="navMap">🗺️ Map</button>
+      <button id="navSummary">📊 Summary</button>
     </nav>
   </div>
-
   <script>
-    const stops = Array.from({ length: 100 }, (_, i) => {
-      const lat = 51.5 + Math.random() * 0.1;
-      const lon = -0.15 + Math.random() * 0.1;
-      return { id: i + 1, label: `Stop ${i + 1}, London, UK`, lat, lon };
-    });
+    const stops = Array.from({ length: 100 }, (_, i) => ({
+      id: i + 1,
+      label: `Stop ${i + 1}, London, UK`,
+    }));
 
     let confirmed = 0;
-    let issues = 0;
-    let currentStopIndex = 0;
+    let delayed = 0;
+    let noted = 0;
 
     function show(sectionId) {
-      document.querySelectorAll('.section').forEach(el => el.style.display = 'none');
-      document.getElementById(sectionId).style.display = 'block';
-      if (sectionId === 'route') renderRoute();
-      if (sectionId === 'summary') renderSummary();
+      document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+      const target = document.getElementById(sectionId);
+      if (target) target.style.display = 'block';
     }
 
     function renderRoute() {
       const list = document.getElementById('stop-list');
-      const mode = document.getElementById('route-mode').value;
       list.innerHTML = '';
+      const mode = document.getElementById('route-mode').value;
       let data = stops;
       if (mode === 'fast') {
-        const baseLat = 51.5074, baseLon = -0.1278;
+        const baseLat = 51.5074,
+          baseLon = -0.1278;
         data = [...stops].sort((a, b) => {
-          const dA = Math.hypot(baseLat - a.lat, baseLon - a.lon);
-          const dB = Math.hypot(baseLat - b.lat, baseLon - b.lon);
+          const dA = Math.hypot(baseLat - (a.lat || 0), baseLon - (a.lon || 0));
+          const dB = Math.hypot(baseLat - (b.lat || 0), baseLon - (b.lon || 0));
           return dA - dB;
         });
       }
+      data.forEach(stop => {
+        const li = document.createElement('li');
+        li.setAttribute('id', `stop-${stop.id}`);
 
-      for (let i = 0; i < data.length; i += 20) {
-        const group = document.createElement('li');
-        group.innerHTML = `<strong>Group ${Math.floor(i / 20) + 1} (Stops ${i + 1}–${Math.min(i + 20, data.length)}):</strong>`;
-        list.appendChild(group);
+        const info = document.createElement('div');
+        info.textContent = stop.label;
 
-        for (let j = i; j < i + 20 && j < data.length; j++) {
-          const stop = data[j];
-          const li = document.createElement('li');
-          li.setAttribute('id', `stop-${stop.id}`);
+        const actions = document.createElement('div');
+        actions.className = 'actions';
 
-          const info = document.createElement('div');
-          info.innerHTML = `🆔 ${stop.id} - 📍 ${stop.label} <span style='font-size:0.8rem;color:#777;'>(Lat: ${stop.lat.toFixed(4)}, Lon: ${stop.lon.toFixed(4)})</span>`;
+        const btnConfirm = document.createElement('button');
+        btnConfirm.className = 'button';
+        btnConfirm.textContent = 'Confirm';
+        btnConfirm.onclick = () => {
+          if (!btnConfirm.disabled) {
+            alert(`Confirmed: ${stop.label}`);
+            btnConfirm.style.backgroundColor = '#4caf50';
+            btnConfirm.textContent = 'Confirmed';
+            btnConfirm.disabled = true;
+            confirmed++;
+            btnDelay.style.backgroundColor = '#ff9900';
+            btnDelay.textContent = 'Delay';
+            btnDelay.disabled = false;
+            delayed = Math.max(0, delayed - 1);
+            btnNote.style.backgroundColor = '#ff9900';
+            btnNote.textContent = 'Note';
+            btnNote.disabled = false;
+            noted = Math.max(0, noted - 1);
+            updateSummary();
+          }
+        };
 
-          const actions = document.createElement('div');
-          actions.className = 'actions';
+        const btnDelay = document.createElement('button');
+        btnDelay.className = 'button';
+        btnDelay.textContent = 'Delay';
+        btnDelay.onclick = () => {
+          if (!btnDelay.disabled) {
+            alert(`Delay reported: ${stop.label}`);
+            btnDelay.style.backgroundColor = '#f44336';
+            btnDelay.textContent = 'Delayed';
+            btnDelay.disabled = true;
+            delayed++;
+            updateSummary();
+          }
+        };
 
-          const btnConfirm = document.createElement('button');
-          btnConfirm.className = 'button';
-          btnConfirm.textContent = 'Confirm';
-          btnConfirm.dataset.action = 'confirm';
-          btnConfirm.dataset.stop = stop.label;
-          btnConfirm.onclick = () => confirm(stop.label);
+        const btnNote = document.createElement('button');
+        btnNote.className = 'button';
+        btnNote.textContent = 'Note';
+        btnNote.onclick = () => {
+          if (!btnNote.disabled) {
+            alert(`Note added for: ${stop.label}`);
+            btnNote.style.backgroundColor = '#2196f3';
+            btnNote.textContent = 'Noted';
+            btnNote.disabled = true;
+            noted++;
+            updateSummary();
+          }
+        };
 
-          const btnDelay = document.createElement('button');
-          btnDelay.className = 'button';
-          btnDelay.textContent = 'Delay';
-          btnDelay.dataset.action = 'delay';
-          btnDelay.dataset.stop = stop.label;
-          btnDelay.onclick = () => delay(stop.label);
+        actions.appendChild(btnConfirm);
+        actions.appendChild(btnDelay);
+        actions.appendChild(btnNote);
 
-          const btnNote = document.createElement('button');
-          btnNote.className = 'button';
-          btnNote.textContent = 'Note';
-          btnNote.dataset.action = 'note';
-          btnNote.dataset.stop = stop.label;
-          btnNote.onclick = () => note(stop.label);
-
-          actions.appendChild(btnConfirm);
-          actions.appendChild(btnDelay);
-          actions.appendChild(btnNote);
-
-          li.appendChild(info);
-          li.appendChild(actions);
-          list.appendChild(li);
-        }
-      }
+        li.appendChild(info);
+        li.appendChild(actions);
+        list.appendChild(li);
+      });
     }
 
-    function confirm(stop) {
-      confirmed++;
-      const log = `✅ [CONFIRM] Stop: ${stop}`;
-      console.log(log);
-      alert(`Confirmed: ${stop}`);
-      currentStopIndex++;
-      const nextStop = document.getElementById(`stop-${currentStopIndex + 1}`);
-      if (nextStop) {
-        nextStop.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        nextStop.style.backgroundColor = 'lightgreen';
-        setTimeout(() => { nextStop.style.backgroundColor = ''; }, 1500);
+    function updateSummary() {
+      const total = stops.length;
+      const progressBar = document.getElementById('progress-bar');
+      const progressLabel = document.getElementById('progress-label');
+      const summaryData = document.getElementById('summary-data');
+      const percent = Math.round((confirmed / total) * 100);
+
+      progressBar.style.width = `${percent}%`;
+      progressLabel.textContent = `${percent}%`;
+
+      if (percent < 30) {
+        progressBar.style.backgroundColor = '#f44336'; // red
+      } else if (percent < 70) {
+        progressBar.style.backgroundColor = '#ffeb3b'; // yellow
       } else {
-        alert('All stops completed!');
-        document.getElementById('route').style.display = 'none';
-        show('summary');
+        progressBar.style.backgroundColor = '#4caf50'; // green
       }
-    }
 
-    function delay(stop) {
-      issues++;
-      const log = `⏱️ [DELAY] Stop: ${stop}`;
-      console.log(log);
-      alert(`Delay reported at: ${stop}`);
-    }
+      summaryData.innerHTML = `
+        Confirmed: ${confirmed} / ${total}<br/>
+        Delayed: ${Math.max(0, delayed)}<br/>
+        Noted: ${Math.max(0, noted)}
+      `;
 
-    function note(stop) {
-      const log = `📝 [NOTE] Stop: ${stop}`;
-      console.log(log);
-      alert(`Note added to: ${stop}`);
-    }
-
-    function renderSummary() {
-      document.getElementById('summary-data').innerHTML =
-        `Stops Confirmed: ${confirmed} / 100<br>Issues Reported: ${issues}`;
+      if (confirmed === total) {
+        setTimeout(() => alert('🎉 Route fully completed! Great job!'), 300);
+      }
     }
 
     function goToStop() {
       const id = parseInt(document.getElementById('goto-stop').value);
-      if (!isNaN(id) && id > 0 && id <= 100) {
+      if (!isNaN(id) && id > 0 && id <= stops.length) {
         const el = document.getElementById(`stop-${id}`);
         if (el) {
           el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -273,30 +299,89 @@
       }
     }
 
-    function loadMap() {
-      const mapEl = document.getElementById('map-canvas');
-      const map = new google.maps.Map(mapEl, {
-        center: { lat: 51.5074, lng: -0.1278 },
-        zoom: 12
-      });
-      const routePath = stops.map(s => ({ lat: s.lat, lng: s.lon }));
-      new google.maps.Polyline({
-        path: routePath,
-        geodesic: true,
-        strokeColor: "#FF0000",
-        strokeOpacity: 1.0,
-        strokeWeight: 2,
-        map: map
-      });
-      stops.forEach(stop => {
-        new google.maps.Marker({
-          position: { lat: stop.lat, lng: stop.lon },
-          map,
-          title: stop.label
+    function drawRoute() {
+      const canvas = document.getElementById('map-canvas');
+      canvas.innerHTML = '';
+      const svgNS = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(svgNS, 'svg');
+      svg.setAttribute('width', '100%');
+      svg.setAttribute('height', '300');
+
+      for (let i = 0; i < stops.length - 1; i++) {
+        const x1 = 20 + (i % 10) * 30;
+        const y1 = 30 + Math.floor(i / 10) * 30;
+        const x2 = 20 + ((i + 1) % 10) * 30;
+        const y2 = 30 + Math.floor((i + 1) / 10) * 30;
+        const line = document.createElementNS(svgNS, 'line');
+        line.setAttribute('x1', x1);
+        line.setAttribute('y1', y1);
+        line.setAttribute('x2', x2);
+        line.setAttribute('y2', y2);
+        line.setAttribute('stroke', 'red');
+        line.setAttribute('stroke-width', '2');
+        svg.appendChild(line);
+      }
+
+      stops.forEach((stop, index) => {
+        const cx = 20 + (index % 10) * 30;
+        const cy = 30 + Math.floor(index / 10) * 30;
+        const circle = document.createElementNS(svgNS, 'circle');
+        circle.setAttribute('cx', cx);
+        circle.setAttribute('cy', cy);
+        circle.setAttribute('r', 6);
+        circle.setAttribute('fill', 'blue');
+        circle.setAttribute('data-id', stop.id);
+        circle.style.cursor = 'pointer';
+        circle.addEventListener('click', () => {
+          alert(`Selected: ${stop.label}`);
+          const el = document.getElementById(`stop-${stop.id}`);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.style.backgroundColor = '#ffff99';
+            setTimeout(() => {
+              el.style.backgroundColor = '';
+            }, 1500);
+            const confirmBtn = el.querySelector('button');
+            if (confirmBtn && !confirmBtn.disabled) confirmBtn.click();
+          }
         });
+        svg.appendChild(circle);
       });
+      canvas.appendChild(svg);
     }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('startBtn').addEventListener('click', () => {
+        show('route');
+        renderRoute();
+        updateSummary();
+      });
+      document.getElementById('endBtn').addEventListener('click', () => {
+        show('summary');
+        updateSummary();
+      });
+      document.getElementById('breakBtn').addEventListener('click', () => {
+        alert('Break started');
+      });
+      document.getElementById('gotoBtn').addEventListener('click', goToStop);
+      document.getElementById('route-mode').addEventListener('change', () => {
+        renderRoute();
+        updateSummary();
+      });
+      document.getElementById('mapBtn').addEventListener('click', () => show('map'));
+      document.getElementById('drawRouteBtn').addEventListener('click', drawRoute);
+      document.getElementById('navHome').addEventListener('click', () => show('home'));
+      document.getElementById('navRoute').addEventListener('click', () => {
+        show('route');
+        renderRoute();
+        updateSummary();
+      });
+      document.getElementById('navMap').addEventListener('click', () => show('map'));
+      document.getElementById('navSummary').addEventListener('click', () => {
+        show('summary');
+        updateSummary();
+      });
+    });
   </script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxAIcawHIP-M7bbGKwknM9bOwnSYiDI-8&callback=loadMap"></script>
 </body>
 </html>
