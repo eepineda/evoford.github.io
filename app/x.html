@@ -1,235 +1,302 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mobile App UI - EvoSustain</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evosustain Driver App</title>
   <style>
     body, html {
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', 'Roboto', sans-serif;
-      background: #f5f9ff;
-      color: #0d47a1;
-      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5f5f5;
       display: flex;
       justify-content: center;
       align-items: center;
+      height: 100vh;
     }
-
-    .device-frame {
-      width: 360px;
+    .frame {
+      width: 380px;
       height: 740px;
-      border: 8px solid #333;
-      border-radius: 32px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.15);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      position: relative;
       background: white;
-    }
-
-    .status-bar {
-      height: 24px;
-      background: #e3f2fd;
-      padding: 0 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12px;
-      color: #0d47a1;
-      font-weight: bold;
-    }
-
-    .status-bar span {
-      display: inline-block;
-    }
-
-    .app-container {
-      flex: 1;
+      border: 8px solid #333;
+      border-radius: 24px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      overflow: hidden;
       display: flex;
       flex-direction: column;
     }
-
     header {
-      background-color: #2196f3;
+      background: #232f3e;
       color: white;
-      padding: 0.6rem;
+      padding: 1rem;
       text-align: center;
-      font-size: 1.3rem;
       font-weight: bold;
     }
-
     main {
       flex: 1;
-      padding: 0.6rem;
       overflow-y: auto;
-      background: #f9fcff;
-      position: relative;
-    }
-
-    .section {
-      display: none;
-      position: absolute;
-      width: 100%;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      transform: translateX(100%);
-      transition: all 0.4s ease-in-out;
-    }
-
-    .section.active {
-      display: block;
-      opacity: 1;
-      transform: translateX(0);
-      z-index: 1;
-    }
-
-    .card {
-      background-color: #ffffff;
       padding: 1rem;
-      border-radius: 16px;
-      margin-bottom: 1rem;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     }
-
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 1rem;
+    }
     .button {
       display: block;
       width: 100%;
-      padding: 0.65rem;
-      background: linear-gradient(to right, #42a5f5, #1e88e5);
-      color: white;
+      padding: 0.7rem;
+      background: #ff9900;
       border: none;
-      border-radius: 12px;
-      font-size: 0.95rem;
-      font-weight: 600;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
+      margin-top: 0.5rem;
       cursor: pointer;
-      margin-top: 0.65rem;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      box-shadow: 0 2px 5px rgba(33, 150, 243, 0.3);
     }
-
-    .button:hover {
-      transform: scale(1.02);
-      box-shadow: 0 4px 10px rgba(33, 150, 243, 0.4);
-    }
-
     nav {
+      background: #eaeaea;
       display: flex;
       justify-content: space-around;
-      align-items: center;
-      background-color: #e3f2fd;
-      padding: 0.4rem 0;
-      font-weight: 600;
-      font-size: 0.85rem;
+      padding: 0.6rem 0;
     }
-
     nav button {
       background: none;
       border: none;
-      font-weight: 600;
-      color: #1976d2;
-      padding: 0.3rem 0.5rem;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.2s;
+      color: #232f3e;
+      font-weight: bold;
     }
-
-    nav button:hover {
-      background: #bbdefb;
+    .status {
+      background: #dff0d8;
+      color: #3c763d;
+      padding: 0.5rem;
+      text-align: center;
+      border-radius: 8px;
+      margin-top: 0.5rem;
+    }
+    select.route-mode {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-weight: bold;
+      color: #232f3e;
+    }
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 1rem;
     }
   </style>
-  <script>
-    function showSection(id) {
-      const sections = document.querySelectorAll('.section');
-      sections.forEach(section => {
-        section.classList.remove('active');
-      });
-      const target = document.getElementById(id);
-      if (target) {
-        target.classList.add('active');
-      }
-    }
-  </script>
 </head>
 <body>
-  <div class="device-frame">
-    <div class="status-bar">
-      <span>9:41 AM</span>
-      <span>📶 🔋</span>
-    </div>
-    <div class="app-container">
-      <header>
-        EvoSustain
-      </header>
-      <main>
-        <section id="login" class="section active">
-          <div class="card">
-            <h2>Login / Sign-Up</h2>
-            <input type="text" placeholder="Store ID" style="width:100%;padding:0.5rem;margin-top:0.5rem;border-radius:8px;border:1px solid #ccc;">
-            <button class="button" onclick="showSection('request')">Login</button>
-            <button class="button" onclick="showSection('request')">Scan QR Code</button>
-          </div>
-        </section>
+  <div class="frame">
+    <header>📱 Evosustain Driver App</header>
+    <main>
+      <section id="home" class="card section">
+        <h3>Start Shift</h3>
+        <input type="text" placeholder="Driver ID" style="width:100%;padding:0.5rem;">
+        <button class="button" onclick="show('route')">Start</button>
+        <button class="button" onclick="alert('Break started')">Break</button>
+        <button class="button" onclick="show('summary')">End Shift</button>
+      </section>
 
-        <section id="request" class="section">
-          <div class="card">
-            <h2>Request Collection</h2>
-            <p><strong>Location:</strong> Auto-filled</p>
-            <p><strong>Bin Type:</strong> Auto-filled</p>
-            <input type="number" placeholder="Volume (m³)" style="width:100%;padding:0.5rem;border-radius:8px;border:1px solid #ccc;">
-            <select style="width:100%;padding:0.5rem;border-radius:8px;border:1px solid #ccc;margin-top:0.5rem;">
-              <option>Select Time Window</option>
-              <option>9:00–11:00</option>
-              <option>11:00–13:00</option>
-              <option>13:00–15:00</option>
-            </select>
-            <textarea placeholder="Additional Notes" rows="3" style="width:100%;margin-top:0.5rem;padding:0.5rem;border-radius:8px;border:1px solid #ccc;"></textarea>
-            <button class="button" onclick="showSection('track')">Submit Request</button>
-          </div>
-        </section>
+      <section id="route" class="card section" style="display:none">
+        <h3>Route Stops</h3>
+        <input type="number" id="goto-stop" placeholder="Go to Stop #" style="width:100%;padding:0.5rem;margin:0.5rem 0;">
+        <button class="button" onclick="goToStop()">Go</button>
+        <label for="route-mode">Route Mode:</label>
+        <select id="route-mode" class="route-mode" onchange="renderRoute()">
+          <option value="normal">Normal</option>
+          <option value="fast">Smart Fast</option>
+        </select>
+        <ul id="stop-list"></ul>
+        <p style="font-size:0.85rem;color:#444;margin-top:1rem;">100 total stops in London are grouped and listed here. Use the Smart Fast mode for reverse route optimization.</p>
+        <button class="button" onclick="show('map')">Map</button>
+      </section>
 
-        <section id="track" class="section">
-          <div class="card">
-            <h2>Track Collection</h2>
-            <ul>
-              <li>Requested ✅</li>
-              <li>Accepted ✅</li>
-              <li><strong>In Transit 🚚</strong></li>
-              <li>Collected ⏳</li>
-            </ul>
-          </div>
-        </section>
+      <section id="map" class="card section" style="display:none">
+        <h3>Map</h3>
+        <p>View simulated route in London.</p>
+        <div id="map-canvas" style="width:100%;height:300px;border:1px solid #ccc;margin-bottom:1rem;"></div>
+        <button class="button" onclick="window.open('https://www.google.com/maps/dir/?api=1&destination=51.5074,-0.1278')">Open in Maps</button>
+      </section>
 
-        <section id="history" class="section">
-          <div class="card">
-            <h2>History</h2>
-            <p>📅 20 May - Food Waste - Collected</p>
-            <p>📅 18 May - Recycling - Collected</p>
-            <p>📅 16 May - Glass - Collected</p>
-            <p>📅 14 May - Cardboard - Missed</p>
-          </div>
-        </section>
-
-        <section id="help" class="section">
-          <div class="card">
-            <h2>Settings & Help</h2>
-            <p><strong>Support Chat:</strong> Coming soon</p>
-            <p><strong>FAQ:</strong> How to request, track, and update your profile</p>
-            <p><strong>Profile:</strong> Edit and update your store info (coming soon)</p>
-          </div>
-        </section>
-      </main>
-      <nav>
-        <button onclick="showSection('login')">🏠</button>
-        <button onclick="showSection('request')">🗑️</button>
-        <button onclick="showSection('track')">📦</button>
-        <button onclick="showSection('history')">📜</button>
-        <button onclick="showSection('help')">❓</button>
-      </nav>
-    </div>
+      <section id="summary" class="card section" style="display:none">
+        <h3>Summary</h3>
+        <p id="summary-data">Loading...</p>
+        <button class="button" onclick="alert('Report submitted ✅')">Submit</button>
+      </section>
+    </main>
+    <nav>
+      <button onclick="show('home')">🏠 Home</button>
+      <button onclick="show('route')">📋 Route</button>
+      <button onclick="show('map')">🗺️ Map</button>
+      <button onclick="show('summary')">📊 Summary</button>
+    </nav>
   </div>
+
+  <script>
+    const stops = Array.from({ length: 100 }, (_, i) => {
+      const lat = 51.5 + Math.random() * 0.1;
+      const lon = -0.15 + Math.random() * 0.1;
+      return { id: i + 1, label: `Stop ${i + 1}, London, UK`, lat, lon };
+    });
+
+    let confirmed = 0;
+    let issues = 0;
+    let currentStopIndex = 0;
+
+    function show(sectionId) {
+      document.querySelectorAll('.section').forEach(el => el.style.display = 'none');
+      document.getElementById(sectionId).style.display = 'block';
+      if (sectionId === 'route') renderRoute();
+      if (sectionId === 'summary') renderSummary();
+    }
+
+    function renderRoute() {
+      const list = document.getElementById('stop-list');
+      const mode = document.getElementById('route-mode').value;
+      list.innerHTML = '';
+      let data = stops;
+      if (mode === 'fast') {
+        const baseLat = 51.5074, baseLon = -0.1278;
+        data = [...stops].sort((a, b) => {
+          const dA = Math.hypot(baseLat - a.lat, baseLon - a.lon);
+          const dB = Math.hypot(baseLat - b.lat, baseLon - b.lon);
+          return dA - dB;
+        });
+      }
+
+      for (let i = 0; i < data.length; i += 20) {
+        const group = document.createElement('li');
+        group.innerHTML = `<strong>Group ${Math.floor(i / 20) + 1} (Stops ${i + 1}–${Math.min(i + 20, data.length)}):</strong>`;
+        list.appendChild(group);
+
+        for (let j = i; j < i + 20 && j < data.length; j++) {
+          const stop = data[j];
+          const li = document.createElement('li');
+          li.setAttribute('id', `stop-${stop.id}`);
+
+          const info = document.createElement('div');
+          info.innerHTML = `🆔 ${stop.id} - 📍 ${stop.label} <span style='font-size:0.8rem;color:#777;'>(Lat: ${stop.lat.toFixed(4)}, Lon: ${stop.lon.toFixed(4)})</span>`;
+
+          const actions = document.createElement('div');
+          actions.className = 'actions';
+
+          const btnConfirm = document.createElement('button');
+          btnConfirm.className = 'button';
+          btnConfirm.textContent = 'Confirm';
+          btnConfirm.dataset.action = 'confirm';
+          btnConfirm.dataset.stop = stop.label;
+          btnConfirm.onclick = () => confirm(stop.label);
+
+          const btnDelay = document.createElement('button');
+          btnDelay.className = 'button';
+          btnDelay.textContent = 'Delay';
+          btnDelay.dataset.action = 'delay';
+          btnDelay.dataset.stop = stop.label;
+          btnDelay.onclick = () => delay(stop.label);
+
+          const btnNote = document.createElement('button');
+          btnNote.className = 'button';
+          btnNote.textContent = 'Note';
+          btnNote.dataset.action = 'note';
+          btnNote.dataset.stop = stop.label;
+          btnNote.onclick = () => note(stop.label);
+
+          actions.appendChild(btnConfirm);
+          actions.appendChild(btnDelay);
+          actions.appendChild(btnNote);
+
+          li.appendChild(info);
+          li.appendChild(actions);
+          list.appendChild(li);
+        }
+      }
+    }
+
+    function confirm(stop) {
+      confirmed++;
+      const log = `✅ [CONFIRM] Stop: ${stop}`;
+      console.log(log);
+      alert(`Confirmed: ${stop}`);
+      currentStopIndex++;
+      const nextStop = document.getElementById(`stop-${currentStopIndex + 1}`);
+      if (nextStop) {
+        nextStop.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        nextStop.style.backgroundColor = 'lightgreen';
+        setTimeout(() => { nextStop.style.backgroundColor = ''; }, 1500);
+      } else {
+        alert('All stops completed!');
+        document.getElementById('route').style.display = 'none';
+        show('summary');
+      }
+    }
+
+    function delay(stop) {
+      issues++;
+      const log = `⏱️ [DELAY] Stop: ${stop}`;
+      console.log(log);
+      alert(`Delay reported at: ${stop}`);
+    }
+
+    function note(stop) {
+      const log = `📝 [NOTE] Stop: ${stop}`;
+      console.log(log);
+      alert(`Note added to: ${stop}`);
+    }
+
+    function renderSummary() {
+      document.getElementById('summary-data').innerHTML =
+        `Stops Confirmed: ${confirmed} / 100<br>Issues Reported: ${issues}`;
+    }
+
+    function goToStop() {
+      const id = parseInt(document.getElementById('goto-stop').value);
+      if (!isNaN(id) && id > 0 && id <= 100) {
+        const el = document.getElementById(`stop-${id}`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          el.style.backgroundColor = 'yellow';
+          setTimeout(() => {
+            el.style.backgroundColor = '';
+          }, 2000);
+        }
+      } else {
+        alert('Invalid stop number. Must be between 1 and 100.');
+      }
+    }
+
+    function loadMap() {
+      const mapEl = document.getElementById('map-canvas');
+      const map = new google.maps.Map(mapEl, {
+        center: { lat: 51.5074, lng: -0.1278 },
+        zoom: 12
+      });
+      const routePath = stops.map(s => ({ lat: s.lat, lng: s.lon }));
+      new google.maps.Polyline({
+        path: routePath,
+        geodesic: true,
+        strokeColor: "#FF0000",
+        strokeOpacity: 1.0,
+        strokeWeight: 2,
+        map: map
+      });
+      stops.forEach(stop => {
+        new google.maps.Marker({
+          position: { lat: stop.lat, lng: stop.lon },
+          map,
+          title: stop.label
+        });
+      });
+    }
+  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxAIcawHIP-M7bbGKwknM9bOwnSYiDI-8&callback=loadMap"></script>
 </body>
 </html>
