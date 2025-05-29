@@ -1,454 +1,313 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Evosustain Driver App</title>
-<style>
-  body, html {
-    margin: 0; padding: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: #f5f5f5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  .frame {
-    width: 380px;
-    height: 740px;
-    background: white;
-    border: 8px solid #333;
-    border-radius: 24px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.2);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-  .status-bar {
-    height: 24px;
-    background: #e3f2fd;
-    padding: 0 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 12px;
-    gap: 12px;
-    white-space: nowrap;
-    user-select: none;
-  }
-  header {
-    background: #232f3e;
-    color: white;
-    padding: 1rem;
-    text-align: center;
-    font-weight: bold;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EvoSustain All-in-One Simulator</title>
+  <!-- Leaflet CSS for Business Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    /* Global */
+    body, html { margin:0; padding:0; font-family:'Segoe UI', sans-serif; background:#f0f2f5; height:100vh; display:flex; flex-direction:column; align-items:center; }
+    #app-selector { margin:1rem; }
+    #app-selector button { margin:0 0.5rem; padding:0.5rem 1rem; border:none; border-radius:8px; background:#1976d2; color:#fff; font-weight:bold; }
+    #app-selector button.active { background:#0d47a1; }
+    .app-container {
     position: relative;
-  }
-  main {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1rem;
-  }
-  .card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 1rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    margin-bottom: 1rem;
-  }
-  .button {
-    display: block;
-    width: 100%;
-    padding: 0.7rem;
-    background: #ff9900;
-    border: none;
-    border-radius: 10px;
-    color: white;
-    font-weight: bold;
-    margin-top: 0.5rem;
-    cursor: pointer;
-  }
-  nav {
-    background: #eaeaea;
-    display: flex;
-    justify-content: space-around;
-    padding: 0.6rem 0;
-  }
-  nav button {
-    background: none;
-    border: none;
-    color: #232f3e;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  select.route-mode {
-    width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-weight: bold;
-    color: #232f3e;
-  }
-  .actions {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 1rem;
-  }
-  #progress-bar-container {
-    background: #ddd;
-    border-radius: 8px;
-    height: 20px;
-    margin-bottom: 1rem;
-    overflow: hidden;
-  }
-  #progress-bar {
-    background: #4caf50;
-    height: 100%;
-    width: 0%;
-    transition: width 0.5s;
-    position: relative;
-  }
-  #progress-label {
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    color: #000;
-    font-size: 12px;
-    line-height: 20px;
-  }
-  .message {
-    background: #bbdefb;
-    color: #0d47a1;
-    padding: 0.5rem;
-    border-radius: 8px;
-    margin-top: 0.5rem;
-    text-align: center;
-    font-weight: bold;
-    display: none;
-  }
-  /* Responsive improvements */
-  @media (max-width: 400px) {
-    .frame {
-      width: 95vw;
-      height: 90vh;
-      border-radius: 20px;
-      border-width: 5px;
-    }
-    header {
-      font-size: 1rem;
-      padding: 0.8rem;
-    }
-    nav button {
-      font-size: 1rem;
-    }
-  }
-</style>
+}
+    /* Hide other app containers */
+    .section-container { display: none; }
+    .section-container.active { display: flex; flex-direction: column; }
+.app-container { width:360px; height:740px; border:8px solid #333; border-radius:32px; box-shadow:0 0 20px rgba(0,0,0,0.2); background:#fff; overflow:hidden; position:relative; display:flex; flex-direction:column; }
+    .status-bar { height:24px; background:#e3f2fd; padding:0 12px; display:flex; justify-content:space-between; align-items:center; font-size:12px; }
+    .clock { font-family:monospace; }
+    header { background:#2196f3; color:#fff; padding:0.6rem; text-align:center; font-size:1.2rem; font-weight:bold; }
+    main { flex:1; overflow-y:auto; position:relative; background:#f9fcff; }
+    .section { display:none; padding:1rem; }
+    .section.active { display:block; }
+    .card { background:#fff; border-radius:16px; padding:1rem; margin-bottom:1rem; box-shadow:0 2px 6px rgba(0,0,0,0.05); }
+    .button { display:block; width:100%; padding:0.65rem; background:linear-gradient(to right,#42a5f5,#1e88e5); color:#fff; border:none; border-radius:12px; font-size:0.95rem; font-weight:600; margin-top:0.65rem; cursor:pointer; transition:transform 0.2s,box-shadow 0.2s; }
+    .button:hover { transform:scale(1.02); box-shadow:0 4px 10px rgba(33,150,243,0.4); }
+    nav { display:flex; justify-content:space-around; background:#e3f2fd; padding:0.5rem 0; position:absolute; bottom:0; width:100%; }
+    nav button { background:none; border:none; font-size:1rem; color:#1976d2; }
+    nav button.active { background:#bbdefb; font-weight:bold; }
+    /* Store App Specific */
+    /* Business App Specific */
+    #map { width:100%; height:300px; border-radius:10px; }
+    /* Driver App Specific */
+    .message { background:#bbdefb; padding:0.5rem; border-radius:8px; margin-top:0.5rem; text-align:center; font-weight:bold; display:none; }
+  </style>
 </head>
 <body>
-<div class="frame">
-  <div class="status-bar">
-    <span id="clock">--:--:--</span>
-    <span>📶</span>
-    <span>🔋</span>
+  <!-- App Selector -->
+  <div id="app-selector">
+    <button data-app="store" class="active">Store</button>
+    <button data-app="business">Business</button>
+    <button data-app="driver">Driver</button>
   </div>
-  <header>Evosustain Driver App</header>
-  <main>
-    <section id="home" class="card section">
-      <h3>Start Shift</h3>
-      <input type="text" id="driverId" placeholder="Driver ID" style="width:100%;padding:0.5rem;" />
-      <button class="button" id="startBtn">Start</button>
-      <button class="button" id="breakBtn">Break</button>
-      <button class="button" id="endBtn">End Shift</button>
-    </section>
-    <section id="route" class="card section" style="display:none;">
-      <h3>Route Stops</h3>
-      <input type="number" id="goto-stop" placeholder="Go to Stop #" style="width:100%;padding:0.5rem;margin:0.5rem 0;" />
-      <button class="button" id="gotoBtn">Go</button>
-      <label for="route-mode">Route Mode:</label>
-      <select id="route-mode" class="route-mode">
-        <option value="normal">Normal</option>
-        <option value="fast">Smart Fast</option>
-      </select>
-      <ul id="stop-list"></ul>
-      <p style="font-size:0.85rem;color:#444;margin-top:1rem;">100 total stops in London are grouped and listed here. Use the Smart Fast mode for optimized routing.</p>
-      <button class="button" id="mapBtn">Map</button>
-    </section>
-    <section id="map" class="card section" style="display:none;">
-      <h3>Map</h3>
-      <p>Simulated route in London.</p>
-      <div id="map-canvas">Simulated Map of London Route</div>
-      <button class="button" id="drawRouteBtn">Go Route</button>
-    </section>
-    <section id="summary" class="card section" style="display:none;">
-      <div id="progress-bar-container">
-        <div id="progress-bar"><span id="progress-label">0%</span></div>
+
+  <!-- App Container -->
+  <div class="app-container">
+
+    <!-- Store App -->
+    <div id="store" class="section-container active">
+      <div class="status-bar">
+        <span id="store-clock" class="clock">--:--:--</span>
+        <span>📶 🔋</span>
       </div>
-      <h3>Summary</h3>
-      <p id="summary-data">Loading...</p>
-      <button class="button" id="submitReportBtn">Submit</button>
-      <div id="summaryMessage" class="message"></div>
-    </section>
-  </main>
-  <nav>
-    <button id="navHome">🏠 Home</button>
-    <button id="navRoute">📋 Route</button>
-    <button id="navMap">🗺️ Map</button>
-    <button id="navSummary">📊 Summary</button>
-  </nav>
-</div>
+      <header>Store App</header>
+      <main>
+        <section id="login-store" class="section active">
+          <div class="card">
+            <h2>Login / Sign-Up</h2>
+            <input type="text" placeholder="Store ID" style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:8px;" />
+            <button class="button" data-section="request-store">Login</button>
+            <button class="button" data-section="request-store">Scan QR Code</button>
+          </div>
+        </section>
+        <section id="request-store" class="section">
+          <div class="card">
+            <h2>Request Collection</h2>
+            <button class="button" data-section="login-store">← Back</button>
+            <p><strong>Location:</strong> Auto-filled</p>
+            <p><strong>Bin Type:</strong> Auto-filled</p>
+            <input type="number" placeholder="Volume (m³)" style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:8px;" />
+            <select style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:8px;margin-top:0.5rem;">
+              <option>Select Time Window</option>
+              <option>9:00–11:00</option>
+              <option>11:00–13:00</option>
+              <option>13:00–15:00</option>
+            </select>
+            <textarea rows="3" placeholder="Additional Notes" style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:8px;margin-top:0.5rem;"></textarea>
+            <button class="button" data-section="track-store">Submit Request</button>
+          </div>
+        </section>
+        <section id="track-store" class="section">
+          <div class="card">
+            <h2>Track Collection</h2>
+            <button class="button" data-section="request-store">← Back</button>
+            <ul>
+              <li>Requested ✅</li>
+              <li>Accepted ✅</li>
+              <li><strong>In Transit 🚚</strong></li>
+              <li>Collected ⏳</li>
+            </ul>
+          </div>
+        </section>
+        <section id="history-store" class="section">
+          <div class="card">
+            <h2>Pickup History</h2>
+            <button class="button" data-section="track-store">← Back</button>
+            <p>📅 20 May - Food Waste - <strong>Collected</strong></p>
+            <p>📅 18 May - Recycling - <strong>Collected</strong></p>
+            <p>📅 16 May - Glass - <strong>Collected</strong></p>
+            <p>📅 14 May - Cardboard - <strong>Missed</strong></p>
+            <p>📅 12 May - Plastic - <strong>Collected</strong></p>
+            <p>📅 10 May - General Waste - <strong>Collected</strong></p>
+          </div>
+        </section>
+        <section id="help-store" class="section">
+          <div class="card">
+            <h2>Settings & Help</h2>
+            <button class="button" data-section="history-store">← Back</button>
+            <p><strong>Support Chat:</strong> Coming soon</p>
+            <p><strong>FAQ:</strong> How to request, track, and update your profile</p>
+            <p><strong>Profile:</strong> Edit and update your store info (coming soon)</p>
+          </div>
+        </section>
+        <section id="notifications-store" class="section">
+          <div class="card">
+            <h2>Notifications</h2>
+            <button class="button" data-section="help-store">← Back</button>
+            <ul>
+              <li>📢 New collection slot available for weekends.</li>
+              <li>✅ Your last pickup on 20 May was successful.</li>
+              <li>📦 New bins will be delivered next week.</li>
+            </ul>
+          </div>
+        </section>
+        <section id="orders-store" class="section">
+          <div class="card">
+            <h2>Order Supplies</h2>
+            <button class="button" data-section="notifications-store">← Back</button>
+            <select style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:8px;">
+              <option>Select Item</option>
+              <option>New Bin</option>
+              <option>Bin Liners</option>
+              <option>QR Code Stickers</option>
+              <option>Trash Bags</option>
+              <option>Cleaning Products</option>
+              <option>Other</option>
+            </select>
+            <input type="number" placeholder="Quantity" style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:8px;margin-top:0.5rem;" />
+            <textarea rows="3" placeholder="Additional Notes (optional)" style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:8px;margin-top:0.5rem;"></textarea>
+            <button class="button" onclick="alert('Order request submitted!')">Submit Order</button>
+          </div>
+        </section>
+      </main>
+      <nav>
+        <button data-section="login-store" class="active">🏠</button>
+        <button data-section="request-store">🗑️</button>
+        <button data-section="track-store">📦</button>
+        <button data-section="history-store">📜</button>
+        <button data-section="help-store">❓</button>
+        <button data-section="notifications-store">🔔</button>
+        <button data-section="orders-store">➕</button>
+      </nav>
+    </div>
 
-<script>
-  // Real-time clock
-  function updateClock() {
-    const clock = document.getElementById('clock');
-    const now = new Date();
-    clock.textContent = now.toLocaleTimeString();
-  }
-  setInterval(updateClock, 1000);
-  updateClock();
+    <!-- Business App -->
+    <div id="business" class="section-container">
+      <div class="status-bar">
+        <span>&nbsp;</span>
+        <span>📶 🔋</span>
+      </div>
+      <header>Business Portal</header>
+      <main>
+        <section id="login-biz" class="section active">
+          <div class="card">
+            <h3>Login</h3>
+            <input type="text" placeholder="Email" style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:8px;margin-bottom:0.5rem;" />
+            <input type="password" placeholder="Password" style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:8px;" />
+            <button class="button" data-section="home-biz">Sign In</button>
+          </div>
+        </section>
+        <section id="home-biz" class="section">
+          <div class="card"><h3>Welcome to SaaS Business</h3><p>📊 Monitor activity and manage your business easily.</p></div>
+          <div class="card"><h3>Quick Metrics</h3><p>🛒 Stores: 500</p><p>🚚 Drivers: 10</p><p>📦 Requests Today: 132</p></div>
+        </section>
+        <section id="dashboard-biz" class="section">
+          <div class="card"><h3>KPIs Overview</h3><p>⏱ Avg. Route Time: 32 min</p><p>✅ Completed Tasks: 440</p><p>⚠ Alerts: 3 system issues</p></div>
+        </section>
+        <section id="clients-biz" class="section">
+          <div class="card"><h3>Stores</h3><p>Store A – 📦 120 pickups</p><p>Store B – 📦 87 pickups</p></div>
+        </section>
+        <section id="requests-biz" class="section">
+          <div class="card"><h3>Pickup Requests</h3><p>🧾 Request X – <button class="button">Approve</button> <button class="button">Decline</button></p><p>🧾 Request Y – <button class="button">Approve</button> <button class="button">Reschedule</button></p></div>
+        </section>
+        <section id="planning-biz" class="section">
+          <div class="card"><h3>Planning</h3><p>🗓 Calendar view</p><p>📍 Optimized route for 6 vehicles</p></div>
+        </section>
+        <section id="assignment-biz" class="section">
+          <div class="card"><h3>Assign Drivers</h3><p>Driver 1 ➡ Route A</p><p>Driver 2 ➡ Route B</p></div>
+        </section>
+        <section id="mapview-biz" class="section">
+          <div class="card"><h3>Live Map</h3><div id="map"></div></div>
+        </section>
+        <section id="performance-biz" class="section">
+          <div class="card" style="display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;text-align:center;font-size:0.85rem;">
+            <div style="background:#e3f2fd;padding:0.5rem;border-radius:10px;">⏱<br><strong>92%</strong><br>Efficiency</div>
+            <div style="background:#e3f2fd;padding:0.5rem;border-radius:10px;">⛽<br><strong>178L</strong><br>Fuel Saved</div>
+            <div style="background:#e3f2fd;padding:0.5rem;border-radius:10px;">✅<br><strong>1040</strong><br>Pickups</div>
+            <div style="background:#e3f2fd;padding:0.5rem;border-radius:10px;">🛑<br><strong>95%</strong><br>No Accidents</div>
+            <div style="background:#e3f2fd;padding:0.5rem;border-radius:10px;">⚠️<br><strong>2</strong><br>With Incidents</div>
+            <div style="background:#e3f2fd;padding:0.5rem;border-radius:10px;">🧭<br><strong>88%</strong><br>Smooth Drive</div>
+            <div style="background:#e3f2fd;padding:0.5rem;border-radius:10px;">📉<br><strong>-12%</strong><br>Downtime</div>
+          </div>
+        </section>
+        <section id="stats-biz" class="section">
+          <div class="card"><h3>Driver Performance</h3><p>No Incidents: 9/10 drivers</p><p>Idle Time: -15%</p></div>
+        </section>
+        <section id="settings-biz" class="section">
+          <div class="card"><h3>Settings</h3><p>🔐 Change Password</p><p>🌐 Language</p><p>📧 Notifications</p></div>
+        </section>
+      </main>
+      <nav>
+        <button data-section="home-biz" class="active">🏠</button>
+        <button data-section="dashboard-biz">📋</button>
+        <button data-section="clients-biz">👥</button>
+        <button data-section="requests-biz">🧾</button>
+        <button data-section="planning-biz">🗓</button>
+        <button data-section="assignment-biz">🚚</button>
+        <button data-section="mapview-biz">🗺️</button>
+        <button data-section="performance-biz">📊</button>
+        <button data-section="stats-biz">📈</button>
+        <button data-section="settings-biz">⚙️</button>
+      </nav>
+    </div>
 
-  // Simulated stops with lat/lon
-  const stops = Array.from({ length: 100 }, (_, i) => ({
-    id: i + 1,
-    label: `Stop ${i + 1}, London, UK`,
-    lat: 51.5 + Math.random() * 0.1,
-    lon: -0.15 + Math.random() * 0.1
-  }));
+    <!-- Driver App -->
+    <div id="driver" class="section-container">
+      <div class="status-bar">
+        <span id="driver-clock" class="clock">--:--:--</span>
+        <span>📶 🔋</span>
+      </div>
+      <header>Driver App</header>
+      <main>
+        <section id="login-drv" class="section active">
+          <div class="card"><h3>Login</h3><input placeholder="Driver ID" style="width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:8px;" /><button class="button" data-section="route-drv">Start Shift</button></div>
+        </section>
+        <section id="route-drv" class="section">
+          <div class="card">
+            <h3>Today's Route</h3>
+            <p>Stop 1: Main St, Organic Waste</p>
+            <p>Stop 2: 5th Ave, Recycling</p>
+            <button class="button" data-section="map-drv">Map</button>
+            <button class="button" onclick="recordBreak()">Break 🕒</button>
+            <button class="button" onclick="reportDelay()">Delay ⏳</button>
+            <button class="button" onclick="reportMaintenance()">Vehicle Issue 🚛</button>
+          </div>
+        </section>
+        <section id="map-drv" class="section">
+          <div class="card"><h3>Map View</h3><p>SVG / Google Maps</p><button class="button" data-section="detail-drv">View Task</button><button class="button" onclick="callSupport()">Call Support 📞</button></div>
+        </section>
+        <section id="detail-drv" class="section">
+          <div class="card"><h3>Collection Detail</h3><p><strong>Address:</strong> 123 Main St</p><p><strong>Type:</strong> Organic Waste</p><p><strong>Notes:</strong> Watch gate</p><button class="button" onclick="showMessage('task-msg','Arrived ✅')">Arrived</button><button class="button" onclick="showMessage('task-msg','Collected ✅')">Collected</button><button class="button" onclick="showMessage('task-msg','Issue ⚠️')">Report Issue</button><button class="button" onclick="uploadPhoto()">Upload Photo 📷</button><div id="task-msg" class="message"></div></div>
+        </section>
+        <section id="summary-drv" class="section">
+          <div class="card"><h3>End of Day</h3><p>Completed: 12/12</p><p>Missed: 0</p><p>Issues: 1</p><button class="button" onclick="showMessage('end-msg','Report Submitted ✅')">Submit</button><div id="end-msg" class="message"></div></div>
+        </section>
+      </main>
+      <nav>
+        <button data-section="login-drv" class="active">🏠</button>
+        <button data-section="route-drv">🧭</button>
+        <button data-section="map-drv">🗺️</button>
+        <button data-section="detail-drv">📋</button>
+        <button data-section="summary-drv">📊</button>
+      </nav>
+    </div>
 
-  let confirmed = 0;
-  let delayed = 0;
-  let noted = 0;
+  </div>
 
-  function show(sectionId) {
-    document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
-    const target = document.getElementById(sectionId);
-    if (target) target.style.display = 'block';
-  }
-
-  function showMessage(msgId, text) {
-    const msgBox = document.getElementById(msgId);
-    msgBox.innerText = text;
-    msgBox.style.display = 'block';
-    setTimeout(() => {
-      msgBox.style.display = 'none';
-    }, 4000);
-  }
-
-  function renderRoute() {
-    const list = document.getElementById('stop-list');
-    list.innerHTML = '';
-    const mode = document.getElementById('route-mode').value;
-    let data = stops;
-    if (mode === 'fast') {
-      const baseLat = 51.5074,
-        baseLon = -0.1278;
-      data = [...stops].sort((a, b) => {
-        const dA = Math.hypot(baseLat - a.lat, baseLon - a.lon);
-        const dB = Math.hypot(baseLat - b.lat, baseLon - b.lon);
-        return dA - dB;
+  <script>
+    // App selector logic
+    document.querySelectorAll('#app-selector button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#app-selector button').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const app=btn.getAttribute('data-app');
+        document.querySelectorAll('.section-container').forEach(c=>c.classList.remove('active'));
+        document.getElementById(app).classList.add('active');
+      });
+    });
+    // Section nav binding
+    function bindNav(appId) {
+      const container=document.getElementById(appId);
+      container.querySelectorAll('[data-section]').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          const sec=btn.getAttribute('data-section');
+          container.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+          container.querySelectorAll('nav button').forEach(n=>n.classList.remove('active'));
+          container.querySelector('#'+sec).classList.add('active');
+          container.querySelector('nav button[data-section="'+sec+'"]')?.classList.add('active');
+          if(appId==='business' && sec==='mapview-biz' && !window.mapInitialized) setTimeout(initMap,150);
+        });
       });
     }
-    data.forEach(stop => {
-      const li = document.createElement('li');
-      li.setAttribute('id', `stop-${stop.id}`);
-
-      const info = document.createElement('div');
-      info.textContent = stop.label;
-
-      const actions = document.createElement('div');
-      actions.className = 'actions';
-
-      const btnConfirm = document.createElement('button');
-      btnConfirm.className = 'button';
-      btnConfirm.textContent = 'Confirm';
-      btnConfirm.onclick = () => {
-        if (!btnConfirm.disabled) {
-          alert(`Confirmed: ${stop.label}`);
-          btnConfirm.style.backgroundColor = '#4caf50';
-          btnConfirm.textContent = 'Confirmed';
-          btnConfirm.disabled = true;
-          confirmed++;
-          btnDelay.style.backgroundColor = '#ff9900';
-          btnDelay.textContent = 'Delay';
-          btnDelay.disabled = false;
-          delayed = Math.max(0, delayed - 1);
-          btnNote.style.backgroundColor = '#ff9900';
-          btnNote.textContent = 'Note';
-          btnNote.disabled = false;
-          noted = Math.max(0, noted - 1);
-          updateSummary();
-        }
-      };
-
-      const btnDelay = document.createElement('button');
-      btnDelay.className = 'button';
-      btnDelay.textContent = 'Delay';
-      btnDelay.onclick = () => {
-        if (!btnDelay.disabled) {
-          alert(`Delay reported: ${stop.label}`);
-          btnDelay.style.backgroundColor = '#f44336';
-          btnDelay.textContent = 'Delayed';
-          btnDelay.disabled = true;
-          delayed++;
-          updateSummary();
-        }
-      };
-
-      const btnNote = document.createElement('button');
-      btnNote.className = 'button';
-      btnNote.textContent = 'Note';
-      btnNote.onclick = () => {
-        if (!btnNote.disabled) {
-          alert(`Note added for: ${stop.label}`);
-          btnNote.style.backgroundColor = '#2196f3';
-          btnNote.textContent = 'Noted';
-          btnNote.disabled = true;
-          noted++;
-          updateSummary();
-        }
-      };
-
-      actions.appendChild(btnConfirm);
-      actions.appendChild(btnDelay);
-      actions.appendChild(btnNote);
-
-      li.appendChild(info);
-      li.appendChild(actions);
-      list.appendChild(li);
-    });
-  }
-
-  function updateSummary() {
-    const total = stops.length;
-    const progressBar = document.getElementById('progress-bar');
-    const progressLabel = document.getElementById('progress-label');
-    const summaryData = document.getElementById('summary-data');
-    const percent = Math.round((confirmed / total) * 100);
-
-    progressBar.style.width = `${percent}%`;
-    progressLabel.textContent = `${percent}%`;
-
-    if (percent < 30) {
-      progressBar.style.backgroundColor = '#f44336'; // red
-    } else if (percent < 70) {
-      progressBar.style.backgroundColor = '#ffeb3b'; // yellow
-    } else {
-      progressBar.style.backgroundColor = '#4caf50'; // green
-    }
-
-    summaryData.innerHTML = `
-      Confirmed: ${confirmed} / ${total}<br/>
-      Delayed: ${Math.max(0, delayed)}<br/>
-      Noted: ${Math.max(0, noted)}
-    `;
-
-    if (confirmed === total) {
-      setTimeout(() => alert('🎉 Route fully completed! Great job!'), 300);
-    }
-  }
-
-  function goToStop() {
-    const id = parseInt(document.getElementById('goto-stop').value);
-    if (!isNaN(id) && id > 0 && id <= stops.length) {
-      const el = document.getElementById(`stop-${id}`);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        el.style.backgroundColor = 'yellow';
-        setTimeout(() => {
-          el.style.backgroundColor = '';
-        }, 2000);
-      }
-    } else {
-      alert('Invalid stop number. Must be between 1 and 100.');
-    }
-  }
-
-  function drawRoute() {
-    const canvas = document.getElementById('map-canvas');
-    canvas.innerHTML = '';
-    const svgNS = 'http://www.w3.org/2000/svg';
-    const svg = document.createElementNS(svgNS, 'svg');
-    svg.setAttribute('width', '100%');
-    svg.setAttribute('height', '300');
-
-    for (let i = 0; i < stops.length - 1; i++) {
-      const x1 = 20 + (i % 10) * 30;
-      const y1 = 30 + Math.floor(i / 10) * 30;
-      const x2 = 20 + ((i + 1) % 10) * 30;
-      const y2 = 30 + Math.floor((i + 1) / 10) * 30;
-      const line = document.createElementNS(svgNS, 'line');
-      line.setAttribute('x1', x1);
-      line.setAttribute('y1', y1);
-      line.setAttribute('x2', x2);
-      line.setAttribute('y2', y2);
-      line.setAttribute('stroke', 'red');
-      line.setAttribute('stroke-width', '2');
-      svg.appendChild(line);
-    }
-
-    stops.forEach((stop, index) => {
-      const cx = 20 + (index % 10) * 30;
-      const cy = 30 + Math.floor(index / 10) * 30;
-      const circle = document.createElementNS(svgNS, 'circle');
-      circle.setAttribute('cx', cx);
-      circle.setAttribute('cy', cy);
-      circle.setAttribute('r', 6);
-      circle.setAttribute('fill', 'blue');
-      circle.setAttribute('data-id', stop.id);
-      circle.style.cursor = 'pointer';
-      circle.addEventListener('click', () => {
-        alert(`Selected: ${stop.label}`);
-        const el = document.getElementById(`stop-${stop.id}`);
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          el.style.backgroundColor = '#ffff99';
-          setTimeout(() => {
-            el.style.backgroundColor = '';
-          }, 1500);
-          const confirmBtn = el.querySelector('button');
-          if (confirmBtn && !confirmBtn.disabled) confirmBtn.click();
-        }
-      });
-      svg.appendChild(circle);
-    });
-    canvas.appendChild(svg);
-  }
-
-  window.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('startBtn').addEventListener('click', () => {
-      show('route');
-      renderRoute();
-      updateSummary();
-    });
-    document.getElementById('endBtn').addEventListener('click', () => {
-      show('summary');
-      updateSummary();
-    });
-    document.getElementById('breakBtn').addEventListener('click', () => {
-      alert('Break started');
-    });
-    document.getElementById('gotoBtn').addEventListener('click', goToStop);
-    document.getElementById('route-mode').addEventListener('change', () => {
-      renderRoute();
-      updateSummary();
-    });
-    document.getElementById('mapBtn').addEventListener('click', () => show('map'));
-    document.getElementById('drawRouteBtn').addEventListener('click', drawRoute);
-    document.getElementById('navHome').addEventListener('click', () => show('home'));
-    document.getElementById('navRoute').addEventListener('click', () => {
-      show('route');
-      renderRoute();
-      updateSummary();
-    });
-    document.getElementById('navMap').addEventListener('click', () => show('map'));
-    document.getElementById('navSummary').addEventListener('click', () => {
-      show('summary');
-      updateSummary();
-    });
-  });
-</script>
+    ['store','business','driver'].forEach(bindNav);
+    // Clocks
+    function updateClocks(){const now=new Date().toLocaleTimeString();document.getElementById('store-clock').textContent=now;document.getElementById('driver-clock').textContent=now;}setInterval(updateClocks,1000);updateClocks();
+    // Helper actions
+    function recordBreak(){alert('Break started');}
+    function reportDelay(){const r=prompt('Delay reason:');if(r)alert('Delay: '+r);}  
+    function reportMaintenance(){const i=prompt('Describe issue:');if(i)alert('Maintenance: '+i);}  
+    function callSupport(){alert('Calling support...');}  
+    function showMessage(id,msg){const e=document.getElementById(id);e.innerText=msg;e.style.display='block';}
+    function uploadPhoto(){alert('Upload feature coming soon');}
+    // Leaflet map
+    window.mapInitialized=false;
+    function initMap(){L.map('map').setView([51.505,-0.09],13).addTo(L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}));window.mapInitialized=true;}
+  </script>
 </body>
 </html>
