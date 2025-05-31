@@ -68,6 +68,12 @@
       margin-top: 0.5rem;
       width: 100%;
       cursor: pointer;
+      transition: background 0.2s;
+    }
+    .button:disabled {
+      background: #bdbdbd !important;
+      color: #fff !important;
+      cursor: not-allowed;
     }
     nav {
       display: flex;
@@ -141,6 +147,19 @@
       border-bottom: 1px solid #e3f2fd;
       margin-bottom: 0.2rem;
       border-radius: 8px;
+      background: white;
+      transition: background 0.2s;
+    }
+    ul#stop-list li.confirmed {
+      background: #e0e0e0;
+      color: #888;
+      opacity: 0.7;
+    }
+    ul#stop-list li.delayed {
+      background: #fff9c4;
+    }
+    ul#stop-list li.noted {
+      background: #bbdefb;
     }
   </style>
 </head>
@@ -197,236 +216,308 @@
       <button id="navSummary">📊</button>
     </nav>
   </div>
-  <script>
-    // Mantener datos y lógica avanzada
-    const stops = Array.from({ length: 100 }, (_, i) => ({
-      id: i + 1,
-      label: `Stop ${i + 1}, London, UK`,
-      lat: 51.5 + Math.random() * 0.1,
-      lon: -0.15 + Math.random() * 0.1
-    }));
+<script>
+  // Enhanced stop management with status
+  let stops = Array.from({ length: 100 }, (_, i) => ({
+    id: i + 1,
+    label: `Stop ${i + 1}, London, UK`,
+    lat: 51.5 + Math.random() * 0.1,
+    lon: -0.15 + Math.random() * 0.1,
+    status: 'pending', // pending, confirmed, delayed, noted
+  }));
 
-    let confirmed = 0;
-    let delayed = 0;
-    let noted = 0;
+  function show(sectionId) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById(sectionId);
+    if (target) target.classList.add('active');
+  }
 
-    function show(sectionId) {
-      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-      const target = document.getElementById(sectionId);
-      if (target) target.classList.add('active');
-    }
+  function renderRoute() {
+    const list = document.getElementById('stop-list');
+    if (!list) return;
+    list.innerHTML = '';
+    const mode = document.getElementById('route-mode').value;
 
-    function renderRoute() {
-      const list = document.getElementById('stop-list');
-      list.innerHTML = '';
-      const mode = document.getElementById('route-mode').value;
-      let data = stops;
-      if (mode === 'fast') {
-        const baseLat = 51.5074, baseLon = -0.1278;
-        data = [...stops].sort((a, b) => {
-          const dA = Math.hypot(baseLat - a.lat, baseLon - a.lon);
-          const dB = Math.hypot(baseLat - b.lat, baseLon - b.lon);
-          return dA - dB;
-        });
-      }
-      data.forEach(stop => {
-        const li = document.createElement('li');
-        li.setAttribute('id', `stop-${stop.id}`);
-
-        const info = document.createElement('div');
-        info.textContent = stop.label;
-
-        const actions = document.createElement('div');
-        actions.className = 'actions';
-
-        const btnConfirm = document.createElement('button');
-        btnConfirm.className = 'button';
-        btnConfirm.textContent = 'Confirm';
-        btnConfirm.onclick = () => {
-          if (!btnConfirm.disabled) {
-            alert(`Confirmed: ${stop.label}`);
-            btnConfirm.style.backgroundColor = '#4caf50';
-            btnConfirm.textContent = 'Confirmed';
-            btnConfirm.disabled = true;
-            confirmed++;
-            btnDelay.style.backgroundColor = '#42a5f5';
-            btnDelay.textContent = 'Delay';
-            btnDelay.disabled = false;
-            delayed = Math.max(0, delayed - 1);
-            btnNote.style.backgroundColor = '#42a5f5';
-            btnNote.textContent = 'Note';
-            btnNote.disabled = false;
-            noted = Math.max(0, noted - 1);
-            updateSummary();
-          }
-        };
-
-        const btnDelay = document.createElement('button');
-        btnDelay.className = 'button';
-        btnDelay.textContent = 'Delay';
-        btnDelay.onclick = () => {
-          if (!btnDelay.disabled) {
-            alert(`Delay reported: ${stop.label}`);
-            btnDelay.style.backgroundColor = '#f44336';
-            btnDelay.textContent = 'Delayed';
-            btnDelay.disabled = true;
-            delayed++;
-            updateSummary();
-          }
-        };
-
-        const btnNote = document.createElement('button');
-        btnNote.className = 'button';
-        btnNote.textContent = 'Note';
-        btnNote.onclick = () => {
-          if (!btnNote.disabled) {
-            alert(`Note added for: ${stop.label}`);
-            btnNote.style.backgroundColor = '#1976d2';
-            btnNote.textContent = 'Noted';
-            btnNote.disabled = true;
-            noted++;
-            updateSummary();
-          }
-        };
-
-        actions.appendChild(btnConfirm);
-        actions.appendChild(btnDelay);
-        actions.appendChild(btnNote);
-
-        li.appendChild(info);
-        li.appendChild(actions);
-        list.appendChild(li);
+    // Order: pending/delayed/noted, then confirmed at bottom
+    let displayStops = [...stops];
+    if (mode === 'fast') {
+      const baseLat = 51.5074, baseLon = -0.1278;
+      displayStops = [...stops].sort((a, b) => {
+        if (a.status === "confirmed" && b.status !== "confirmed") return 1;
+        if (a.status !== "confirmed" && b.status === "confirmed") return -1;
+        if (a.status === "confirmed" && b.status === "confirmed") return 0;
+        // Sort unconfirmed by distance
+        const dA = Math.hypot(baseLat - a.lat, baseLon - a.lon);
+        const dB = Math.hypot(baseLat - b.lat, baseLon - b.lon);
+        return dA - dB;
+      });
+    } else {
+      displayStops = [...stops].sort((a, b) => {
+        if (a.status === "confirmed" && b.status !== "confirmed") return 1;
+        if (a.status !== "confirmed" && b.status === "confirmed") return -1;
+        return a.id - b.id;
       });
     }
 
-    function updateSummary() {
-      const total = stops.length;
-      const progressBar = document.getElementById('progress-bar');
-      const progressLabel = document.getElementById('progress-label');
-      const summaryData = document.getElementById('summary-data');
-      const percent = Math.round((confirmed / total) * 100);
+    displayStops.forEach(stop => {
+      const li = document.createElement('li');
+      li.setAttribute('id', `stop-${stop.id}`);
+      li.className = stop.status !== 'pending' ? stop.status : '';
 
-      progressBar.style.width = `${percent}%`;
-      progressLabel.textContent = `${percent}%`;
+      const info = document.createElement('div');
+      info.textContent = stop.label;
 
-      if (percent < 30) {
-        progressBar.style.backgroundColor = '#f44336'; // red
-      } else if (percent < 70) {
-        progressBar.style.backgroundColor = '#ffeb3b'; // yellow
-      } else {
-        progressBar.style.backgroundColor = '#4caf50'; // green
-      }
+      const actions = document.createElement('div');
+      actions.className = 'actions';
 
-      summaryData.innerHTML = `
-        Confirmed: ${confirmed} / ${total}<br/>
-        Delayed: ${Math.max(0, delayed)}<br/>
-        Noted: ${Math.max(0, noted)}
-      `;
+      // Confirm button
+      const btnConfirm = document.createElement('button');
+      btnConfirm.className = 'button';
+      btnConfirm.textContent = stop.status === 'confirmed' ? 'Confirmed' : 'Confirm';
+      btnConfirm.disabled = stop.status === 'confirmed';
+      btnConfirm.style.backgroundColor = stop.status === 'confirmed' ? '#4caf50' : '';
+      btnConfirm.onclick = () => {
+        if (stop.status !== 'confirmed') {
+          stop.status = 'confirmed';
+          alert(`Confirmed: ${stop.label}`);
+          renderRoute();
+          updateSummary();
+          drawRoute(); // update markers!
+        }
+      };
 
-      if (confirmed === total) {
-        setTimeout(() => alert('🎉 Route fully completed! Great job!'), 300);
-      }
+      // Delay button
+      const btnDelay = document.createElement('button');
+      btnDelay.className = 'button';
+      btnDelay.textContent = stop.status === 'delayed' ? 'Delayed' : 'Delay';
+      btnDelay.disabled = stop.status === 'confirmed' || stop.status === 'delayed';
+      btnDelay.style.backgroundColor = stop.status === 'delayed' ? '#f44336' : '';
+      btnDelay.onclick = () => {
+        if (stop.status !== 'confirmed' && stop.status !== 'delayed') {
+          stop.status = 'delayed';
+          alert(`Delay reported: ${stop.label}`);
+          renderRoute();
+          updateSummary();
+          drawRoute(); // update markers!
+        }
+      };
+
+      // Note button
+      const btnNote = document.createElement('button');
+      btnNote.className = 'button';
+      btnNote.textContent = stop.status === 'noted' ? 'Noted' : 'Note';
+      btnNote.disabled = stop.status === 'confirmed' || stop.status === 'noted';
+      btnNote.style.backgroundColor = stop.status === 'noted' ? '#ff9800' : '';
+      btnNote.onclick = () => {
+        if (stop.status !== 'confirmed' && stop.status !== 'noted') {
+          stop.status = 'noted';
+          alert(`Note added for: ${stop.label}`);
+          renderRoute();
+          updateSummary();
+          drawRoute(); // update markers!
+        }
+      };
+
+      actions.appendChild(btnConfirm);
+      actions.appendChild(btnDelay);
+      actions.appendChild(btnNote);
+
+      li.appendChild(info);
+      li.appendChild(actions);
+      list.appendChild(li);
+    });
+  }
+
+  function updateSummary() {
+    const total = stops.length;
+    const confirmedCount = stops.filter(s => s.status === "confirmed").length;
+    const delayedCount = stops.filter(s => s.status === "delayed").length;
+    const notedCount = stops.filter(s => s.status === "noted").length;
+    const progressBar = document.getElementById('progress-bar');
+    const progressLabel = document.getElementById('progress-label');
+    const summaryData = document.getElementById('summary-data');
+    const percent = Math.round((confirmedCount / total) * 100);
+
+    progressBar.style.width = `${percent}%`;
+    progressLabel.textContent = `${percent}%`;
+
+    if (percent < 30) {
+      progressBar.style.backgroundColor = '#f44336'; // red
+    } else if (percent < 70) {
+      progressBar.style.backgroundColor = '#ffeb3b'; // yellow
+    } else {
+      progressBar.style.backgroundColor = '#4caf50'; // green
     }
 
-    function goToStop() {
-      const id = parseInt(document.getElementById('goto-stop').value);
-      if (!isNaN(id) && id > 0 && id <= stops.length) {
-        const el = document.getElementById(`stop-${id}`);
+    summaryData.innerHTML = `
+      Confirmed: ${confirmedCount} / ${total}<br/>
+      Delayed: ${delayedCount}<br/>
+      Noted: ${notedCount}
+    `;
+
+    if (confirmedCount === total) {
+      setTimeout(() => alert('🎉 Route fully completed! Great job!'), 300);
+    }
+  }
+
+  function goToStop() {
+    const id = parseInt(document.getElementById('goto-stop').value);
+    if (!isNaN(id) && id > 0 && id <= stops.length) {
+      const el = document.getElementById(`stop-${id}`);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        el.style.backgroundColor = '#fff59d';
+        setTimeout(() => {
+          el.style.backgroundColor = '';
+        }, 2000);
+      }
+    } else {
+      alert('Invalid stop number. Must be between 1 and 100.');
+    }
+  }
+
+  function drawRoute() {
+    const canvas = document.getElementById('map-canvas');
+    if (!canvas) return;
+    canvas.innerHTML = '';
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const width = 300;
+    const height = 270;
+    const paddingX = 20;
+    const paddingY = 30;
+    const stepX = 26;
+    const stepY = 22;
+    // SVG container
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('width', width);
+    svg.setAttribute('height', height);
+
+    // Draw route lines (simple grid connect)
+    for (let i = 0; i < stops.length - 1; i++) {
+      const x1 = paddingX + (i % 10) * stepX;
+      const y1 = paddingY + Math.floor(i / 10) * stepY;
+      const x2 = paddingX + ((i + 1) % 10) * stepX;
+      const y2 = paddingY + Math.floor((i + 1) / 10) * stepY;
+      const line = document.createElementNS(svgNS, 'line');
+      line.setAttribute('x1', x1);
+      line.setAttribute('y1', y1);
+      line.setAttribute('x2', x2);
+      line.setAttribute('y2', y2);
+      line.setAttribute('stroke', '#bdbdbd');
+      line.setAttribute('stroke-width', '1');
+      svg.appendChild(line);
+    }
+
+    // Draw all stop markers
+    stops.forEach((stop, index) => {
+      const cx = paddingX + (index % 10) * stepX;
+      const cy = paddingY + Math.floor(index / 10) * stepY;
+      const circle = document.createElementNS(svgNS, 'circle');
+      circle.setAttribute('cx', cx);
+      circle.setAttribute('cy', cy);
+      circle.setAttribute('r', 8);
+
+      // Color by status
+      let fill = '#42a5f5'; // pending
+      if (stop.status === 'confirmed') fill = '#4caf50';
+      else if (stop.status === 'delayed') fill = '#f44336';
+      else if (stop.status === 'noted') fill = '#ff9800';
+      circle.setAttribute('fill', fill);
+      circle.setAttribute('stroke', '#222');
+      circle.setAttribute('stroke-width', '1');
+      circle.setAttribute('data-id', stop.id);
+      circle.style.cursor = 'pointer';
+
+      // Marker click: highlight and scroll to in stop list
+      circle.addEventListener('click', () => {
+        alert(`Selected: ${stop.label}`);
+        const el = document.getElementById(`stop-${stop.id}`);
         if (el) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          el.style.backgroundColor = '#fff59d';
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          el.style.backgroundColor = '#bbdefb';
           setTimeout(() => {
             el.style.backgroundColor = '';
-          }, 2000);
+          }, 1200);
+          const confirmBtn = el.querySelector('button');
+          if (confirmBtn && !confirmBtn.disabled) confirmBtn.focus();
         }
-      } else {
-        alert('Invalid stop number. Must be between 1 and 100.');
-      }
-    }
+      });
 
-    function drawRoute() {
-      const canvas = document.getElementById('map-canvas');
-      canvas.innerHTML = '';
-      const svgNS = 'http://www.w3.org/2000/svg';
-      const svg = document.createElementNS(svgNS, 'svg');
-      svg.setAttribute('width', '100%');
-      svg.setAttribute('height', '300');
+      // Optionally, show stop number
+      const text = document.createElementNS(svgNS, 'text');
+      text.setAttribute('x', cx);
+      text.setAttribute('y', cy + 4);
+      text.setAttribute('text-anchor', 'middle');
+      text.setAttribute('font-size', '7');
+      text.setAttribute('fill', '#fff');
+      text.textContent = stop.id;
 
-      for (let i = 0; i < stops.length - 1; i++) {
-        const x1 = 20 + (i % 10) * 30;
-        const y1 = 30 + Math.floor(i / 10) * 30;
-        const x2 = 20 + ((i + 1) % 10) * 30;
-        const y2 = 30 + Math.floor((i + 1) / 10) * 30;
-        const line = document.createElementNS(svgNS, 'line');
-        line.setAttribute('x1', x1);
-        line.setAttribute('y1', y1);
-        line.setAttribute('x2', x2);
-        line.setAttribute('y2', y2);
-        line.setAttribute('stroke', '#1976d2');
-        line.setAttribute('stroke-width', '2');
-        svg.appendChild(line);
-      }
-
-      stops.forEach((stop, index) => {
-        const cx = 20 + (index % 10) * 30;
-        const cy = 30 + Math.floor(index / 10) * 30;
-        const circle = document.createElementNS(svgNS, 'circle');
-        circle.setAttribute('cx', cx);
-        circle.setAttribute('cy', cy);
-        circle.setAttribute('r', 6);
-        circle.setAttribute('fill', '#42a5f5');
-        circle.setAttribute('data-id', stop.id);
-        circle.style.cursor = 'pointer';
-        circle.addEventListener('click', () => {
-          alert(`Selected: ${stop.label}`);
-          const el = document.getElementById(`stop-${stop.id}`);
-          if (el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            el.style.backgroundColor = '#bbdefb';
-            setTimeout(() => {
-              el.style.backgroundColor = '';
-            }, 1500);
-            const confirmBtn = el.querySelector('button');
-            if (confirmBtn && !confirmBtn.disabled) confirmBtn.click();
-          }
-        });
-        svg.appendChild(circle);
-      });
-      canvas.appendChild(svg);
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('startBtn').addEventListener('click', () => {
-        show('route');
-        renderRoute();
-        updateSummary();
-      });
-      document.getElementById('endBtn').addEventListener('click', () => {
-        show('summary');
-        updateSummary();
-      });
-      document.getElementById('breakBtn').addEventListener('click', () => {
-        alert('Break started');
-      });
-      document.getElementById('gotoBtn').addEventListener('click', goToStop);
-      document.getElementById('route-mode').addEventListener('change', () => {
-        renderRoute();
-        updateSummary();
-      });
-      document.getElementById('mapBtn').addEventListener('click', () => show('map'));
-      document.getElementById('drawRouteBtn').addEventListener('click', drawRoute);
-      document.getElementById('navHome').addEventListener('click', () => show('home'));
-      document.getElementById('navRoute').addEventListener('click', () => {
-        show('route');
-        renderRoute();
-        updateSummary();
-      });
-      document.getElementById('navMap').addEventListener('click', () => show('map'));
-      document.getElementById('navSummary').addEventListener('click', () => {
-        show('summary');
-        updateSummary();
-      });
+      svg.appendChild(circle);
+      svg.appendChild(text);
     });
-  </script>
+    canvas.appendChild(svg);
+  }
+
+  // Submit button: Show summary & log stops
+  function submitReport() {
+    const confirmed = stops.filter(s => s.status === "confirmed").length;
+    const delayed = stops.filter(s => s.status === "delayed").length;
+    const noted = stops.filter(s => s.status === "noted").length;
+    alert(`Report submitted!\n\nConfirmed: ${confirmed}\nDelayed: ${delayed}\nNoted: ${noted}`);
+    // You can send stops to backend if needed.
+    console.log('Stops for report:', stops);
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('startBtn').addEventListener('click', () => {
+      show('route');
+      renderRoute();
+      updateSummary();
+      drawRoute();
+    });
+    document.getElementById('endBtn').addEventListener('click', () => {
+      show('summary');
+      updateSummary();
+    });
+    document.getElementById('breakBtn').addEventListener('click', () => {
+      alert('Break started');
+    });
+    document.getElementById('gotoBtn').addEventListener('click', goToStop);
+    document.getElementById('route-mode').addEventListener('change', () => {
+      renderRoute();
+      updateSummary();
+      drawRoute();
+    });
+    document.getElementById('mapBtn').addEventListener('click', () => {
+      show('map');
+      drawRoute();
+    });
+    document.getElementById('drawRouteBtn').addEventListener('click', drawRoute);
+
+    // FIXED MENU LOGIC: Always prepare content on nav!
+    document.getElementById('navHome').addEventListener('click', () => {
+      show('home');
+    });
+    document.getElementById('navRoute').addEventListener('click', () => {
+      show('route');
+      renderRoute();
+      updateSummary();
+      drawRoute();
+    });
+    document.getElementById('navMap').addEventListener('click', () => {
+      show('map');
+      drawRoute();
+    });
+    document.getElementById('navSummary').addEventListener('click', () => {
+      show('summary');
+      updateSummary();
+    });
+    document.getElementById('submitReportBtn').addEventListener('click', submitReport);
+
+    // Optional: initialize summary on load for smoothness
+    updateSummary();
+  });
+</script>
+
 </body>
 </html>
