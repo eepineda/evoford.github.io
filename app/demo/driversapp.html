@@ -177,6 +177,7 @@
         <button class="button" id="startBtn">Start</button>
         <button class="button" id="breakBtn">Break</button>
         <button class="button" id="endBtn">End Shift</button>
+        <button class="button" id="callSupportBtnHome">Call Support</button>
       </section>
 
       <section id="route" class="card section">
@@ -191,6 +192,7 @@
         <ul id="stop-list"></ul>
         <p style="font-size:0.85rem;color:#1976d2;margin-top:1rem;">100 total stops in London are grouped and listed here. Use the Smart Fast mode for optimized routing.</p>
         <button class="button" id="mapBtn">Map</button>
+        <button class="button" id="callSupportBtnRoute">Call Support</button>
       </section>
 
       <section id="map" class="card section">
@@ -207,6 +209,7 @@
         <h3>Summary</h3>
         <p id="summary-data">Loading...</p>
         <button class="button" id="submitReportBtn">Submit</button>
+        <button class="button" id="callSupportBtnSummary">Call Support</button>
       </section>
     </main>
     <nav>
@@ -514,10 +517,17 @@
     });
     document.getElementById('submitReportBtn').addEventListener('click', submitReport);
 
+    // Call Support button logic
+    function callSupport() {
+      window.open('tel:+441234567890');
+    }
+    document.getElementById('callSupportBtnHome').addEventListener('click', callSupport);
+    document.getElementById('callSupportBtnRoute').addEventListener('click', callSupport);
+    document.getElementById('callSupportBtnSummary').addEventListener('click', callSupport);
+
     // Optional: initialize summary on load for smoothness
     updateSummary();
   });
 </script>
-
 </body>
 </html>
