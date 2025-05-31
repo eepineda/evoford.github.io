@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=360, initial-scale=1.0" />
+  <title>EvoSustain Unified App</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    :root {
+      --eco-green: #43a047;
+      --eco-light: #e8f5e9;
+      --eco-accent: #b2dfdb;
+      --eco-blue: #1976d2;
+      --eco-bg: #f5f9ff;
+      --header-grad: linear-gradient(90deg, #43a047 50%, #2196f3 100%);
+    }
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+      background: var(--eco-bg);
+      color: #0d47a1;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .device-frame {
+      width: 375px;
+      height: 770px;
+      border: 8px solid var(--eco-green);
+      border-radius: 32px;
+      box-shadow: 0 0 24px rgba(60,160,60,0.08), 0 0 0 4px #fff;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+      transition: box-shadow 0.2s;
+    }
+    .status-bar {
+      height: 24px;
+      background: #e3f2fd;
+      padding: 0 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #2e7d32;
+      font-weight: bold;
+    }
+    .main-switcher {
+      display: flex;
+      background: var(--header-grad);
+      color: #fff;
+      font-weight: bold;
+      font-size: 1.05rem;
+      letter-spacing: 0.01em;
+      box-shadow: 0 2px 6px rgba(67,160,71,0.08);
+    }
+    .main-switcher button {
+      flex: 1;
+      border: none;
+      background: none;
+      color: inherit;
+      padding: 0.9rem 0;
+      font-size: inherit;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background 0.18s, border-bottom 0.23s;
+      border-bottom: 4px solid transparent;
+    }
+    .main-switcher button.active {
+      background: rgba(255,255,255,0.12);
+      border-bottom: 4px solid #c5e1a5;
+    }
+    .app-view {
+      flex: 1;
+      display: none;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+      background: var(--eco-light);
+      animation: fadeIn 0.45s;
+    }
+    .app-view.active {
+      display: flex;
+    }
+    header {
+      background: var(--header-grad);
+      color: #fff;
+      padding: 0.85rem;
+      text-align: center;
+      font-size: 1.26rem;
+      font-weight: bold;
+      letter-spacing: 0.03em;
+      border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7em;
+    }
+    header .eco-icon {
+      font-size: 1.35em;
+      vertical-align: -4px;
+    }
+    main {
+      flex: 1;
+      padding: 0.6rem;
+      overflow-y: auto;
+    }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 1rem;
+      box-shadow: 0 2px 7px rgba(33,150,243,0.07);
+      margin-bottom: 1.12rem;
+    }
+    .button, .btn {
+      background: linear-gradient(90deg, #43a047 60%, #1976d2 120%);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.7rem 0;
+      font-weight: 700;
+      margin-top: 0.45rem;
+      width: 100%;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(76,175,80,0.08);
+      transition: background 0.23s, transform 0.18s;
+    }
+    .button:disabled, .btn:disabled {
+      background: #bdbdbd !important;
+      color: #fff !important;
+      cursor: not-allowed;
+    }
+    nav {
+      display: flex;
+      justify-content: space-around;
+      background: #e3f2fd;
+      padding: 0.5rem 0;
+      border-top: 1px solid #e0e0e0;
+    }
+    nav button {
+      background: none;
+      border: none;
+      color: #1976d2;
+      font-size: 1.1rem;
+      cursor: pointer;
+      border-radius: 9px;
+      padding: 0.37rem 0.75rem;
+      font-weight: 600;
+      transition: background 0.19s;
+    }
+    nav button.active, nav button:focus {
+      background: #c5e1a5;
+      color: #1976d2;
+    }
+    /* Eco/Modern accents */
+    .eco-tip {
+      background: #dcedc8;
+      color: #33691e;
+      padding: 0.6rem 1rem;
+      border-radius: 12px;
+      margin: 0.7rem 0;
+      font-size: 0.99rem;
+      text-align: center;
+      font-weight: 600;
+      box-shadow: 0 2px 7px rgba(76,175,80,0.05);
+    }
+    /* Progress and kpi ring style (suggestion for eco impact) */
+    .eco-kpi {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.7rem;
+      margin: 0.8rem 0;
+    }
+    .eco-kpi-card {
+      background: #e8f5e9;
+      border-radius: 10px;
+      padding: 0.7rem;
+      flex: 1;
+      text-align: center;
+      color: #388e3c;
+      font-weight: bold;
+      font-size: 0.99em;
+      box-shadow: 0 2px 7px rgba(76,175,80,0.05);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .eco-kpi-card .eco-icon {
+      font-size: 1.5em;
+      margin-bottom: 0.2em;
+    }
+    /* Animations */
+    @keyframes fadeIn { from{opacity:0;transform:translateY(22px);} to{opacity:1;transform:translateY(0);} }
+  </style>
+</head>
+<body>
+  <div class="device-frame">
+    <div class="status-bar">
+      <span>9:41 AM</span>
+      <span>📶 🔋</span>
+    </div>
+    <div class="main-switcher">
+      <button id="switchBusiness" class="active">🏢 Business</button>
+      <button id="switchDriver">🚚 Driver</button>
+      <button id="switchStore">🏬 Store</button>
+    </div>
+    <!-- BUSINESS APP -->
+    <div id="businessApp" class="app-view active">
+      <header><span class="eco-icon">🌱</span>EvoSustain Business</header>
+      <main>
+        <div class="eco-tip">💡 <b>Eco Tip:</b> Save fuel and reduce carbon footprint by using smart routing!</div>
+        <section id="b-login" class="card">
+          <h3>Login</h3>
+          <input type="text" placeholder="Email" style="width:100%;padding:0.5rem;margin-bottom:0.5rem;border-radius:8px;border:1px solid #ccc;">
+          <input type="password" placeholder="Password" style="width:100%;padding:0.5rem;border-radius:8px;border:1px solid #ccc;">
+          <button class="button" onclick="loginBusiness()">Sign In</button>
+        </section>
+        <section id="b-home" class="card" style="display:none;">
+          <h3>Welcome to EvoSustain!</h3>
+          <div class="eco-kpi">
+            <div class="eco-kpi-card"><span class="eco-icon">🏬</span>500 Stores</div>
+            <div class="eco-kpi-card"><span class="eco-icon">🚚</span>10 Drivers</div>
+            <div class="eco-kpi-card"><span class="eco-icon">🌍</span>2.1 tons CO₂ Saved</div>
+          </div>
+          <div class="eco-kpi">
+            <div class="eco-kpi-card"><span class="eco-icon">🌳</span>19 Trees Saved</div>
+            <div class="eco-kpi-card"><span class="eco-icon">🔋</span>89% Renewable</div>
+          </div>
+        </section>
+        <section id="b-dashboard" class="card" style="display:none;">
+          <h3>KPIs Overview</h3>
+          <p>⏱ Avg. Route Time: 32 min</p>
+          <p>✅ Completed Tasks: 440</p>
+          <p>⚠️ Alerts: 3 system issues</p>
+        </section>
+        <!-- Add other business sections as needed -->
+      </main>
+      <nav>
+        <button onclick="showBusiness('b-home')">🏠</button>
+        <button onclick="showBusiness('b-dashboard')">📊</button>
+      </nav>
+    </div>
+    <!-- DRIVER APP -->
+    <div id="driverApp" class="app-view">
+      <header><span class="eco-icon">🚚</span>EvoSustain Driver</header>
+      <main>
+        <div class="eco-tip">💡 Use <b>Smart Fast</b> mode for a greener route!</div>
+        <!-- Add driver sections here (home/route/map/summary) -->
+        <section id="d-home" class="card section active">
+          <h3>Start Shift</h3>
+          <input type="text" id="driverIdInput" placeholder="Driver ID" style="width:100%;padding:0.5rem;" />
+          <button class="button" id="startBtn">Start</button>
+          <button class="button" id="breakBtn">Break</button>
+          <button class="button" id="endBtn">End Shift</button>
+          <button class="button" id="callSupportBtnHome">Call Support</button>
+        </section>
+        <!-- ... (copy your driver route, map, and summary from your app) ... -->
+      </main>
+      <nav>
+        <button id="navHome">🏠</button>
+        <!-- Add more navs as needed -->
+      </nav>
+    </div>
+    <!-- STORE APP -->
+    <div id="storeApp" class="app-view">
+      <header><span class="eco-icon">🏬</span>EvoSustain Store</header>
+      <main>
+        <div class="eco-tip">💡 Order eco-friendly supplies and track your pickups easily!</div>
+        <!-- Add store sections here (login/request/track/history/help/notifications/orders) -->
+        <section id="s-login" class="card section active">
+          <h3>Login / Sign-Up</h3>
+          <input type="text" placeholder="Store ID" style="width:100%;padding:0.5rem;margin-top:0.5rem;border-radius:8px;border:1px solid #ccc;">
+          <button class="button" onclick="showStoreSection('s-request')">Login</button>
+          <button class="button" onclick="showStoreSection('s-request')">Scan QR Code</button>
+        </section>
+        <!-- ... (copy your store request/track/history/help/notifications/orders from your app) ... -->
+      </main>
+      <nav>
+        <button onclick="showStoreSection('s-login')">🏠</button>
+        <!-- Add more navs as needed -->
+      </nav>
+    </div>
+  </div>
+  <script>
+    // Module switcher logic
+    function setActiveApp(appId) {
+      document.querySelectorAll('.app-view').forEach(view => view.classList.remove('active'));
+      document.getElementById(appId).classList.add('active');
+      document.querySelectorAll('.main-switcher button').forEach(btn => btn.classList.remove('active'));
+      if(appId==='businessApp') document.getElementById('switchBusiness').classList.add('active');
+      if(appId==='driverApp') document.getElementById('switchDriver').classList.add('active');
+      if(appId==='storeApp') document.getElementById('switchStore').classList.add('active');
+    }
+    document.getElementById('switchBusiness').onclick = ()=>setActiveApp('businessApp');
+    document.getElementById('switchDriver').onclick = ()=>setActiveApp('driverApp');
+    document.getElementById('switchStore').onclick = ()=>setActiveApp('storeApp');
+
+    // Business nav logic
+    function showBusiness(sectionId) {
+      document.querySelectorAll('#businessApp main section').forEach(s=>s.style.display='none');
+      document.getElementById(sectionId).style.display = '';
+    }
+    function loginBusiness() {
+      showBusiness('b-home');
+    }
+    // Store nav logic
+    function showStoreSection(sectionId) {
+      document.querySelectorAll('#storeApp main section').forEach(s=>s.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+    }
+    // Extend similarly for driver nav and logic...
+
+    // On load, show business login
+    showBusiness('b-login');
+    showStoreSection('s-login');
+  </script>
+</body>
+</html>
