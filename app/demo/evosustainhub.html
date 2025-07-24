@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>EvoSustain Platform</title>
   <style>
-    /* ... (same CSS as before) */
     body {
       font-family: 'Segoe UI', sans-serif;
       background: #f4f9ff;
@@ -117,96 +116,6 @@
       color: #1976d2;
     }
   </style>
-</head>
-<body>
-  <button id="logout-btn" style="display:none" onclick="logout()">Sign Off</button>
-
-  <section id="login-section" style="display:none;">
-    <h2>Sign In</h2>
-    <form id="login-form">
-      <input type="text" id="username" placeholder="Username" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <button type="submit">Sign In</button>
-    </form>
-    <div class="toggle-link" onclick="showRegisterForm()">Don't have an account? Sign Up</div>
-  </section>
-
-  <section id="register-section" style="display:none;">
-    <h2>Sign Up</h2>
-    <form id="register-form">
-      <input type="text" id="reg-name" placeholder="Full Name" required />
-      <input type="text" id="reg-username" placeholder="Username" required />
-      <input type="password" id="reg-password" placeholder="Password" required />
-      <input type="email" id="reg-email" placeholder="Email" required />
-      <button type="submit">Sign Up</button>
-    </form>
-    <div class="toggle-link" onclick="showLoginForm()">Already have an account? Sign In</div>
-  </section>
-
-  <div id="main-content" style="display:none;">
-    <header>
-      <a href="https://www.evoford.com" target="_blank">
-        <img src="https://www.evoford.com/images/eslogo.png" alt="EvoSustain Logo" style="width:100px;height:100px;border-radius:50%;object-fit:cover;margin-bottom:0.5rem;" />
-      </a>
-      <h1 class="lang-en">EvoSustain Hub</h1>
-      <h1 class="lang-es">EvoSustain Hub</h1>
-      <p class="lang-en">Explore each module of our sustainability platform:</p>
-      <p class="lang-es">Explora cada módulo de nuestra plataforma de sostenibilidad:</p>
-      <div class="lang-switch">
-        <button onclick="toggleLanguage('en')">🇬🇧</button>
-        <button onclick="toggleLanguage('es')">🇪🇸</button>
-      </div>
-    </header>
-
-    <div class="grid">
-      <a href="storesapp.html" class="card">
-        <div class="icon">🏪</div>
-        <h2>Store App</h2>
-        <p class="lang-en">For stores to request and track waste collections, view history, and manage schedules with ease.</p>
-        <p class="lang-es">Para tiendas que desean solicitar y rastrear recolecciones, ver historial y gestionar horarios con facilidad.</p>
-      </a>
-      <a href="businessapp.html" class="card">
-        <div class="icon">📊</div>
-        <h2>Business App</h2>
-        <p class="lang-en">Mobile app for business managers to monitor pickups, assign routes, and track performance metrics.</p>
-        <p class="lang-es">Aplicación móvil para gestores empresariales que supervisan recolecciones, asignan rutas y analizan desempeño.</p>
-      </a>
-      <a href="businessportal.html" class="card">
-        <div class="icon">🧭</div>
-        <h2>Business Admin Portal</h2>
-        <p class="lang-en">Advanced web dashboard for full network control, analytics, scheduling, and system configuration.</p>
-        <p class="lang-es">Panel web avanzado para control total de red, análisis, programación y configuración del sistema.</p>
-      </a>
-      <a href="driversapp.html" class="card">
-        <div class="icon">🚛</div>
-        <h2>Driver App</h2>
-        <p class="lang-en">Driver-friendly interface for executing assigned routes, logging delays, and reporting collection results.</p>
-        <p class="lang-es">Interfaz amigable para conductores que ejecutan rutas, reportan retrasos y registran resultados de recolección.</p>
-      </a>
-    </div>
-
-    <div class="cta-section">
-      <h2 class="lang-en">Partner with EvoSustain</h2>
-      <h2 class="lang-es">Colabora con EvoSustain</h2>
-      <p class="lang-en">Join the future of smart waste management. Request a free demo or schedule a personalized consultation.</p>
-      <p class="lang-es">Únete al futuro de la gestión inteligente de residuos. Solicita una demo gratuita o agenda una consulta personalizada.</p>
-
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSeH27C-FXFtE3oUrPgoMz7F3ebZikyHvwfdWvOErrEfIsCi1Q/viewform" target="_blank" class="cta-button lang-en">Request Demo</a>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSeH27C-FXFtE3oUrPgoMz7F3ebZikyHvwfdWvOErrEfIsCi1Q/viewform" target="_blank" class="cta-button lang-es">Solicitar Demo</a>
-    </div>
-
-    <footer>
-      <p class="lang-en">EvoSustain Demo Platform &copy; 2025</p>
-      <p class="lang-es">Plataforma Demo EvoSustain &copy; 2025</p>
-      <div style="margin-top: 1rem;">
-        <a href="https://twitter.com/evosustain" target="_blank" style="margin: 0 0.5rem;">𝕏 </a>
-        <a href="https://www.facebook.com/evosustain" target="_blank" style="margin: 0 0.5rem;">📘 Facebook</a>
-        <a href="https://www.instagram.com/evosustain" target="_blank" style="margin: 0 0.5rem;">📷 Instagram</a>
-        <a href="https://www.tiktok.com/@evosustain" target="_blank" style="margin: 0 0.5rem;">🎵 TikTok</a>
-      </div>
-    </footer>
-  </div>
-
   <script>
     const scriptUrl = 'https://script.google.com/macros/s/AKfycbzBD9TGRhsOfgb_nTcIMZ7qRY-uPmsHJsqjvJlkqH8gf-m5FfzcS4R02ZvhbLnUP29Q/exec';
 
@@ -222,35 +131,31 @@
       }
     }
 
-  function handleLogin(event) {
-  event.preventDefault();
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value.trim();
+    function handleLogin(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
 
-  fetch(scriptUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      action: 'login',
-      username: username,
-      password: password
-    })
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.status === 'success') {
-      localStorage.setItem('loggedInUser', username);
-      showMainContent();
-    } else {
-      alert(data.message || 'Invalid username or password.');
+      fetch(scriptUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          action: 'login',
+          username,
+          password
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === 'success') {
+          localStorage.setItem('loggedInUser', username);
+          showMainContent();
+        } else {
+          alert(data.message || 'Invalid username or password.');
+        }
+      })
+      .catch(() => alert('Error connecting to server. Please try again.'));
     }
-  })
-  .catch(error => {
-    console.error('Login error:', error);
-    alert('Error during login. Please try again later.');
-  });
-}
-
 
     function handleRegister(event) {
       event.preventDefault();
@@ -259,49 +164,157 @@
       const password = document.getElementById('reg-password').value.trim();
       const email = document.getElementById('reg-email').value.trim();
 
-      // Simulated registration
-      alert(`Registered ${name} successfully! Please sign in.`);
-      showLoginForm();
+      fetch(scriptUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          action: 'register',
+          name,
+          username,
+          password,
+          email
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message);
+        if (data.status === 'success') {
+          showLoginForm();
+        }
+      })
+      .catch(() => alert('Error connecting to server. Please try again.'));
     }
 
     function logout() {
       localStorage.removeItem('loggedInUser');
-      showLoginForm();
+      location.reload();
     }
 
     function showLoginForm() {
-      document.getElementById('login-section').style.display = 'block';
-      document.getElementById('register-section').style.display = 'none';
-      document.getElementById('main-content').style.display = 'none';
-      document.getElementById('logout-btn').style.display = 'none';
-    }
-
-    function showRegisterForm() {
-      document.getElementById('login-section').style.display = 'none';
-      document.getElementById('register-section').style.display = 'block';
-      document.getElementById('main-content').style.display = 'none';
-      document.getElementById('logout-btn').style.display = 'none';
-    }
-
-    function showMainContent() {
-      document.getElementById('login-section').style.display = 'none';
-      document.getElementById('register-section').style.display = 'none';
-      document.getElementById('main-content').style.display = 'block';
-      document.getElementById('logout-btn').style.display = 'block';
+      document.body.innerHTML = `
+        <section id="login-section">
+          <h2>Sign In</h2>
+          <form onsubmit="handleLogin(event)">
+            <input type="text" id="username" placeholder="Username" required />
+            <input type="password" id="password" placeholder="Password" required />
+            <button type="submit">Sign In</button>
+          </form>
+          <div class="toggle-link" onclick="showRegisterForm()">Don't have an account? Sign Up</div>
+          <div class="lang-switch">
+            <button onclick="toggleLanguage('en')">🇬🇧</button>
+            <button onclick="toggleLanguage('es')">🇪🇸</button>
+          </div>
+        </section>
+      `;
       toggleLanguage('en');
     }
 
-    window.onload = () => {
-      const user = localStorage.getItem('loggedInUser');
-      if (user) {
-        showMainContent();
-      } else {
-        showLoginForm();
-      }
-    };
+    function showRegisterForm() {
+      document.body.innerHTML = `
+        <section id="register-section">
+          <h2>Sign Up</h2>
+          <form onsubmit="handleRegister(event)">
+            <input type="text" id="reg-name" placeholder="Full Name" required />
+            <input type="text" id="reg-username" placeholder="Username" required />
+            <input type="password" id="reg-password" placeholder="Password" required />
+            <input type="email" id="reg-email" placeholder="Email" required />
+            <button type="submit">Sign Up</button>
+          </form>
+          <div class="toggle-link" onclick="showLoginForm()">Already have an account? Sign In</div>
+          <div class="lang-switch">
+            <button onclick="toggleLanguage('en')">🇬🇧</button>
+            <button onclick="toggleLanguage('es')">🇪🇸</button>
+          </div>
+        </section>
+      `;
+      toggleLanguage('en');
+    }
 
-    document.getElementById('login-form').addEventListener('submit', handleLogin);
-    document.getElementById('register-form').addEventListener('submit', handleRegister);
+    function showMainContent() {
+      document.body.innerHTML = `
+      <button id="logout-btn" onclick="logout()">Sign Off</button>
+      <header>
+        <a href="https://www.evoford.com" target="_blank">
+          <img src="https://www.evoford.com/images/eslogo.png" alt="EvoSustain Logo" style="width:100px;height:100px;border-radius:50%;object-fit:cover;margin-bottom:0.5rem;">
+        </a>
+        <h1 class="lang-en">EvoSustain Hub</h1>
+        <h1 class="lang-es">EvoSustain Hub</h1>
+        <p class="lang-en">Explore each module of our sustainability platform:</p>
+        <p class="lang-es">Explora cada módulo de nuestra plataforma de sostenibilidad:</p>
+        <div class="lang-switch">
+          <button onclick="toggleLanguage('en')">🇬🇧</button>
+          <button onclick="toggleLanguage('es')">🇪🇸</button>
+        </div>
+      </header>
+
+      <div class="grid">
+        <a href="storesapp.html" class="card">
+          <div class="icon">🏪</div>
+          <h2>Store App</h2>
+          <p class="lang-en">For stores to request and track waste collections, view history, and manage schedules with ease.</p>
+          <p class="lang-es">Para tiendas que desean solicitar y rastrear recolecciones, ver historial y gestionar horarios con facilidad.</p>
+        </a>
+        <a href="businessapp.html" class="card">
+          <div class="icon">📊</div>
+          <h2>Business App</h2>
+          <p class="lang-en">Mobile app for business managers to monitor pickups, assign routes, and track performance metrics.</p>
+          <p class="lang-es">Aplicación móvil para gestores empresariales que supervisan recolecciones, asignan rutas y analizan desempeño.</p>
+        </a>
+        <a href="businessportal.html" class="card">
+          <div class="icon">🧭</div>
+          <h2>Business Admin Portal</h2>
+          <p class="lang-en">Advanced web dashboard for full network control, analytics, scheduling, and system configuration.</p>
+          <p class="lang-es">Panel web avanzado para control total de red, análisis, programación y configuración del sistema.</p>
+        </a>
+        <a href="driversapp.html" class="card">
+          <div class="icon">🚛</div>
+          <h2>Driver App</h2>
+          <p class="lang-en">Driver-friendly interface for executing assigned routes, logging delays, and reporting collection results.</p>
+          <p class="lang-es">Interfaz amigable para conductores que ejecutan rutas, reportan retrasos y registran resultados de recolección.</p>
+        </a>
+      </div>
+
+      <div class="cta-section">
+        <h2 class="lang-en">Partner with EvoSustain</h2>
+        <h2 class="lang-es">Colabora con EvoSustain</h2>
+        <p class="lang-en">Join the future of smart waste management. Request a free demo or schedule a personalized consultation.</p>
+        <p class="lang-es">Únete al futuro de la gestión inteligente de residuos. Solicita una demo gratuita o agenda una consulta personalizada.</p>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeH27C-FXFtE3oUrPgoMz7F3ebZikyHvwfdWvOErrEfIsCi1Q/viewform" 
+          target="_blank" 
+          class="cta-button lang-en">
+          Request Demo
+        </a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSeH27C-FXFtE3oUrPgoMz7F3ebZikyHvwfdWvOErrEfIsCi1Q/viewform" 
+          target="_blank" 
+          class="cta-button lang-es">
+          Solicitar Demo
+        </a>
+      </div>
+
+      <footer>
+        <p class="lang-en">EvoSustain Demo Platform &copy; 2025</p>
+        <p class="lang-es">Plataforma Demo EvoSustain &copy; 2025</p>
+        <div style="margin-top: 1rem;">
+          <a href="https://twitter.com/evosustain" target="_blank" style="margin: 0 0.5rem;">𝕏</a>
+          <a href="https://www.facebook.com/evosustain" target="_blank" style="margin: 0 0.5rem;">📘 Facebook</a>
+          <a href="https://www.instagram.com/evosustain" target="_blank" style="margin: 0 0.5rem;">📸 Instagram</a>
+        </div>
+      </footer>
+      `;
+
+      toggleLanguage('en');
+    }
+
+    window.onload = function () {
+      const user = localStorage.getItem('loggedInUser');
+      if (!user) {
+        showLoginForm();
+      } else {
+        showMainContent();
+      }
+    }
   </script>
+</head>
+<body>
 </body>
 </html>
