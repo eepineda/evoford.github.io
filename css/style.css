@@ -148,7 +148,7 @@ body{
 }
 
 .home{
-    min-height: 60vh;
+    min-height: 50vh;
     width: 100vw;
     background-image: url(../images/img1.jpg);
     background-size: cover;
