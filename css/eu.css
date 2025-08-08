@@ -71,7 +71,7 @@ body{
 }
 
 .home{
-    min-height: 0vh;
+    min-height: 20vh;
     width: 100vw;
     background-image: url(../images/img3.jpg);
     background-size: cover;
